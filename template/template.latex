@@ -559,7 +559,7 @@ $if(title)$
 \title{{$if(titlestyle)$$titlestyle$$endif$ $title$}$if(subtitle)$\\\vspace{0.5em}{{$if(subtitlestyle)$$subtitlestyle$$endif$ $subtitle$}}$endif$}
 $endif$
 $if(author)$
-\author{$if(authorstyle)$$authorstyle$$endif${$for(author)$$author$$sep$\and$ $endfor$}}
+\author{$if(authorstyle)$$authorstyle$$endif${$for(author)$$author$$sep$\and $endfor$}}
 $endif$
 \date{$if(datestyle)$$datestyle$$endif$ $date$}
 
