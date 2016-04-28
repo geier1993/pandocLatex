@@ -1,0 +1,109 @@
+---
+documentclass: article
+
+#lang: "de"
+
+#marginnote: "yes"
+#marginnoteoptions:
+#    - ""
+
+geometry: "yes"
+# https://de.sharelatex.com/learn/Page_size_and_margins
+geometryoptions:
+#  - "textheight=9.0in"
+  - "headheight=25pt"
+  - "headsep=0.2in"
+  - "footskip=0.2in"
+  - "top=1.0in"
+  - "bottom=1.0in"
+  - "left=1.0in"
+  - "right=1.0in"
+#  - "inner=1.0in"
+#  - "outer=2.0in"
+
+
+
+#classoption:
+#    - "twoside"
+
+   
+#frontmatter: {
+#	clearaftertitle: "",
+#	startfrontmatter: "",
+#	pagenumbering: "",
+#	counter: "",
+#	clearafterfrontmatter: "",
+#	fancypagestyle: "frontmatterstyle",
+#	}
+
+#mainmatter: {
+#	startmainmatter: "y",
+#	pagenumbering: "arabic",
+#	counter: "1",
+#	}
+
+fancyhdroptions:
+    - ""
+
+#fancyfirstpage: "y" # for article/report
+fancytitlepagestyle: "titlepagestyle"
+fancypagestyle: "contentstyle"
+
+fancypagestyles: [
+	{
+	name: "contentstyle",
+	headrule: { color: "darksecondarycolor",
+		skip: "-0.15in",
+		width: "0.0pt"
+		},
+	headoffset: [
+	    #{options: "LE,RO", value: "15pt"},
+	    {options: "L,R", value: "15pt"},
+	   ],
+	headcontent: [
+	    #{options: "L", value: "\\colorbox{lightsecondarycolor}{\\textcolor{darkprimarycolor}{\\makebox{\\small\\bfseries\\nouppercase\\leftmark}}}"},
+	    #{options: "L", value: "\\color{darkprimarycolor}\\small\\bfseries\\nouppercase\\leftmark"},
+	    #{options: "R", value: "\\color{darkprimarycolor}\\small\\bfseries\\nouppercase\\rightmark"},
+	    #{options: "c", value: "\\color{darkprimarycolor}\\small\\bfseries\\thepage\\,/\\,\\pageref*{LastPage}"}
+		],
+	footrule: { color: "darksecondarycolor",
+		skip: "-0.16in",
+		width: "0pt"
+		},
+	footoffset: [
+	    #{options: "LE,RO", value: "1cm"},
+	    {options: "L,R", value: "15pt"},
+	   ],
+        footcontent: [
+	    {options: "C", value: "\\color{darkprimarycolor}\\small\\bfseries\\thepage"}
+		]
+    	},
+	{
+	name: "titlepagestyle",
+	headrule: { color: "darksecondarycolor",
+		skip: "0.0in",
+		width: "0pt"
+		},
+	footrule: { color: "darksecondarycolor",
+		skip: "0.0in",
+		width: "0pt"
+		},
+    	},
+	{
+	name: "frontmatterstyle",
+	headrule: { color: "darksecondarycolor",
+		skip: "0.0in",
+		width: "0pt"
+		},
+	footrule: { color: "darksecondarycolor",
+		skip: "0.0in",
+		width: "0pt"
+		},
+        footcontent: [
+	    {options: "C", value: "\\color{darkprimarycolor}\\small\\bfseries\\thepage"}
+		]
+        }
+	]
+
+...
+

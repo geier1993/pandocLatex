@@ -1,0 +1,63 @@
+---
+fontsize: '11pt'
+
+# For pdflatex...
+fontfamily: lmodern
+
+# decide between linestretch or line height
+#linestretch: '1.0'	
+#lineheight: '12pt'
+
+#Xe or LuaLatex
+mainfont: "Latin Modern Roman"
+#mainfont: "Linux Libertine O"
+
+# For Sansserif font with pdflatex
+#familydefault: "\\sfdefault"
+
+## Newtxmath
+#newtxmath: "yes"
+#newtxmathoptions:
+#    - "utopia"
+## Xe or LuaLatex if newtxmath is used
+#fontspecoptions:
+#    - "no-math"
+
+
+# Heading styling...
+titleformat: [
+	{ command:        "chapter", 
+	  shape:	  "",
+	  format:         "\\color{primarycolor}\\normalfont\\LARGE\\bfseries",
+	  label:          "\\thechapter",
+	  seperator:	  "1em",
+	  before:         "",
+	  after:          ""
+	  },
+        { command:        "section", 
+	  shape:	   "",
+	  format:         "\\color{primarycolor}\\normalfont\\Large\\bfseries",
+	  label:          "\\thesection",
+	  seperator:      "1em",
+	  before:         "",
+	  after:          ""
+	  },
+        { command:        "subsection", 
+	  shape:	   "",
+	  format:         "\\color{primarycolor}\\normalfont\\large\\bfseries",
+	  label:          "\\thesubsection",
+	  seperator:      "1em",
+	  before:         "",
+	  after:          ""
+	  },
+        { command:        "subsubsection", 
+	  shape:	   "",
+	  format:         "\\color{primarycolor}\\normalfont\\normalsize\\bfseries",
+	  label:          "\\thesubsubsection",
+	  seperator:      "1em",
+	  before:         "",
+	  after:          ""
+	  }
+	]
+
+...

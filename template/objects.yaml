@@ -1,0 +1,46 @@
+---
+codeBlockCaptions: yes
+toc: "yes"
+
+caption: "yes"
+captionoptions:
+  - "labelfont=bf"
+
+
+table: {
+ 	headercolor: "secondarycolor",	
+	alternate: {
+		evencolor:   "white",
+		oddcolor:    "lightsecondarycolor",
+		},
+	toprule: {
+		width: "\\heavyrulewidth",
+		top: "0.0pt",	
+		bottom: "0.0pt",	
+		},
+        midrule: {
+		width: "\\cmidrulewidth",
+		top: "0.0pt",	
+		bottom: "0.0pt",	
+		},
+        bottomrule: {
+		width: "\\lightrulewidth",
+		top: "0.0pt",	
+		bottom: "0.0pt",	
+		},
+	}
+#Tables
+floatrow:
+    - "font=sf"	# Table font
+
+list: {
+	renewcommands: [
+		{command: "labelitemi",   value: "\\color{secondarycolor}", bullet: "\\blacksquare" },
+		{command: "labelitemii",  value: "\\color{secondarycolor}", bullet: "\\bullet" },
+		{command: "labelitemiii", value: "\\color{secondarycolor}", bullet: "\\-" },
+		{command: "labelitemiv",  value: "\\color{secondarycolor}", bullet: "\\diamond" }
+        	]
+	}
+
+...
+
