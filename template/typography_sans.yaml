@@ -1,0 +1,83 @@
+---
+fontsize: '11pt'
+
+# For pdflatex...
+fontfamily: dejavu
+
+# decide between linestretch or line height
+#linestretch: '1.0'	
+#lineheight: '12pt'
+
+#Xe or LuaLatex
+mainfont: "DejaVu Sans"
+sansfont: "DejaVu Sans"
+
+# For Sansserif font with pdflatex
+familydefault: "\\sfdefault"
+
+
+
+#mainfont: "TeX Gyre Heros" # Times
+#mainfont: "Latin Modern Roman"
+#mainfont: "Linux Libertine O"
+#fontfamily: dejavusans
+#fontfamily: newtxtext
+#fontfamily: liberation
+#fontfamily: dejavu
+#mathfont: "TeX Gyre Heros"
+
+# Newtxmath
+newtxmath: "yes"
+newtxmathoptions:
+    - "utopia"
+# Xe or LuaLatex if newtxmath is used
+fontspecoptions:
+    - "no-math"
+
+
+# Heading styling...
+titleformat: [
+	{ command:        "chapter", 
+	  shape:	  "",
+	  format:         "\\color{primarycolor}\\normalfont\\Huge\\bfseries",
+	  label:          "\\thechapter",
+	  seperator:	  "1em",
+	  before:         "",
+	  after:          ""
+	  },
+        { command:        "section", 
+	  shape:	   "",
+	  format:         "\\color{primarycolor}\\normalfont\\Large\\bfseries",
+	  label:          "\\thesection",
+	  seperator:      "1em",
+	  before:         "",
+	  after:          ""
+	  },
+        { command:        "subsection", 
+	  shape:	   "",
+	  format:         "\\color{primarycolor}\\normalfont\\large\\bfseries",
+	  label:          "\\thesubsection",
+	  seperator:      "1em",
+	  before:         "",
+	  after:          ""
+	  },
+        { command:        "subsubsection", 
+	  shape:	   "",
+	  format:         "\\color{primarycolor}\\normalfont\\normalsize\\bfseries",
+	  label:          "\\thesubsubsection",
+	  seperator:      "1em",
+	  before:         "",
+	  after:          ""
+	  }
+	]
+
+titlespacing: [
+	{ command:        "chapter", 
+	  left:	  "0pt",
+	  beforesep:         "0pt",
+	  aftersep:          "1in",
+	  rightsep:	     ""
+	  }
+	]
+
+...

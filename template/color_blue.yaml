@@ -1,0 +1,28 @@
+---
+definecolor: [
+	#blue
+ 	{name: "primarycolor", space: "rgb", value: "0.15, 0.38, 0.61"},
+	{name: "secondarycolor", space: "rgb", value: "0.27, 0.51, 0.71"}
+	]
+	
+lightercolor: [
+ 	{name: "primarycolor", percent: 50, newname: "lightprimarycolor"},
+ 	{name: "secondarycolor", percent: 50, newname: "lightsecondarycolor"},
+ 	{name: "black", percent: 10, newname: "lightgray"}
+	]
+	
+darkercolor: [
+ 	{name: "primarycolor", percent: 60, newname: "darkprimarycolor"},
+ 	{name: "secondarycolor", percent: 80, newname: "darksecondarycolor"}
+	]
+
+#colorlet: [
+# 	{name: "shadecolor", value: "lightsecondarycolor"}
+#	]
+
+
+linkcolor: "primarycolor"
+urlcolor: "darkprimarycolor"
+citecolor: "darksecondarycolor"
+	
+...

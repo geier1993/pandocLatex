@@ -1,0 +1,662 @@
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$paper,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+
+\usepackage[x11names,table]{xcolor}
+
+$if(fontfamily)$
+\usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
+$else$
+\usepackage{lmodern}
+$endif$
+$if(familydefault)$
+\renewcommand{\familydefault}{$familydefault$}
+$endif$
+
+
+$if(mdframed)$
+\usepackage[$for(mdframedoptions)$$mdframedoptions$$sep$,$endfor$]{mdframed}
+$endif$
+$if(framed)$
+\usepackage[$for(framedoptions)$$framedoptions$$sep$,$endfor$]{framed}
+$endif$
+
+$if(fontsize)$
+\usepackage{scrextend}
+	$if(lineheight)$
+	\changefontsizes[$lineheight$]{$fontsize$}
+	$endif$
+$endif$
+\newcommand{\lightercolor}[3]{% Reference Color, Percentage, New Color Name
+    \colorlet{#3}{#1!#2!white}
+}
+
+\newcommand{\darkercolor}[3]{% Reference Color, Percentage, New Color Name
+    \colorlet{#3}{#1!#2!black}
+}
+
+%\definecolor{steelblue}{rgb}{0.27, 0.51, 0.71}
+%\definecolor{lapislazuli}{rgb}{0.15, 0.38, 0.61}
+%\lightercolor{steelblue}{40}{lightsteelblue}
+%\lightercolor{lapislazuli}{60}{lightlapislazuli}
+%\darkercolor{steelblue}{80}{darksteelblue}
+%\darkercolor{lapislazuli}{80}{darklapislazuli}
+
+$if(definecolor)$
+$for(definecolor)$
+\definecolor{$definecolor.name$}{$definecolor.space$}{$definecolor.value$}
+$endfor$
+$endif$
+
+$if(lightercolor)$
+$for(lightercolor)$
+\lightercolor{$lightercolor.name$}{$lightercolor.percent$}{$lightercolor.newname$}
+$endfor$
+$endif$
+
+$if(darkercolor)$
+$for(darkercolor)$
+\darkercolor{$darkercolor.name$}{$darkercolor.percent$}{$darkercolor.newname$}
+$endfor$
+$endif$
+
+$if(colorlet)$
+$for(colorlet)$
+\colorlet{$colorlet.name$}{$colorlet.value$}
+$endfor$
+$endif$
+
+%$if(primarycolor)$
+%\definecolor{primarycolor}{$if(primarycolor.space)$$primarycolor.space$$else$rgb$endif$}{$if(primarycolor.color)$$primarycolor.color$$else$0.0, 0.0, 0.0$endif$}
+%$else$
+%\definecolor{primarycolor}{rgb}{0.0, 0.0, 0.0}
+%$endif$
+%$if(secondarycolor)$
+%\definecolor{secondarycolor}{$if(secondarycolor.space)$$secondarycolor.space$$else$rgb$endif$}{$if(secondarycolor.color)$$secondarycolor.color$$else$0.0, 0.0, 0.0$endif$}
+%$else$
+%\definecolor{secondarycolor}{rgb}{0.0, 0.0, 0.0}
+%$endif$
+%%\definecolor{primarycolor}{rgb}{0.15, 0.38, 0.61} %lapislazuli
+%%\definecolor{secondarycolor}{rgb}{0.27, 0.51, 0.71} %steelblue
+%\lightercolor{primarycolor}{50}{lightprimarycolor}
+%\lightercolor{secondarycolor}{40}{lightsecondarycolor}
+%\darkercolor{primarycolor}{50}{darkprimarycolor}
+%\darkercolor{secondarycolor}{80}{darksecondarycolor}
+
+%\addtolength{\oddsidemargin}{-0.500in}
+%\addtolength{\evensidemargin}{-0.500in}
+%\addtolength{\textwidth}{1.00in}
+%
+%\addtolength{\topmargin}{-.750in}
+%\addtolength{\textheight}{1.0in}
+
+%\voffset=-1in
+%\topmargin = 0.25in
+%\headheight = 25pt
+%\textheight = 8.7in
+%\usepackage[width=1.00\textwidth,bf]{caption}
+%\usepackage[labelfont=bf]{caption}
+
+\usepackage{refcount}
+\usepackage{lastpage}
+
+$if(titleformat)$
+\usepackage{titlesec}
+    $for(titleformat)$
+	$if(titleformat.command)$
+\titleformat{\$titleformat.command$}$if(titleformat.shape)$[$titleformat.shape$]$endif$
+ {$if(titleformat.format)$$titleformat.format$$endif$}
+ {$if(titleformat.label)$$titleformat.label$$endif$}
+ {$if(titleformat.seperator)$$titleformat.seperator$$endif$}
+ {$if(titleformat.before)$$titleformat.before$$endif$}$if(titleformat.after)$[$titleformat.after$]$endif$
+	$endif$
+    $endfor$
+$endif$
+$if(titlespacing)$
+\usepackage{titlesec}
+    $for(titlespacing)$
+	$if(titlespacing.command)$
+\titlespacing*{\$titlespacing.command$}{$if(titlespacing.left)$$titlespacing.left$$endif$}
+ {$if(titlespacing.beforesep)$$titlespacing.beforesep$$endif$}
+ {$if(titlespacing.aftersep)$$titlespacing.aftersep$$endif$}$if(titlespacing.rightsep)$[$titlespacing.rightsep$]$endif$
+	$endif$
+    $endfor$
+$endif$
+%\titleformat{\chapter}
+%{\color{primarycolor}\normalfont\LARGE\bfseries}
+%{\color{primarycolor}\thechapter}{1em}{}
+%\titleformat{\section}
+%{\color{primarycolor}\normalfont\Large\bfseries}
+%{\color{primarycolor}\thesection}{1em}{}
+%\titleformat{\subsection}
+%{\color{primarycolor}\normalfont\large\bfseries}
+%{\color{primarycolor}\thesubsection}{1em}{}
+%\titleformat{\subsubsection}
+%{\color{primarycolor}\normalfont\normalsize\bfseries}
+%{\color{primarycolor}\thesubsubsection}{1em}{}
+%%\titleformat{\section}
+%%{\color{primarycolor}\normalfont\Large\bfseries}
+%%{\color{primarycolor}\thesection}{1em}{}
+
+%\usepackage{MinionPro}
+%\setmainfont{DejaVu Sans}
+%\setsansfont{DejaVu Sans}
+%
+%\usepackage{unicode-math}
+%\setmathfont{Asana Math} % for math symbols, can be any other OpenType math font
+%\setmathfont[range=\mathup]  {Asana Math }
+%\setmathfont[range=\mathbfup]{Asana Math Bold}
+%\setmathfont[range=\mathbfit]{Asana Math Bold Italic}
+%\setmathfont[range=\mathit]  {Asana Math Italic}
+
+$if(linestretch)$
+\usepackage{setspace}
+\setstretch{$linestretch$}
+$endif$
+
+
+\usepackage{amssymb,amsmath}
+\usepackage{amsthm}% must be loaded before newtxmath
+\usepackage{mathtools}
+\usepackage{bm}
+
+%load text components other than libertine text to be used in math
+
+
+$if(newtxmath)$
+ \usepackage[$for(newtxmathoptions)$$newtxmathoptions$$sep$,$endfor$]{newtxmath}
+$endif$
+%\usepackage[T1]{fontenc}
+%\usepackage[scaled=.85]{beramono}% used only by \mathtt
+%\usepackage[type1]{cabin}% used only by \mathsf
+% \usepackage[libertine,bigdelims]{newtxmath}
+ %\usepackage[utopia]{newtxmath}
+% \usepackage[baskervaldx]{newtxmath}
+% loads minlibertine because no other Roman text package was specified
+% so that \mathrm and \mathbf also use minlibertine
+%\usepackage[scr=rsfso]{mathalfa}
+%\usepackage{bm}% load after all math to give access to bold math
+%Now load the otf text fonts using fontspec---won't affect math
+%\usepackage[no-math]{fontspec} % process with XeLaTeX or LuaLaTeX
+%\usepackage{libertine}
+%\usepackage[osf,semibold]{libertine} %for osf in text, semibold as bold
+
+%\usepackage{mathastext}
+
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
+  \usepackage[utf8]{inputenc}
+$if(euro)$
+  \usepackage{eurosym}
+$endif$
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage[$for(fontspecoptions)$$fontspecoptions$$sep$,$endfor$]{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+$if(mainfont)$
+    \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
+$endif$
+$if(sansfont)$
+    \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
+$endif$
+$if(monofont)$
+    \setmonofont[Mapping=tex-ansi$if(monofontoptions)$,$for(monofontoptions)$$monofontoptions$$sep$,$endfor$$endif$]{$monofont$}
+$endif$
+$if(mathfont)$
+    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+$endif$
+$if(CJKmainfont)$
+    \usepackage{xeCJK}
+    \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+$endif$
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+
+
+
+$if(geometry)$
+\usepackage[$for(geometryoptions)$$geometryoptions$$sep$,$endfor$]{geometry}
+$endif$
+$if(caption)$
+\usepackage[$for(captionoptions)$$captionoptions$$sep$,$endfor$]{caption}
+$endif$
+$if(marginnote)$
+\usepackage[$for(marginnoteoptions)$$marginnoteoptions$$sep$,$endfor$]{marginnote}
+$endif$
+
+\usepackage{hyperref}
+$if(colorlinks)$
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+$endif$
+\hypersetup{unicode=true,
+$if(title-meta)$
+            pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+            pdfauthor={$author-meta$},
+$endif$
+$if(keywords)$
+            pdfkeywords={$for(keywords)$$keywords$$sep$; $endfor$},
+$endif$
+$if(colorlinks)$
+            colorlinks=true,
+            linkcolor=$if(linkcolor)$$linkcolor$$else$Maroon$endif$,
+            citecolor=$if(citecolor)$$citecolor$$else$Blue$endif$,
+            urlcolor=$if(urlcolor)$$urlcolor$$else$Blue$endif$,
+$else$
+            pdfborder={0 0 0},
+$endif$
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+
+
+
+$if(lang)$
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[shorthands=off,$for(babel-otherlangs)$$babel-otherlangs$,$endfor$main=$babel-lang$]{babel}
+$if(babel-newcommands)$
+  $babel-newcommands$
+$endif$
+\else
+  \usepackage{polyglossia}
+  \setmainlanguage[$polyglossia-lang.options$]{$polyglossia-lang.name$}
+$for(polyglossia-otherlangs)$
+  \setotherlanguage[$polyglossia-otherlangs.options$]{$polyglossia-otherlangs.name$}
+$endfor$
+\fi
+$endif$
+
+
+$if(natbib)$
+\usepackage{natbib}
+\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+$endif$
+
+$if(biblatex)$
+\usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
+$if(biblatexoptions)$\ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}$endif$
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+$endif$
+
+$if(listings)$
+\usepackage{listings}
+$endif$
+
+$if(lhs)$
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+\VerbatimFootnotes
+$endif$
+
+
+\usepackage[$for(fancyhdroptions)$$fancyhdroptions$$sep$,$endfor$]{fancyhdr}% http://ctan.org/pkg/fancyhdr
+
+$for(fancypagestyles)$
+\fancypagestyle{$fancypagestyles.name$}{%
+  \fancyhf{}% Clear all headers/footers
+
+  $if(fancypagestyles.headoffset)$
+  $for(fancypagestyles.headoffset)$
+   \fancyheadoffset[$if(fancypagestyles.headoffset.options)$$fancypagestyles.headoffset.options$$endif$]{$fancypagestyles.headoffset.value$} 
+  $endfor$
+  $endif$
+
+  $if(fancypagestyles.footoffset)$
+  $for(fancypagestyles.footoffset)$
+   \fancyfootoffset[$if(fancypagestyles.footoffset.options)$$fancypagestyles.footoffset.options$$endif$]{$fancypagestyles.footoffset.value$} 
+  $endfor$
+  $endif$
+
+  $if(fancypagestyles.headcontent)$
+  $for(fancypagestyles.headcontent)$
+   \fancyhead[$if(fancypagestyles.headcontent.options)$$fancypagestyles.headcontent.options$$endif$]{$fancypagestyles.headcontent.value$} 
+  $endfor$
+  $endif$
+
+  $if(fancypagestyles.footcontent)$
+  $for(fancypagestyles.footcontent)$
+   \fancyfoot[$if(fancypagestyles.footcontent.options)$$fancypagestyles.footcontent.options$$endif$]{$fancypagestyles.footcontent.value$} 
+  $endfor$
+  $endif$
+
+  %\newlength{\pageoffset}
+  %\setlength{\pageoffset}{1.0cm}
+  %\fancyheadoffset{\pageoffset} %\fancyheadoffset[LE,RO]{\pageoffset}
+  %\fancyfootoffset{\pageoffset} %\fancyheadoffset[LE,RO]{\pageoffset}
+  %\fancyhead[C]{My header}% Header Centred
+  %\fancyhead[L]{\small Thesis Title} 
+  %\fancyfoot[R]{\small guess}% Footer Centred
+  %\fancyfoot[C]{\thepage}% Footer Centred
+
+  $if(fancypagestyles.headrule.width)$
+  \renewcommand{\headrulewidth}{$fancypagestyles.headrule.width$}% 2pt header rule
+  $endif$
+  $if(fancypagestyles.footrule.width)$
+  \renewcommand{\footrulewidth}{$fancypagestyles.footrule.width$}% No footer rule
+  $endif$
+
+  \renewcommand{\headrule}{$if(fancypagestyles.headrule.skip)$\vskip$fancypagestyles.headrule.skip$$endif$\hbox to\headwidth{%
+    $if(fancypagestyles.headrule.color)$\color{$fancypagestyles.headrule.color$}$endif$\leaders\hrule height \headrulewidth\hfill}}
+  \renewcommand{\footrule}{\hbox to\headwidth{%
+    $if(fancypagestyles.footrule.color)$\color{$fancypagestyles.footrule.color$}$endif$\leaders\hrule height \footrulewidth\hfill}$if(fancypagestyles.footrule.skip)$\vskip$fancypagestyles.footrule.skip$$endif$}
+}
+$endfor$
+
+
+%\fancypagestyle{titlepage}{%
+%  \fancyhf{}% Clear all headers/footers
+%  \fancyfoot[]{}
+%  \fancyhead[]{}
+%  \renewcommand{\headrulewidth}{0pt} 
+%  \renewcommand{\footrulewidth}{0pt} 
+%  \renewcommand{\headrule}{\hbox to\headwidth{%
+%    \leaders\hrule height \headrulewidth\hfill}}
+%  \renewcommand{\footrule}{\hbox to\headwidth{%
+%    \leaders\hrule height \footrulewidth\hfill}}
+%}
+
+$if(fancyfirstpage)$
+%let header start on first page
+\makeatletter
+\let\ps@plain\ps@fancy 
+\makeatother
+$endif$
+
+
+$if(fancypagestyle)$
+\pagestyle{$fancypagestyle$}
+$endif$
+
+$if(chapterpagestyle)$
+\usepackage{etoolbox}
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{$chapterpagestyle$}}{}{}
+$endif$
+
+$if(tables)$
+%\usepackage{ltablex,booktabs}
+\usepackage{longtable,booktabs}
+
+
+
+% alternate rowcolors for all tables
+
+$if(table.alternate)$
+\let\oldtabular\tabular
+\let\endoldtabular\endtabular
+\renewenvironment{tabular}{\makeatother\rowcolors{0}{$table.alternate.evencolor$}{$table.alternate.oddcolor$}\oldtabular}{\endoldtabular\makeatletter}
+$endif$
+
+% alternate rowcolors for all long-tables
+%\let\oldtabularx\tabularx
+%\let\endoldtabularx\endtabularx
+%\renewenvironment{tabularx}{
+%    \rowcolors{2}{white}{lightsecondarycolor}%
+%    \setlength{\tabcolsep}{0.5em}   %horizontal spacing
+%    \renewcommand{\arraystretch}{1.2}   %vertical spacing
+%    \footnotesize
+%    \oldtabularx
+%} {
+%\endoldtabularx} 
+
+$if(table.alternate)$
+\let\oldlongtable\longtable
+\let\endoldlongtable\endlongtable
+\renewenvironment{longtable}{
+    \rowcolors{0}{$table.alternate.evencolor$}{$table.alternate.oddcolor$}%
+    \setlength{\tabcolsep}{0.5em}   %horizontal spacing
+    \renewcommand{\arraystretch}{1.2}   %vertical spacing
+    \footnotesize
+    \oldlongtable
+} {
+\endoldlongtable} 
+$endif$
+
+$if(table.toprule)$
+\let\mytoprule\toprule
+%\renewcommand{\toprule}{\addlinespace[-0.0pt]\mytoprule\addlinespace[-0.1pt]\rowcolor{lightprimarycolor}}
+\renewcommand{\toprule}{\specialrule{$if(table.toprule.width)$$table.toprule.width$$else$\heavyrulewidth$endif$}
+	{$if(table.toprule.top)$$table.toprule.top$$else$0.0pt$endif$}
+	{$if(table.toprule.bottom)$$table.toprule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+$if(table.midrule)$
+\let\mymidrule\midrule
+%\renewcommand{\midrule}{\addlinespace[-0.0pt]\mymidrule\addlinespace[-0.1pt]\rowcolor{lightprimarycolor}}
+\renewcommand{\midrule}{\specialrule{$if(table.midrule.width)$$table.midrule.width$$else$\cmidrulewidth$endif$}
+	{$if(table.midrule.top)$$table.midrule.top$$else$0.0pt$endif$}
+	{$if(table.midrule.bottom)$$table.midrule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+$if(table.bottomrule)$
+\let\mybottomrule\bottomrule
+%\renewcommand{\bottomrule}{\addlinespace[-0.0pt]\mybottomrule\addlinespace[-0.1pt]\rowcolor{lightprimarycolor}}
+\renewcommand{\bottomrule}{\specialrule{$if(table.bottomrule.width)$$table.bottomrule.width$$else$\lightrulewidth$endif$}
+	{$if(table.bottomrule.top)$$table.bottomrule.top$$else$0.0pt$endif$}
+	{$if(table.bottomrule.bottom)$$table.bottomrule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+
+
+%\let\myendfirsthead\endfirsthead
+%\renewcommand{\endfirsthead}{\addlinespace[-0.2pt]\myendfirsthead}
+$endif$
+
+$if(floatrow)$
+\usepackage[$for(floatrow)$$floatrow$$sep$,$endfor$]{floatrow}
+$endif$
+
+
+$if(graphics)$
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+$endif$
+$if(links-as-notes)$
+% Make links footnotes instead of hotlinks:
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+$endif$
+
+$if(strikeout)$
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+$endif$
+$if(indent)$
+$else$
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+$endif$
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+$if(numbersections)$
+\setcounter{secnumdepth}{5}
+$else$
+\setcounter{secnumdepth}{0}
+$endif$
+$if(subparagraph)$
+$else$
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+$endif$
+$if(dir)$
+\ifxetex
+  % load bidi as late as possible as it modifies e.g. graphicx
+  $if(latex-dir-rtl)$
+  \usepackage[RTLdocument]{bidi}
+  $else$
+  \usepackage{bidi}
+  $endif$
+\fi
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \TeXXeTstate=1
+  \newcommand{\RL}[1]{\beginR #1\endR}
+  \newcommand{\LR}[1]{\beginL #1\endL}
+  \newenvironment{RTL}{\beginR}{\endR}
+  \newenvironment{LTR}{\beginL}{\endL}
+\fi
+$endif$
+
+\usepackage{enumitem}
+%\setlist[description]{style=nextline}
+%\setdescription{labelsep=\textwidth}
+
+%\newcommand{\bsquare}{\item[\color{red}\ding{110}]} 
+%\newcommand{\barrow}{\item[\color{red}\ding{228}]}
+%\newcommand{\bwarrow}{\item[\color{red}\ding{227}]}
+
+$if(list.renewcommands)$
+$for(list.renewcommands)$	
+\renewcommand{\$list.renewcommands.command$}{$list.renewcommands.value$$$$list.renewcommands.bullet$$$}
+$endfor$
+$endif$
+
+%\renewcommand{\labelitemi}{\color{blue}$$\bullet$$}
+%\renewcommand{\labelitemii}{$$\cdot$$}
+%\renewcommand{\labelitemiii}{$$\diamond$$}
+%\renewcommand{\labelitemiv}{$$\ast$$}
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+$if(title)$
+\title{{$if(titlestyle)$$titlestyle$$endif$ $title$}$if(subtitle)$\\\vspace{0.5em}{{$if(subtitlestyle)$$subtitlestyle$$endif$ $subtitle$}}$endif$}
+$endif$
+$if(author)$
+\author{$if(authorstyle)$$authorstyle$$endif${$for(author)$$author$$sep$\and$sep$$endfor$}}
+$endif$
+\date{$if(datestyle)$$datestyle$$endif$ $date$}
+
+
+\begin{document}
+
+
+$if(title)$
+%\begin{titlepage}
+%\begin{mdframed}[linewidth=0pt,backgroundcolor=lightsecondarycolor]
+$if(titlewrap)$
+$if(titlewrap.env)$
+\begin$if(titlewrap.options)$[$for(titlewrap.options)$$titlewrap.options$$sep$,$endfor$]$endif${$titlewrap.env$}$if(titlewrap.postoptions)$[$for(titlewrap.postoptions)$$titlewrap.postoptions$$sep$,$endfor$]$endif$
+$endif$
+
+$titlewrap.open$
+\maketitle
+$titlewrap.close$
+
+$if(titlewrap.env)$
+\end{$titlewrap.env$}
+$endif$
+
+$else$
+\maketitle
+$endif$
+$if(fancytitlepagestyle)$
+\thispagestyle{$fancytitlepagestyle$}
+$endif$
+%\end{titlepage}
+$endif$
+
+
+
+$if(frontmatter.clearaftertitle)$\cleardoublepage$endif$
+$if(frontmatter.startfrontmatter)$\frontmatter$endif$
+$if(frontmatter.pagenumbering)$\pagenumbering{$frontmatter.pagenumbering$}$endif$
+$if(frontmatter.counter)$\setcounter{page}{$frontmatter.counter$}$endif$
+
+
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+$for(include-before)$
+$include-before$
+$endfor$
+
+$if(toc)$
+{
+$if(colorlinks)$
+\hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$black$endif$}
+$endif$
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+}
+$endif$
+$if(lot)$
+\listoftables
+$endif$
+$if(lof)$
+\listoffigures
+$endif$
+
+$if(frontmatter.fancypagestyle)$
+\thispagestyle{$frontmatter.fancypagestyle$}
+$endif$
+$if(frontmatter.clearaftertitle)$\cleardoublepage$endif$
+$if(mainmatter.startmainmatter)$\mainmatter$endif$
+$if(mainmatter.pagenumbering)$\pagenumbering{$mainmatter.pagenumbering$}$endif$
+$if(mainmatter.counter)$\setcounter{page}{$mainmatter.counter$}$endif$
+
+
+
+$body$
+
+$if(natbib)$
+$if(bibliography)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{document}
