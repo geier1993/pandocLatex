@@ -4,10 +4,15 @@ subtitle: test
 author: 
    - Philipp Geier 
    - Test
-date: 2015-08-18
+#date: 2015-08-18
+date: {command: "today"}
 
 author-meta: Philipp Geier
 title-meta: Machine Learning
+
+lol: "yes"
+codeBlockCaptions: "yes"
+
 ---
 
 
@@ -108,9 +113,10 @@ oeuoe
     ```
     
     
-Listing: Listing caption
+Some text
 
-```{#lst:code .haskell}
+
+```{#lst:code .haskell caption="test"}
 main :: IO ()
 main = putStrLn "Hello World!"
 ```

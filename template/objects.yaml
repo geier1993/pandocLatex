@@ -1,6 +1,9 @@
 ---
-codeBlockCaptions: yes
-toc: "yes"
+#codeBlockCaptions: yes
+#toc: "yes"
+#lot: "yes"
+#lof: "yes"
+#lol: "yes"
 
 caption: "yes"
 captionoptions:
