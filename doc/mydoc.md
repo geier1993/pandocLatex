@@ -1,13 +1,13 @@
 ---
 title: Machine Learning 
 subtitle: test
-author: Philipp Geier 
+author: 
+   - Philipp Geier 
+   - Test
 date: 2015-08-18
 
 author-meta: Philipp Geier
 title-meta: Machine Learning
-
-documentclass: article
 ---
 
 
