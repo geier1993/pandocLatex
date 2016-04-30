@@ -153,10 +153,10 @@ $if(linestretch)$
 $endif$
 
 
-\usepackage{amssymb,amsmath}
+\usepackage{amssymb,amsmath,multirow,bigdelim}
 \usepackage{amsthm}% must be loaded before newtxmath
 \usepackage{mathtools}
-\usepackage{bm}
+\usepackage{bm,bbm}
 
 %load text components other than libertine text to be used in math
 
