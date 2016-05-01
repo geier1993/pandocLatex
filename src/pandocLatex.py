@@ -83,7 +83,7 @@ class cmdObj(object):
                self.after  = after
 
       def __repr__(self):
-          return ("Line:\t%d/%d, \"%s\"" % (self.lno,self.linecount,self.line))
+          return ("Cmd:\t%s, ShellOutput:\t%s" % (self.cmd,self.shellOutput))
 
 
 def processCommands(cmdObjs):

@@ -1,0 +1,10 @@
+---
+tikz:
+    - "tikz"
+
+tikzoptions:
+    - ""
+
+documentclass: standalone
+	
+...
