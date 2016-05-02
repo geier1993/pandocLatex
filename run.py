@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import os, sys, getopt
+import os, sys, getopt, itertools
 sys.path.append(os.path.dirname(__file__) + "/src")
 from pandocLatex import *
 
@@ -123,6 +123,8 @@ docs = {
 		]
 	}
 
+docs["all"] = itertools.chain(*(docs[k] for k in ["mydoc","example"]))
+
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
@@ -137,7 +139,7 @@ def main(argv=None):
         except getopt.GetoptError as msg:
             raise Usage(msg)
         # more code, unchanged
-        processCommands(docs[argv[1]])
+        processCommands(itertools.chain(*(docs[k] for k in args)))
     except Usage as err:
         print >>sys.stderr, err,msg
         print >>sys.stderr, "for help use --help"
