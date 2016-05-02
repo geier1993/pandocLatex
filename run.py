@@ -70,24 +70,21 @@ def genPandocCmd(out, src, format, options):
 
 ########### Commands ##########
 # Run latex
-def genLatexCmd(out, src, format, options):
+def genLatexCmd(src, options):
         return cmdObj(
-            " ".join([latexEngine,out,
-                            "-draftmode","-interaction=batchmode",
-                            ]),
+            " ".join([latexEngine] + options +[src]),
             True,
-            before=[(print,("-----\t","Latex\t{out}\t".format(out=out),"-----"),{})],
+            before=[(print,("-----\t","Latex\t{out}\t".format(out=src),"-----"),{})],
             after =[]
 	)
 
 
 # Run bibtex
-def genBibtexCmd(out, src, format, options):
+def genBibtexCmd(src, options):
     	return cmdObj(
-            " ".join(["bibtex",texFile,
-                            ]),
+            " ".join(["bibtex"] + options + [texFile]),
             True,
-            before=[(print,("-----\t","BibTex\t{out}\t".format(out=out),"-----"),{})],
+            before=[(print,("-----\t","BibTex\t{out}\t".format(out=src),"-----"),{})],
             after =[]
 	)
 
@@ -96,7 +93,7 @@ def genBibtexCmd(out, src, format, options):
 ######### Documents .... ##########
 docs = {
 	 "mydoc": [
-	 	 cmd(
+	 	 genPandocCmd(
 	 	 	**{
                 	 	"out" : "mydoc.tex",
                 	 	"src" :  [
@@ -104,26 +101,32 @@ docs = {
                             		],
                         	"format": docFormat,
                         	"options": docOptions
-                    	}
-                	)
-                    for cmd in [genPandocCmd, genLatexCmd]
+                    	}),
+	 	 genLatexCmd(
+	 	 	**{
+                	 	"src" : "mydoc.tex",
+                        	"options": ["--interaction=batchmode"],
+                    	}),
 		],
 	"example": [
-		 cmd(
+		 genPandocCmd(
 		 	**{
-                	 	"out": "example.tex",
+                	 	"out": "tikz/example.tex",
                 	 	"src": [
                                         "doc/tikz/example.md"
                                 	],
                         	"format": tikzFormat,
                             	"options": tikzOptions
-                    	}
-			)
-        	   for cmd in [genPandocCmd, genLatexCmd]
+                    	}),
+		 genLatexCmd(
+		 	**{
+                	 	"src": "tikz/example.tex",
+                        	"options": ["--interaction=batchmode","--output-directory=./tikz/"],
+                    	}),
 		]
 	}
 
-docs["all"] = itertools.chain(*(docs[k] for k in ["mydoc","example"]))
+docs["all"] = itertools.chain(*(docs[k] for k in docs.keys()))
 
 class Usage(Exception):
     def __init__(self, msg):
