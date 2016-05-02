@@ -564,7 +564,10 @@ $endif$
 \date{$if(datestyle)$$datestyle$$endif$ $if(date.command)$\$date.command$$else$$if(date)$$date$$endif$$endif$}
 
 $if(tikz)$
-\usepackage[$for(tikzoptions)$$tikzoptions$$sep$,$endfor$]{$for(tikz)$$tikz$$sep$,$endfor$}
+\usepackage[$for(tikzoptions)$$tikzoptions$$sep$,$endfor$]{tikz}
+$endif$
+$if(tikzlibrary)$
+\usetikzlibrary{$for(tikzlibrary)$$tikzlibrary$$sep$,$endfor$}
 $endif$
 
 \begin{document}

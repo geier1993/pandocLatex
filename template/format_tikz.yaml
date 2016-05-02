@@ -1,9 +1,11 @@
 ---
-tikz:
-    - "tikz"
+tikz: "yes"
 
 tikzoptions:
     - ""
+
+tikzlibrary:
+    - calc
 
 documentclass: standalone
 	
