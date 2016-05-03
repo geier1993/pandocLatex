@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-import os, sys, getopt, itertools
+import os, sys, getopt
+import itertools as it
 sys.path.append(os.path.dirname(__file__) + "/src")
 from pandocLatex import *
 
@@ -126,27 +127,54 @@ docs = {
 		]
 	}
 
-docs["all"] = itertools.chain(*(docs[k] for k in docs.keys()))
+docGroups={}
+docGroups["all"] = it.chain(*(docs[k] for k in docs.keys()))
 
-class Usage(Exception):
-    def __init__(self, msg):
-        self.msg = msg
+def printUsage():
+	print("Usage:\n")
+	print("\trun.py [DocKey] [-g GroupKey]\n")
+	print("Documets:")
+	for k in docs.keys():
+            print("\t{k}".format(k=k))
+
+	print("Groups:")
+	for k in docGroups.keys():
+	    print("\t{k}".format(k=k))
+
+def printKeysNotFound(keys):
+    print("Keys not found:")
+    for k in keys:
+        print("\t{k}".format(k=k))
+    print("")
+    print("".join(it.repeat("-",40)))
+    print("")
+    printUsage()
 
 
 def main(argv=None):
     if argv is None:
         argv = sys.argv
     try:
-        try:
-            ops, args = getopt.getopt(argv[1:], "h", ["help"])
-        except getopt.GetoptError as msg:
-            raise Usage(msg)
-        # more code, unchanged
-        processCommands(itertools.chain(*(docs[k] for k in args)))
-    except Usage as err:
-        print >>sys.stderr, err,msg
-        print >>sys.stderr, "for help use --help"
-        return 2
+        opts, args = getopt.getopt(argv[1:], "hg:", ["help","group="])
+    except getopt.GetoptError as msg:
+        printUsage()
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ['-h','--help']:
+            printUsage()
+            sys.exit()
+        if opt in ['-g','--group']:
+            if arg in docGroups.keys():
+                processCommands(docGroups[arg])
+            else:
+                printKeysNotFound([arg])
+            sys.exit()
+
+    notfound = list(filter(lambda k: not(k in docs.keys()), args))
+    if len(notfound)>0:
+        printKeysNotFound(notfound)
+        sys.exit()
+    processCommands(it.chain(*(docs[k] for k in args)))
 
 
 if __name__== "__main__":
