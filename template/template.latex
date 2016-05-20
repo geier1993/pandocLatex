@@ -2,6 +2,10 @@
 
 \usepackage[x11names,table]{xcolor}
 
+$if(synctex}$
+\synctex=1
+$endif$
+
 $if(fontfamily)$
 \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
 $else$

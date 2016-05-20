@@ -31,7 +31,8 @@ docOptions = [
         "--highlight-style={hls}".format(hls=highlightstyle),
         "--latex-engine={le}".format(le=latexEngine),
         "--number-sections",
-        "--chapter"
+        "--chapter",
+        "-M synctex:yes"
 	]
 
 tikzFormat = [
@@ -106,7 +107,7 @@ docs = {
 	 	 genLatexCmd(
 	 	 	**{
                 	 	"src" : "mydoc.tex",
-                        	"options": ["--interaction=batchmode"],
+                        	"options": ["--interaction=batchmode","-synctex=1"],
                     	}),
 		],
 	"example": [
@@ -122,7 +123,7 @@ docs = {
 		 genLatexCmd(
 		 	**{
                 	 	"src": "tikz/example.tex",
-                        	"options": ["--interaction=batchmode","--output-directory=./tikz/"],
+                        	"options": ["--interaction=batchmode","--output-directory=./tikz/","-synctex=1"],
                     	}),
 		]
 	}
