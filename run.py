@@ -7,7 +7,7 @@ from pandocLatex import *
 
 latexEngine="lualatex"
 highlightstyle='"tango"' #pygments, kate, monochrome, espresso, zenburn, haddock, tango
-template="template/template.latex"
+template="template/document.latex"
 
 docFormat = [
     "template/format_howto.yaml",
