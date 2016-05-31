@@ -1,5 +1,5 @@
 ---
-fontsize: '11pt'
+#fontsize: '11pt'
 #fontfamily: DejaVuSans
 #fontfamily: dejavu
 
@@ -18,6 +18,9 @@ sansfont: "TeX Gyre Heros" # Arial-like
 
 # For Sansserif font with pdflatex
 #familydefault: "\\sfdefault"
+
+# for beamer
+# fonttheme: serif
 
 #fontfamily: DejaVuSans
 #fontfamily: dejavu

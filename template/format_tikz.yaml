@@ -6,6 +6,12 @@ tikzoptions:
 
 tikzlibrary:
     - calc
+    - patterns
+    - decorations.pathmorphing
+
+contour: "yes"
+contouroptions:
+    - outline
 
 documentclass: standalone
 	

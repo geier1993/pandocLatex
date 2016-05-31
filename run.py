@@ -8,6 +8,7 @@ from pandocLatex import *
 latexEngine="lualatex"
 highlightstyle='"tango"' #pygments, kate, monochrome, espresso, zenburn, haddock, tango
 template="template/document.latex"
+beamer="template/beamer.latex"
 
 docFormat = [
     "template/format_howto.yaml",
@@ -32,6 +33,31 @@ docOptions = [
         "--latex-engine={le}".format(le=latexEngine),
         "--number-sections",
         "--chapter",
+        "-M synctex:yes"
+	]
+
+
+beamerFormat = [
+    "template/format_beamer.yaml",
+    "template/color_unihd.yaml",
+    "template/objects.yaml",
+    "template/typography_lmodern.yaml"
+    ]
+
+beamerOptions = [
+        "-t beamer",
+        "-s ",
+#        "-o {out}".format(out=texFile),
+#       "--columns 1",
+        "--filter pandoc-csv2table",
+        "--filter pandoc-crossref",
+# 	"--filter diagrams-pandoc",
+#       "--filter pandoc-placetable", # compiled with inlinemarkdown
+        "--filter pandoc-citeproc",
+        "--template={template}".format(template=beamer),
+        "--highlight-style={hls}".format(hls=highlightstyle),
+        "--latex-engine={le}".format(le=latexEngine),
+        "--number-sections",
         "-M synctex:yes"
 	]
 
@@ -66,7 +92,7 @@ def genPandocCmd(out, src, format, options):
             before=[(print,("-----\t","Pandoc\t{out}\t".format(out=out),"-----"),{})],
             # Adjust appearance of tables and figures
             #after =[(applyOnFile, ([adjustLongtableFilter,centerFigureFilter],texFile) ,{})]
-            after =[(applyOnFile, ([adjustLongtableFilter],out) ,{})]
+            after =[(applyOnFile, ([adjustLongtableFilter,adjustBeamerFootnote],out) ,{})]
     	)
 
 
@@ -107,7 +133,25 @@ docs = {
 	 	 genLatexCmd(
 	 	 	**{
                 	 	"src" : "mydoc.tex",
-                        	"options": ["--interaction=batchmode","-synctex=1"],
+                        	"options": ["-synctex=1"],
+                        	#"options": ["--interaction=batchmode","-synctex=1"],
+                    	}),
+		],
+	 "mypres": [
+	 	 genPandocCmd(
+	 	 	**{
+                	 	"out" : "mypres.tex",
+                	 	"src" :  [
+                            		"pres/mypres.md"
+                            		],
+                        	"format": beamerFormat,
+                        	"options": beamerOptions
+                    	}),
+	 	 genLatexCmd(
+	 	 	**{
+                	 	"src" : "mypres.tex",
+                        	"options": ["-synctex=1"],
+                        	#"options": ["--interaction=batchmode","-synctex=1"],
                     	}),
 		],
 	"example": [

@@ -1,16 +1,96 @@
-\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(handout)$handout,$endif$$if(beamer)$ignorenonframetext,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
-\setbeamertemplate{caption}[numbered]
-\setbeamertemplate{caption label separator}{: }
-\setbeamercolor{caption name}{fg=normal text.fg}
+\documentclass[$if(aspectratio)$aspectratio=$aspectratio$$endif$, professionalfont,xcolor=table,$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(handout)$handout,$endif$$if(beamer)$ignorenonframetext,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+% professionalfont fixes some math-beamer problems
+
+% progress bar
+\setbeamercolor{progress bar progress}{use=progress bar,bg=progress bar.fg}
+\defbeamertemplate{footline}{progress bar}{
+  \dimen0=\paperwidth
+  \multiply\dimen0 by \insertframenumber
+  \divide\dimen0 by \inserttotalframenumber
+  \edef\progressbarwidth{\the\dimen0}
+
+  \leavevmode%
+
+\color{darkprimarycolor!70}%
+\hspace*{0.5mm}\tiny\inserttitle%
+\qquad
+\color{darkprimarycolor}%
+\tiny\insertsection%
+\color{darkprimarycolor}%
+\hfill\insertframenumber\,/\,\inserttotalframenumber
+\hspace*{0.5mm}
+
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.5ex,dp=0.05ex]{progress bar}
+    \begin{beamercolorbox}[wd=\progressbarwidth,ht=0.5ex,dp=0.05ex]{progress bar progress}
+    \end{beamercolorbox}%
+  \end{beamercolorbox}%
+}
+
+\newcommand{\lightercolor}[3]{% Reference Color, Percentage, New Color Name
+    \colorlet{#3}{#1!#2!white}
+}
+\newcommand{\darkercolor}[3]{% Reference Color, Percentage, New Color Name
+    \colorlet{#3}{#1!#2!black}
+}
+$if(definecolor)$
+$for(definecolor)$
+\definecolor{$definecolor.name$}{$definecolor.space$}{$definecolor.value$}
+$endfor$
+$endif$
+
+$if(lightercolor)$
+$for(lightercolor)$
+\lightercolor{$lightercolor.name$}{$lightercolor.percent$}{$lightercolor.newname$}
+$endfor$
+$endif$
+
+$if(darkercolor)$
+$for(darkercolor)$
+\darkercolor{$darkercolor.name$}{$darkercolor.percent$}{$darkercolor.newname$}
+$endfor$
+$endif$
+
+$if(colorlet)$
+$for(colorlet)$
+\colorlet{$colorlet.name$}{$colorlet.value$}
+$endfor$
+$endif$
+
+
 \beamertemplatenavigationsymbols$if(navigation)$$navigation$$else$empty$endif$
 $if(fontfamily)$
 \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
 $else$
 \usepackage{lmodern}
 $endif$
-\usepackage{amssymb,amsmath}
+$if(familydefault)$
+\renewcommand{\familydefault}{$familydefault$}
+$endif$
+
+
+$if(fontsize)$
+\usepackage{scrextend}
+	$if(lineheight)$
+	\changefontsizes[$lineheight$]{$fontsize$}
+	$endif$
+$endif$
+
+$if(linestretch)$
+\usepackage{setspace}
+\setstretch{$linestretch$}
+$endif$
+
+
+\usepackage{amssymb,amsmath,multirow,bigdelim}
+\usepackage{amsthm}% must be loaded before newtxmath
+\usepackage{mathtools}
+\usepackage{bm,bbm} % boldmath and mathbbm (e.g. for \mathbbm{1}
+
+$if(newtxmath)$
+ \usepackage[$for(newtxmathoptions)$$newtxmathoptions$$sep$,$endfor$]{newtxmath}
+$endif$
+
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
   \usepackage[utf8]{inputenc}
@@ -53,15 +133,28 @@ $endif$
 $if(fonttheme)$
 \usefonttheme{$fonttheme$}
 $endif$
-$if(mainfont)$
-\usefonttheme{serif} % use mainfont rather than sansfont for slide text
-$endif$
+%$if(mainfont)$
+%%\usefonttheme{serif} % use mainfont rather than sansfont for slide text
+%$endif$
 $if(innertheme)$
 \useinnertheme{$innertheme$}
 $endif$
 $if(outertheme)$
 \useoutertheme{$outertheme$}
 $endif$
+
+
+$if(tikz)$
+\usepackage[$for(tikzoptions)$$tikzoptions$$sep$,$endfor$]{tikz}
+$endif$
+$if(tikzlibrary)$
+\usetikzlibrary{$for(tikzlibrary)$$tikzlibrary$$sep$,$endfor$}
+$endif$
+$if(contour)$
+\usepackage[$for(contouroptions)$$contouroptions$$sep$,$endfor$]{contour}
+$endif$
+
+
 % use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 % use microtype if available
@@ -108,14 +201,73 @@ $if(verbatim-in-note)$
 \usepackage{fancyvrb}
 \VerbatimFootnotes % allows verbatim text in footnotes
 $endif$
-$if(tables)$
-\usepackage{longtable,booktabs}
-\usepackage{caption}
-% These lines are needed to make table captions work with longtable:
-\makeatletter
-\def\fnum@table{\tablename~\thetable}
-\makeatother
+
+$if(caption)$
+\usepackage[$for(captionoptions)$$captionoptions$$sep$,$endfor$]{caption}
 $endif$
+
+$if(tables)$
+%\usepackage{ltablex,booktabs}
+\usepackage{longtable,booktabs}
+
+% alternate rowcolors for all tables
+$if(table.alternate)$
+\let\oldtabular\tabular
+\let\endoldtabular\endtabular
+\renewenvironment{tabular}{\makeatother\rowcolors{0}{$table.alternate.evencolor$}{$table.alternate.oddcolor$}\oldtabular}{\endoldtabular\makeatletter}
+$endif$
+
+$if(table.alternate)$
+\let\oldlongtable\longtable
+\let\endoldlongtable\endlongtable
+\renewenvironment{longtable}{
+    \rowcolors{0}{$table.alternate.evencolor$}{$table.alternate.oddcolor$}%
+    \setlength{\tabcolsep}{0.5em}   %horizontal spacing
+    \renewcommand{\arraystretch}{1.2}   %vertical spacing
+    \footnotesize
+    \oldlongtable
+} {
+\endoldlongtable} 
+$endif$
+
+$if(table.toprule)$
+\let\mytoprule\toprule
+\renewcommand{\toprule}{\specialrule{$if(table.toprule.width)$$table.toprule.width$$else$\heavyrulewidth$endif$}
+	{$if(table.toprule.top)$$table.toprule.top$$else$0.0pt$endif$}
+	{$if(table.toprule.bottom)$$table.toprule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+$if(table.midrule)$
+\let\mymidrule\midrule
+\renewcommand{\midrule}{\specialrule{$if(table.midrule.width)$$table.midrule.width$$else$\cmidrulewidth$endif$}
+	{$if(table.midrule.top)$$table.midrule.top$$else$0.0pt$endif$}
+	{$if(table.midrule.bottom)$$table.midrule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+$if(table.bottomrule)$
+\let\mybottomrule\bottomrule
+\renewcommand{\bottomrule}{\specialrule{$if(table.bottomrule.width)$$table.bottomrule.width$$else$\lightrulewidth$endif$}
+	{$if(table.bottomrule.top)$$table.bottomrule.top$$else$0.0pt$endif$}
+	{$if(table.bottomrule.bottom)$$table.bottomrule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+$endif$
+
+$if(floatrow)$
+\usepackage[$for(floatrow)$$floatrow$$sep$,$endfor$]{floatrow}
+$endif$
+
+$if(beamercolor)$
+$for(beamercolor)$	
+\setbeamercolor{$beamercolor.object$}{$beamercolor.value$}
+$endfor$
+$endif$
+
+$if(beamertemplate)$
+$for(beamertemplate)$	
+\setbeamertemplate{$beamertemplate.object$}$if(beamertemplate.option)$[$beamertemplate.option$]$endif$$if(beamertemplate.value)${$beamertemplate.value$}$endif$
+$endfor$
+$endif$
+
+
+
 $if(graphics)$
 \usepackage{graphicx,grffile}
 \makeatletter
@@ -200,11 +352,42 @@ $endif$
 $if(author)$
 \author{$for(author)$$author$$sep$ \and $endfor$}
 $endif$
-\date{$date$}
+\date{$if(datestyle)$$datestyle$$endif$ $if(date.command)$\$date.command$$else$$if(date)$$date$$endif$$endif$}
+
+% header.tex mit eigenen Kommandos und Layout-Anpassungen
+\newcommand{\colA}[1]{\begin{columns}[t]\begin{column}{#1}} 
+\newcommand{\colB}[1]{\end{column}\begin{column}{#1}} 
+\newcommand{\colEnd}{\end{column}\end{columns}}
+
+\newcommand{\row}[1]{\begin{columns}[#1]} 
+\newcommand{\col}[1]{\column{#1}} 
+\newcommand{\rowend}{\end{columns}} 
+
+% keine Navigationspfeile
+%\setbeamertemplate{navigation symbols}{} % keine Navigations-Buttons
+
+%% Fußzeile mit Titel und Seitenr.
+%\definecolor{mygray}{gray}{0.75}
+%\setbeamertemplate{footline}{{\vspace{2mm}\color{mygray}%
+%\hspace*{2mm}\tiny\inserttitle\hspace*{80pt}%
+%\hfill\insertframenumber \hspace*{2mm}\vspace{2mm}}}
+
+%% Schrift für URLs
+%\definecolor{myblue}{rgb}{0.2 0.0 0.8}
+%\renewcommand{\UrlFont}{\color{myblue}\footnotesizesf}
+
+%% Schriftgröße Listings
+%\RequirePackage{fancyvrb}
+%\DefineVerbatimEnvironment{Highlighting}{Verbatim}%
+%  {commandchars={},fontsize=footnotesize} 
+%\DefineVerbatimEnvironment{Verbatim}{Verbatim}%
+%  {fontsize=footnotesize}
+
+
 
 \begin{document}
 $if(title)$
-\frame{\titlepage}
+\frame[plain,noframenumbering]{\titlepage}
 $endif$
 
 $for(include-before)$
@@ -212,11 +395,13 @@ $include-before$
 
 $endfor$
 $if(toc)$
-\begin{frame}
+\begin{frame}[plain,noframenumbering]
 \tableofcontents[hideallsubsections]
 \end{frame}
-
 $endif$
+
+
+
 $body$
 
 $if(natbib)$

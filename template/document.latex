@@ -2,6 +2,7 @@
 
 \usepackage[x11names,table]{xcolor}
 
+
 $if(synctex)$
 \synctex=1
 $endif$
@@ -29,6 +30,7 @@ $if(fontsize)$
 	\changefontsizes[$lineheight$]{$fontsize$}
 	$endif$
 $endif$
+
 \newcommand{\lightercolor}[3]{% Reference Color, Percentage, New Color Name
     \colorlet{#3}{#1!#2!white}
 }
@@ -37,12 +39,6 @@ $endif$
     \colorlet{#3}{#1!#2!black}
 }
 
-%\definecolor{steelblue}{rgb}{0.27, 0.51, 0.71}
-%\definecolor{lapislazuli}{rgb}{0.15, 0.38, 0.61}
-%\lightercolor{steelblue}{40}{lightsteelblue}
-%\lightercolor{lapislazuli}{60}{lightlapislazuli}
-%\darkercolor{steelblue}{80}{darksteelblue}
-%\darkercolor{lapislazuli}{80}{darklapislazuli}
 
 $if(definecolor)$
 $for(definecolor)$
@@ -68,36 +64,6 @@ $for(colorlet)$
 $endfor$
 $endif$
 
-%$if(primarycolor)$
-%\definecolor{primarycolor}{$if(primarycolor.space)$$primarycolor.space$$else$rgb$endif$}{$if(primarycolor.color)$$primarycolor.color$$else$0.0, 0.0, 0.0$endif$}
-%$else$
-%\definecolor{primarycolor}{rgb}{0.0, 0.0, 0.0}
-%$endif$
-%$if(secondarycolor)$
-%\definecolor{secondarycolor}{$if(secondarycolor.space)$$secondarycolor.space$$else$rgb$endif$}{$if(secondarycolor.color)$$secondarycolor.color$$else$0.0, 0.0, 0.0$endif$}
-%$else$
-%\definecolor{secondarycolor}{rgb}{0.0, 0.0, 0.0}
-%$endif$
-%%\definecolor{primarycolor}{rgb}{0.15, 0.38, 0.61} %lapislazuli
-%%\definecolor{secondarycolor}{rgb}{0.27, 0.51, 0.71} %steelblue
-%\lightercolor{primarycolor}{50}{lightprimarycolor}
-%\lightercolor{secondarycolor}{40}{lightsecondarycolor}
-%\darkercolor{primarycolor}{50}{darkprimarycolor}
-%\darkercolor{secondarycolor}{80}{darksecondarycolor}
-
-%\addtolength{\oddsidemargin}{-0.500in}
-%\addtolength{\evensidemargin}{-0.500in}
-%\addtolength{\textwidth}{1.00in}
-%
-%\addtolength{\topmargin}{-.750in}
-%\addtolength{\textheight}{1.0in}
-
-%\voffset=-1in
-%\topmargin = 0.25in
-%\headheight = 25pt
-%\textheight = 8.7in
-%\usepackage[width=1.00\textwidth,bf]{caption}
-%\usepackage[labelfont=bf]{caption}
 
 \usepackage{refcount}
 \usepackage{lastpage}
@@ -124,32 +90,7 @@ $if(titlespacing)$
 	$endif$
     $endfor$
 $endif$
-%\titleformat{\chapter}
-%{\color{primarycolor}\normalfont\LARGE\bfseries}
-%{\color{primarycolor}\thechapter}{1em}{}
-%\titleformat{\section}
-%{\color{primarycolor}\normalfont\Large\bfseries}
-%{\color{primarycolor}\thesection}{1em}{}
-%\titleformat{\subsection}
-%{\color{primarycolor}\normalfont\large\bfseries}
-%{\color{primarycolor}\thesubsection}{1em}{}
-%\titleformat{\subsubsection}
-%{\color{primarycolor}\normalfont\normalsize\bfseries}
-%{\color{primarycolor}\thesubsubsection}{1em}{}
-%%\titleformat{\section}
-%%{\color{primarycolor}\normalfont\Large\bfseries}
-%%{\color{primarycolor}\thesection}{1em}{}
 
-%\usepackage{MinionPro}
-%\setmainfont{DejaVu Sans}
-%\setsansfont{DejaVu Sans}
-%
-%\usepackage{unicode-math}
-%\setmathfont{Asana Math} % for math symbols, can be any other OpenType math font
-%\setmathfont[range=\mathup]  {Asana Math }
-%\setmathfont[range=\mathbfup]{Asana Math Bold}
-%\setmathfont[range=\mathbfit]{Asana Math Bold Italic}
-%\setmathfont[range=\mathit]  {Asana Math Italic}
 
 $if(linestretch)$
 \usepackage{setspace}
@@ -160,33 +101,13 @@ $endif$
 \usepackage{amssymb,amsmath,multirow,bigdelim}
 \usepackage{amsthm}% must be loaded before newtxmath
 \usepackage{mathtools}
-\usepackage{bm,bbm}
-
-%load text components other than libertine text to be used in math
-
+\usepackage{bm,bbm} % boldmath and mathbbm (e.g. for \mathbbm{1}
 
 $if(newtxmath)$
  \usepackage[$for(newtxmathoptions)$$newtxmathoptions$$sep$,$endfor$]{newtxmath}
 $endif$
-%\usepackage[T1]{fontenc}
-%\usepackage[scaled=.85]{beramono}% used only by \mathtt
-%\usepackage[type1]{cabin}% used only by \mathsf
-% \usepackage[libertine,bigdelims]{newtxmath}
- %\usepackage[utopia]{newtxmath}
-% \usepackage[baskervaldx]{newtxmath}
-% loads minlibertine because no other Roman text package was specified
-% so that \mathrm and \mathbf also use minlibertine
-%\usepackage[scr=rsfso]{mathalfa}
-%\usepackage{bm}% load after all math to give access to bold math
-%Now load the otf text fonts using fontspec---won't affect math
-%\usepackage[no-math]{fontspec} % process with XeLaTeX or LuaLaTeX
-%\usepackage{libertine}
-%\usepackage[osf,semibold]{libertine} %for osf in text, semibold as bold
-
-%\usepackage{mathastext}
 
 \usepackage{ifxetex,ifluatex}
-\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
   \usepackage[utf8]{inputenc}
@@ -368,17 +289,7 @@ $for(fancypagestyles)$
 $endfor$
 
 
-%\fancypagestyle{titlepage}{%
-%  \fancyhf{}% Clear all headers/footers
-%  \fancyfoot[]{}
-%  \fancyhead[]{}
-%  \renewcommand{\headrulewidth}{0pt} 
-%  \renewcommand{\footrulewidth}{0pt} 
-%  \renewcommand{\headrule}{\hbox to\headwidth{%
-%    \leaders\hrule height \headrulewidth\hfill}}
-%  \renewcommand{\footrule}{\hbox to\headwidth{%
-%    \leaders\hrule height \footrulewidth\hfill}}
-%}
+
 
 $if(fancyfirstpage)$
 %let header start on first page
@@ -401,27 +312,12 @@ $if(tables)$
 %\usepackage{ltablex,booktabs}
 \usepackage{longtable,booktabs}
 
-
-
 % alternate rowcolors for all tables
-
 $if(table.alternate)$
 \let\oldtabular\tabular
 \let\endoldtabular\endtabular
 \renewenvironment{tabular}{\makeatother\rowcolors{0}{$table.alternate.evencolor$}{$table.alternate.oddcolor$}\oldtabular}{\endoldtabular\makeatletter}
 $endif$
-
-% alternate rowcolors for all long-tables
-%\let\oldtabularx\tabularx
-%\let\endoldtabularx\endtabularx
-%\renewenvironment{tabularx}{
-%    \rowcolors{2}{white}{lightsecondarycolor}%
-%    \setlength{\tabcolsep}{0.5em}   %horizontal spacing
-%    \renewcommand{\arraystretch}{1.2}   %vertical spacing
-%    \footnotesize
-%    \oldtabularx
-%} {
-%\endoldtabularx} 
 
 $if(table.alternate)$
 \let\oldlongtable\longtable
@@ -438,29 +334,22 @@ $endif$
 
 $if(table.toprule)$
 \let\mytoprule\toprule
-%\renewcommand{\toprule}{\addlinespace[-0.0pt]\mytoprule\addlinespace[-0.1pt]\rowcolor{lightprimarycolor}}
 \renewcommand{\toprule}{\specialrule{$if(table.toprule.width)$$table.toprule.width$$else$\heavyrulewidth$endif$}
 	{$if(table.toprule.top)$$table.toprule.top$$else$0.0pt$endif$}
 	{$if(table.toprule.bottom)$$table.toprule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
 $endif$
 $if(table.midrule)$
 \let\mymidrule\midrule
-%\renewcommand{\midrule}{\addlinespace[-0.0pt]\mymidrule\addlinespace[-0.1pt]\rowcolor{lightprimarycolor}}
 \renewcommand{\midrule}{\specialrule{$if(table.midrule.width)$$table.midrule.width$$else$\cmidrulewidth$endif$}
 	{$if(table.midrule.top)$$table.midrule.top$$else$0.0pt$endif$}
 	{$if(table.midrule.bottom)$$table.midrule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
 $endif$
 $if(table.bottomrule)$
 \let\mybottomrule\bottomrule
-%\renewcommand{\bottomrule}{\addlinespace[-0.0pt]\mybottomrule\addlinespace[-0.1pt]\rowcolor{lightprimarycolor}}
 \renewcommand{\bottomrule}{\specialrule{$if(table.bottomrule.width)$$table.bottomrule.width$$else$\lightrulewidth$endif$}
 	{$if(table.bottomrule.top)$$table.bottomrule.top$$else$0.0pt$endif$}
 	{$if(table.bottomrule.bottom)$$table.bottomrule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
 $endif$
-
-
-%\let\myendfirsthead\endfirsthead
-%\renewcommand{\endfirsthead}{\addlinespace[-0.2pt]\myendfirsthead}
 $endif$
 
 $if(floatrow)$
@@ -540,20 +429,12 @@ $endif$
 %\setlist[description]{style=nextline}
 %\setdescription{labelsep=\textwidth}
 
-%\newcommand{\bsquare}{\item[\color{red}\ding{110}]} 
-%\newcommand{\barrow}{\item[\color{red}\ding{228}]}
-%\newcommand{\bwarrow}{\item[\color{red}\ding{227}]}
-
 $if(list.renewcommands)$
 $for(list.renewcommands)$	
 \renewcommand{\$list.renewcommands.command$}{$list.renewcommands.value$$$$list.renewcommands.bullet$$$}
 $endfor$
 $endif$
 
-%\renewcommand{\labelitemi}{\color{blue}$$\bullet$$}
-%\renewcommand{\labelitemii}{$$\cdot$$}
-%\renewcommand{\labelitemiii}{$$\diamond$$}
-%\renewcommand{\labelitemiv}{$$\ast$$}
 
 $for(header-includes)$
 $header-includes$
@@ -572,6 +453,9 @@ $if(tikz)$
 $endif$
 $if(tikzlibrary)$
 \usetikzlibrary{$for(tikzlibrary)$$tikzlibrary$$sep$,$endfor$}
+$endif$
+$if(contour)$
+\usepackage[$for(contouroptions)$$contouroptions$$sep$,$endfor$]{contour}
 $endif$
 
 \begin{document}

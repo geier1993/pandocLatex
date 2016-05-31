@@ -36,6 +36,8 @@ table: {
 floatrow:
     - "font=sf"	# Table font
 
+
+#Not for beamer
 list: {
 	renewcommands: [
 		{command: "labelitemi",   value: "\\color{secondarycolor}", bullet: "\\blacksquare" },

@@ -52,16 +52,21 @@ def applyOnFile(inputgenlist, fname):
     finput.close()
 
 def centerFigureFilter(inputgen):
-    lcincr = 0
     for lobj in inputgen:
-        lobj.linecount +=lcincr
-        lobj.lno       +=lcincr
         yield lobj
         if(lobj.line):
             if(lobj.line.startswith("\\begin{figure}") ):
+            	 #append on next line
                 lobj.line = "\\centering"
                 yield lobj
 
+def adjustBeamerFootnote(inputgen):
+    for lobj in inputgen:
+        if(lobj.line!=None):
+            lobj.line=re.sub(r'\\footnote<[^>]*>',
+                    r'\\footnote',lobj.line)
+        #yield (ln,lc,l)
+        yield lobj
 
 def adjustLongtableFilter(inputgen):
     #for (ln,lc,l) in inputgen:

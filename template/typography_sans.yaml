@@ -1,5 +1,5 @@
 ---
-fontsize: '11pt'
+#fontsize: '11pt'
 
 # For pdflatex...
 fontfamily: dejavu
@@ -15,7 +15,8 @@ sansfont: "DejaVu Sans"
 # For Sansserif font with pdflatex
 familydefault: "\\sfdefault"
 
-
+# for beamer
+# fonttheme: serif
 
 #mainfont: "TeX Gyre Heros" # Times
 #mainfont: "Latin Modern Roman"
@@ -36,6 +37,7 @@ fontspecoptions:
 
 
 # Heading styling...
+# not for beamer
 titleformat: [
 	{ command:        "chapter", 
 	  shape:	  "",

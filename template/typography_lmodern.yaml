@@ -1,5 +1,5 @@
 ---
-fontsize: '11pt'
+#fontsize: '11pt'
 
 # For pdflatex...
 fontfamily: lmodern
@@ -15,13 +15,16 @@ mainfont: "Latin Modern Roman"
 # For Sansserif font with pdflatex
 #familydefault: "\\sfdefault"
 
+# For beamer
+# fonttheme: serif
+
 ## Newtxmath
-#newtxmath: "yes"
-#newtxmathoptions:
-#    - "utopia"
-## Xe or LuaLatex if newtxmath is used
-#fontspecoptions:
-#    - "no-math"
+newtxmath: "yes"
+newtxmathoptions:
+    - "utopia"
+# Xe or LuaLatex if newtxmath is used
+fontspecoptions:
+    - "no-math"
 
 
 # Heading styling...
