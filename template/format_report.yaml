@@ -1,6 +1,8 @@
 ---
 documentclass: report
 
+cref: "yes"
+
 #lang: "de"
 
 #marginnote: "yes"

@@ -2,6 +2,8 @@
 documentclass: beamer
 aspectratio: 169
 
+cref: "yes"
+
 #lang: "de"
 
 #marginnote: "yes"

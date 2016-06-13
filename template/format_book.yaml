@@ -1,6 +1,8 @@
 ---
 documentclass: book
 
+cref: "yes"
+
 #lang: "de"
 
 #marginnote: "yes"

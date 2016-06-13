@@ -1,6 +1,8 @@
 ---
 documentclass: article
 
+cref: "yes"
+
 #lang: "de"
 
 #marginnote: "yes"
