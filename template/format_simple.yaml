@@ -57,7 +57,7 @@ fancypagestyles: [
 	name: "contentstyle",
 	headrule: { color: "darksecondarycolor",
 		skip: "-0.14in",
-		width: "1pt"
+		width: "0.5pt"
 		},
 	headoffset: [
 	    #{options: "LE,RO", value: "15pt"},
@@ -78,7 +78,7 @@ fancypagestyles: [
 	    {options: "L,R", value: "15pt"},
 	   ],
         footcontent: [
-	    {options: "C", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage"}
+	    #{options: "C", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage"}
 		]
     	},
 	{
