@@ -1,87 +1,84 @@
 ---
-title: Machine Learning 
-subtitle: test
+title: Example Document
+subtitle: Custom Latex Template generated with Pandoc 
 author: 
    - Philipp Geier 
-   - Test
+   - some more authors 
 #date: 2015-08-18
 date: {command: "today"}
 
 author-meta: Philipp Geier
-title-meta: Machine Learning
+title-meta: example document
 
-lol: "yes"
-codeBlockCaptions: "yes"
-
+lol: "yes" # "" to disable
+toc: "yes"
+lof: "yes"
+codeBlockCaptions: "" # "yes" oder "withsomecontent" to enable
 ---
 
 
-# test
+# Heading1
 
-## Test2
+## Heading2 
 
-oeuoe
-oeuoe
+### Heading3
 
-oeuoe
-oeuoe
+Ordered list
 
    1. a
    2. b
+      1. b1
+      2. b2
+      3. b3
    3. c
    
-oeuoe
-oeuoe
+   
+Unordered list
 
-   * i
-      + ii
-    	 - iii 
-    	    * iv
-oeuoe
-oeuoe
-oeuoe
+   * a
+      * a1
+      * a2
+      * a3
+   * b
+   * c
+   * d
+
 
 Definition list
 
-: some content
+:   some content
+
+    Stacked definition list
+  
+    :   with some more content 
+    
+           * and
+           * a 
+           * list
+           * with some inline math $\tau=\dfrac{\pi}{2}=\frac{\pi}{2}$
+
+        $$
+        \alpha = \pi
+        $$
 
 
-Definition list2
-  ~ Def a
-  ~ Def b
+![A figure](images/Tux.pdf){#fig:fig1 width=50%}
 
-$$
-\alpha = \pi
-$$
+A reference to a figure [@fig:fig1] using _pandoc-crossref_ filter.
 
-![](images/Tux.pdf){#fig:fig1 width=50%}
-
-oeuoe
-oeuoe
 [@fig:figure1RefA;@fig:figure1RefB]
-oeuoe
-oeuoe
-oeuoe
-oeuoe
-
 
 <div id="fig:figure1Ref" style="align: center">
 
-![subfigure1 1 caption](images/Tux_small.png "fig:"){#fig:figure1RefA width=50%}
-![subfigure1 2 caption](images/Tux_small.png "fig:"){#fig:figure1RefB rowend=True}
+![subfigure1 caption](images/Tux_small.png "fig:"){#fig:figure1RefA width=50%}
+![subfigure2 caption](images/Tux_small.png "fig:"){#fig:figure1RefB rowend=True}
 
-![subfigure1 3 caption](images/Tux_small.png "fig:"){#fig:figure1RefC}
-![subfigure1 3 caption](images/Tux_small.png "fig:"){#fig:figure1RefD}
+![subfigure3 caption](images/Tux_small.png "fig:"){#fig:figure1RefC}
+![subfigure4 caption](images/Tux_small.png "fig:"){#fig:figure1RefD}
 
-Caption of figure1
+A figure with subfigures using _pandoc-crossref_ filter
 </div>
 
-oeuoe
-oeuoe
-oeuoe
-oeuoe
-oeuoe
-oeuoe
 
 Here is a footnote reference,[^1] and another.[^longnote]
 
@@ -101,9 +98,6 @@ Here is a footnote reference,[^1] and another.[^longnote]
 This paragraph won't be part of the note, because it
 isn't indented.
 
-oeuoe
-oeuoe
-oeuoe
 
    * List with codeblock
 
@@ -112,68 +106,37 @@ oeuoe
     main = putStrLn "Hello World!"
     ```
     
-    
-Some text
 
+Codeblock with caption
 
 ```{#lst:code .haskell caption="test"}
 main :: IO ()
 main = putStrLn "Hello World!"
 ```
 
-oeuoe
-oeuoe
-oeuoe
-oeuoe
-<!-- \marginnote{Test 2} -->
-oeuoe
-oeuoe
-oeuoe
-oeuoe
-oeuoe
-oeuoe
 
+Table using _pandoc-csv2table_ to generate a table from csv.
+A table should contain a header for proper coloring.
 
 ```` {.table #my-id type="multiline" inlinemarkdown="yes" aligns="RL" caption="2x2 images in a table" header="no"}
 "![](images/Tux.pdf)","![](images/Tux.png)"
 "![](images/Tux.pdf)","![](images/Tux.png)"
 ```` 
 
-```` {.table type="multiline" aligns="RCL" caption="a table" header="yes"}
+```` {.table type="multiline" aligns="RCL" caption="\label{tbl:test} a table" header="yes"}
 $\alpha$,$\beta$,$\gamma$
 1,2,3
 4,5,6
 7,8,9
 ```` 
 
+For csv tables, latex command \label{} must be put in caption, as @tbl:test shows.
+
+# Math options
+
 ```` {.table type="multiline" aligns="C" caption="a table" header="yes"}
-$\mathrm{Mathrm}$,$\mathit{Mathit}$,$\mathbf{MathBF}$,$\bm{BM}$
-$\mathrm{A little text}$,$\mathit{A little text}$,$\mathbf{A little text}$,$\bm{A little text}$
-$\mathrm{\nabla \cdot \nabla}$,$\mathit{\nabla \cdot \nabla}$,$\mathbf{\nabla \cdot \nabla}$,$\bm{\nabla \cdot \nabla}$
-$\mathrm{\alpha \times 3}$,$\mathit{\alpha \times 3}$,$\mathbf{\alpha \times 3}$,$\bm{\alpha \times 3}$
+$\mathrm{Mathrm}$,$\mathit{Mathit}$,$\bm{bm}$,$\mathbbm{mathbbm}$
+$\mathrm{A little text}$,$\mathit{A little text}$,$\bm{A little text}$,$\mathbbm{A little text}$
+$\mathrm{\nabla \cdot \nabla}$,$\mathit{\nabla \cdot \nabla}$,$\bm{\nabla \cdot \nabla}$,$\mathbbm{\nabla \cdot \nabla}$
+$\mathrm{\alpha \times 3}$,$\mathit{\alpha \times 3}$,$\bm{\alpha \times 3}$,$\mathbbm{\alpha \times 1}$
 ```` 
-
-
-Some text after the table
-
-# la
-
-# le 
-
-# le
-
-1
-
-2
-
-3
-
-4
-
-5
-
-6
-
-7
-
-

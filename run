@@ -32,8 +32,8 @@ docOptions = [
         "--highlight-style={hls}".format(hls=highlightstyle),
         "--latex-engine={le}".format(le=latexEngine),
         "--number-sections",
-        "--chapter",
-        "-M synctex:yes"
+#        "--chapter",
+#        "-M synctex:yes"
 	]
 
 
