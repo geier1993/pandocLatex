@@ -11,7 +11,7 @@ template="template/document.latex"
 beamer="template/beamer.latex"
 
 docFormat = [
-    "template/format_howto.yaml",
+    "template/format_simple.yaml",
     "template/color_unihd.yaml",
     "template/objects.yaml",
     "template/titlepage.yaml",

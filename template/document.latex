@@ -155,7 +155,7 @@ $if(geometry)$
 \usepackage[$for(geometryoptions)$$geometryoptions$$sep$,$endfor$]{geometry}
 $endif$
 $if(caption)$
-\usepackage[$for(captionoptions)$$captionoptions$$sep$,$endfor$]{caption}
+\usepackage[$for(captionoptions)$$captionoptions.option$={$for(captionoptions.values)$$captionoptions.values$$sep$,$endfor$}$sep$,$endfor$]{caption}
 $endif$
 $if(marginnote)$
 \usepackage[$for(marginnoteoptions)$$marginnoteoptions$$sep$,$endfor$]{marginnote}

@@ -48,7 +48,7 @@ fancyhdroptions:
     - ""
 
 #fancyfirstpage: "y" # for article/report
-#fancytitlepagestyle: "titlepagestyle"
+fancytitlepagestyle: "titlepagestyle"
 fancypagestyle: "contentstyle"
 
 
@@ -57,7 +57,7 @@ fancypagestyles: [
 	name: "contentstyle",
 	headrule: { color: "darksecondarycolor",
 		skip: "-0.14in",
-		width: "1pt"
+		width: "0.5pt"
 		},
 	headoffset: [
 	    #{options: "LE,RO", value: "15pt"},
@@ -65,9 +65,9 @@ fancypagestyles: [
 	   ],
 	headcontent: [
 	    #{options: "L", value: "\\colorbox{lightsecondarycolor}{\\textcolor{darkprimarycolor}{\\makebox{\\small\\bfseries\\nouppercase\\leftmark}}}"},
-	    {options: "L", value: "\\color{darkprimarycolor}\\small\\bfseries\\nouppercase\\leftmark"},
-	    {options: "R", value: "\\color{darkprimarycolor}\\small\\bfseries\\nouppercase\\rightmark"},
-	    {options: "c", value: "\\color{darkprimarycolor}\\small\\bfseries\\thepage\\,/\\,\\pageref*{LastPage}"}
+	    {options: "L", value: "\\color{darkprimarycolor}\\small\\slshape\\nouppercase\\leftmark"},
+	    {options: "R", value: "\\color{darkprimarycolor}\\small\\slshape\\nouppercase\\rightmark"},
+	    {options: "c", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage\\,/\\,\\pageref*{LastPage}"}
 		],
 	footrule: { color: "darksecondarycolor",
 		skip: "-0.16in",
@@ -78,7 +78,7 @@ fancypagestyles: [
 	    {options: "L,R", value: "15pt"},
 	   ],
         footcontent: [
-	    {options: "C", value: "\\color{darkprimarycolor}\\small\\bfseries\\thepage"}
+	    #{options: "C", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage"}
 		]
     	},
 	{

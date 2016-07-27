@@ -16,9 +16,10 @@ darkercolor: [
  	{name: "secondarycolor", percent: 80, newname: "darksecondarycolor"}
 	]
 
-#colorlet: [
+colorlet: [
 # 	{name: "shadecolor", value: "lightsecondarycolor"}
-#	]
+ 	{name: "captioncolor", value: "black"}
+	]
 
 linkcolor: "primarycolor"
 urlcolor: "darkprimarycolor"

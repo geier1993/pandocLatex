@@ -1,0 +1,32 @@
+---
+mdframed: "yes"
+mdframedoptions:
+    - ""
+
+titlestyle: 	  "\\color{primarycolor}\\Huge\\bfseries"
+subtitlestyle: 	  "\\color{primarycolor}\\LARGE"
+authorstyle:	  "\\color{pentagray}\\small\\bfseries"
+datestyle:	  "\\color{pentagray}\\small\\bfseries"
+
+
+
+#titlewrap: {
+#            env: "shaded",
+#            options: "",
+#            open: "",
+#            close: ""
+#	}
+ 
+#titlewrap: {
+#            env: "mdframed",
+#            postoptions: [
+#                 "linewidth=0pt",
+#                 "backgroundcolor=lightsecondarycolor"
+#                ],
+#            open: "",
+#            close: ""
+#	}
+
+
+...
+

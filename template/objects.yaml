@@ -6,8 +6,9 @@
 #lol: "yes"
 
 caption: "yes"
-captionoptions:
-  - "labelfont=bf"
+captionoptions: [
+  {option: "labelfont", values: ["color=captioncolor","bf"]},
+  ]
 
 
 table: {
