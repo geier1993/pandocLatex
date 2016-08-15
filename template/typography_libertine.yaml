@@ -3,6 +3,8 @@
 
 # For pdflatex...
 fontfamily: libertine
+#fontfamily: dejavu
+#fontfamily: newtxtext
 
 # decide between linestretch or line height
 #linestretch: '1.0'	
@@ -11,7 +13,7 @@ fontfamily: libertine
 #Xe or LuaLatex
 mainfont: "Linux Libertine O"
 
-# For Sansserif font with pdflatex
+# Sans-serif as default font
 #familydefault: "\\sfdefault"
 
 # for beamer

@@ -5,11 +5,17 @@ import itertools as it
 sys.path.append(os.path.dirname(__file__) + "/src")
 from pandocLatex import *
 
+##################
+### Formatting ###
+##################
+
+# Some global parameters
 latexEngine="lualatex"
 highlightstyle='"tango"' #pygments, kate, monochrome, espresso, zenburn, haddock, tango
 template="template/document.latex"
 beamer="template/beamer.latex"
 
+# Format documents with yaml files
 docFormat = [
     "template/format_simple.yaml",
     "template/color_unihd.yaml",
@@ -18,25 +24,27 @@ docFormat = [
     "template/typography_sans.yaml"
     ]
 
+# Pandoc parameters
 docOptions = [
         "-t latex",
         "-s ",
-#        "-o {out}".format(out=texFile),
 #       "--columns 1",
         "--filter pandoc-csv2table",
         "--filter pandoc-crossref",
-# 	"--filter diagrams-pandoc",
+#   "--filter diagrams-pandoc",
 #       "--filter pandoc-placetable", # compiled with inlinemarkdown
         "--filter pandoc-citeproc",
         "--template={template}".format(template=template),
         "--highlight-style={hls}".format(hls=highlightstyle),
         "--latex-engine={le}".format(le=latexEngine),
         "--number-sections",
+        "--biblatex",
 #        "--chapter",
 #        "-M synctex:yes"
-	]
+    ]
 
 
+# Presentations
 beamerFormat = [
     "template/format_beamer.yaml",
     "template/color_unihd.yaml",
@@ -51,7 +59,7 @@ beamerOptions = [
 #       "--columns 1",
         "--filter pandoc-csv2table",
         "--filter pandoc-crossref",
-# 	"--filter diagrams-pandoc",
+#       "--filter diagrams-pandoc",
 #       "--filter pandoc-placetable", # compiled with inlinemarkdown
         "--filter pandoc-citeproc",
         "--template={template}".format(template=beamer),
@@ -59,44 +67,64 @@ beamerOptions = [
         "--latex-engine={le}".format(le=latexEngine),
         "--number-sections",
         "-M synctex:yes"
-	]
+    ]
 
+# Tikzfiles
+# Tikz images can be generated from separate files using the same formatting as their documents
+# On this way each figure is generated in a separate pdf
 tikzFormat = [
-    "template/format_tikz.yaml",
+    "template/format_tikz.yaml",    # Just this is different....
     "template/color_unihd.yaml",
     "template/objects.yaml",
-    "template/titlepage.yaml",
     "template/typography_sans.yaml"
     ]
 
 tikzOptions= [
         "-t latex",
         "-s ",
-#        "-o {out}".format(out=texFile),
 #       "--columns 1",
         "--template={template}".format(template=template),
         "--highlight-style={hls}".format(hls=highlightstyle),
         "--latex-engine={le}".format(le=latexEngine),
-	]
+    ]
 
 
+################
+### Commands ###
+################
+
+# Commands are created using the cmdObj defined in src/pandocLatex.py
+# cmdObj(cmd, shellOutput, befor, after)
+#   cmd: command string to be executed
+#   shellOutput: True/False
+#   before: action performed before execution
+#   after: action performed after execution
+#
+#   before and after ta a list of tuples with functions, arguments, and keyword arguments
+#   E.g.
+#   before = [
+#             ...
+#             (func,(arg1,arg2,arg3),{kw1: karg1, kw2: kwarg2}),
+#             ...
+#                ]
+                
 # Convert Markdown to Latex, using a latex template and YAML configuration
 def genPandocCmd(out, src, format, options):
         return cmdObj(
             " ".join(["pandoc"] +
-            		 format +
-            		    src +
+                     format +
+                        src +
                 ["-o {out}".format(out=out)] +
-            		options),
+                    options),
             True,
             before=[(print,("-----\t","Pandoc\t{out}\t".format(out=out),"-----"),{})],
             # Adjust appearance of tables and figures
+            # applyOnFile is defined in src/pandocLatex.py
+            # Each line in file is passed through a list of filters...
             #after =[(applyOnFile, ([adjustLongtableFilter,centerFigureFilter],texFile) ,{})]
             after =[(applyOnFile, ([adjustLongtableFilter,adjustBeamerFootnote],out) ,{})]
-    	)
+    )
 
-
-########### Commands ##########
 # Run latex
 def genLatexCmd(src, options):
         return cmdObj(
@@ -104,96 +132,126 @@ def genLatexCmd(src, options):
             True,
             before=[(print,("-----\t","Latex\t{out}\t".format(out=src),"-----"),{})],
             after =[]
-	)
+    )
 
-
-# Run bibtex
-def genBibtexCmd(src, options):
-    	return cmdObj(
-            " ".join(["bibtex"] + options + [texFile]),
+# Run biber
+def genBiberCmd(src, options):
+        return cmdObj(
+            " ".join(["biber"] + options + [src]),
             True,
-            before=[(print,("-----\t","BibTex\t{out}\t".format(out=src),"-----"),{})],
+            before=[(print,("-----\t","Biber\t{out}\t".format(out=src),"-----"),{})],
             after =[]
-	)
+    )
 
 
+#################
+### Documents ###
+#################
 
-######### Documents .... ##########
-docs = {
-	 "mydoc": [
-	 	 genPandocCmd(
-	 	 	**{
-                	 	"out" : "mydoc.tex",
-                	 	"src" :  [
-                            		"doc/mydoc.md"
-                            		],
-                        	"format": docFormat,
-                        	"options": docOptions
-                    	}),
-	 	 genLatexCmd(
-	 	 	**{
-                	 	"src" : "mydoc.tex",
-                        	"options": ["-synctex=1"],
-                        	#"options": ["--interaction=batchmode","-synctex=1"],
-                    	}),
-		],
-	 "mypres": [
-	 	 genPandocCmd(
-	 	 	**{
-                	 	"out" : "mypres.tex",
-                	 	"src" :  [
-                            		"pres/mypres.md"
-                            		],
-                        	"format": beamerFormat,
-                        	"options": beamerOptions
-                    	}),
-	 	 genLatexCmd(
-	 	 	**{
-                	 	"src" : "mypres.tex",
-                        	"options": ["-synctex=1"],
-                        	#"options": ["--interaction=batchmode","-synctex=1"],
-                    	}),
-		],
-	"example": [
-		 genPandocCmd(
-		 	**{
-                	 	"out": "tikz/example.tex",
-                	 	"src": [
-                                        "doc/tikz/example.md"
-                                	],
-                        	"format": tikzFormat,
-                            	"options": tikzOptions
-                    	}),
-		 genLatexCmd(
-		 	**{
-                	 	"src": "tikz/example.tex",
-                        	"options": ["--interaction=batchmode","--output-directory=./tikz/","-synctex=1"],
-                    	}),
-		]
-	}
+# Take each filename in tikz/ ending with .md and add string to tikzFiles
+tikzFiles = [".".join(f[:-1]) for f in map(lambda fn: fn.split("."),
+                                     os.listdir("tikz/")) if f[-1] == 'md']
 
+# Global document object storing all keys with a list of cmdObjs
+docs = { **{
+     "mydoc": [
+         genPandocCmd(
+            **{
+                        "out" : "out/mydoc.tex",
+                        "src" :  [
+                                    "doc/mydoc.md"
+                                    ],
+                        "format": docFormat,
+                        "options": docOptions
+                        }),
+         # Just uncomment to not rerun it each time
+         genBiberCmd(
+            **{
+                        "src" : "out/mydoc",
+                        "options": [],
+                        }),
+         genLatexCmd(
+            **{
+                        "src" : "out/mydoc.tex",
+                        "options": ["-synctex=1",
+                                    "--output-directory=./out/"],
+                            #"options": ["--interaction=batchmode","-synctex=1"],
+                        }),
+        ],
+     # Presentation
+     "mypres": [
+         genPandocCmd(
+            **{
+                        "out" : "out/mypres.tex",
+                        "src" :  [
+                                "pres/mypres.md"
+                                    ],
+                        "format": beamerFormat,
+                        "options": beamerOptions
+                        }),
+         genLatexCmd(
+            **{
+                        "src" : "out/mypres.tex",
+                        "options": ["-synctex=1",
+                                    "--output-directory=./out/"],
+                            #"options": ["--interaction=batchmode","-synctex=1"],
+                        }),
+        ]},
+     # tikzFiles
+     **{
+     key: [
+         genPandocCmd(
+            **{
+                        "out": "out/{key}.tex".format(key=key),
+                        "src": [
+                                "tikz/{key}.md".format(key=key)
+                                    ],
+                        "format": tikzFormat,
+                        "options": tikzOptions,
+                        }),
+             genLatexCmd(
+            **{
+                        "src": "out/{key}.tex".format(key=key),
+                        "options": ["--output-directory=./out/"],
+                        }),
+                 ]
+             for key in tikzFiles
+            }
+    }
+
+
+# Form some groups of keys if desired
 docGroups={}
 docGroups["all"] = it.chain(*(docs[k] for k in docs.keys()))
+docGroups["tikz"] = it.chain(*(docs[k] for k in tikzFiles))
 
 def printUsage():
-	print("Usage:\n")
-	print("\trun.py [DocKey] [-g GroupKey]\n")
-	print("Documets:")
-	for k in docs.keys():
+    print(bold("Usage:"))
+    print("\trun.py [DocKey] [-g GroupKey]\n")
+    print(bold("Documets:"))
+    for k in docs.keys():
             print("\t{k}".format(k=k))
 
-	print("Groups:")
-	for k in docGroups.keys():
-	    print("\t{k}".format(k=k))
+    print("")
+    print(bold("Groups:"))
+    for k in docGroups.keys():
+        print("\t{k}".format(k=k))
 
 def printKeysNotFound(keys):
-    print("Keys not found:")
+    print(bold(red("Keys not found:")))
     for k in keys:
-        print("\t{k}".format(k=k))
+        print(yellow("\t{k}".format(k=k)))
     print("")
-    print("".join(it.repeat("-",40)))
+    print(underline("".join(it.repeat(" ",40))))
     print("")
     printUsage()
+
+
+
+bold = lambda str: "\033[1m" + str + "\033[0m"
+underline= lambda str: "\033[4m" + str + "\033[0m"
+red= lambda str: "\033[31m" + str + "\033[0m"
+yellow= lambda str: "\033[33m" + str + "\033[0m"
 
 
 def main(argv=None):
@@ -202,6 +260,9 @@ def main(argv=None):
     try:
         opts, args = getopt.getopt(argv[1:], "hg:", ["help","group="])
     except getopt.GetoptError as msg:
+        printUsage()
+        sys.exit(2)
+    if(len(argv)==1):
         printUsage()
         sys.exit(2)
     for opt, arg in opts:
@@ -224,6 +285,3 @@ def main(argv=None):
 
 if __name__== "__main__":
     sys.exit(main())
-
-# Run pandoc and latex
-#processCommands([pandocCmd,latexCmd])

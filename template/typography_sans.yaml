@@ -3,29 +3,23 @@
 
 # For pdflatex...
 fontfamily: dejavu
+#fontfamily: dejavu
+#fontfamily: newtxtext
 
 # decide between linestretch or line height
 #linestretch: '1.0'	
 #lineheight: '12pt'
 
 #Xe or LuaLatex
-mainfont: "DejaVu Sans"
-sansfont: "DejaVu Sans"
+mainfont: "Latin Modern Roman"
+#sansfont: "DejaVu Sans"
+sansfont: "Latin Modern Sans"
 
-# For Sansserif font with pdflatex
+# Sans-serif as default font
 familydefault: "\\sfdefault"
 
 # for beamer
 # fonttheme: serif
-
-#mainfont: "TeX Gyre Heros" # Times
-#mainfont: "Latin Modern Roman"
-#mainfont: "Linux Libertine O"
-#fontfamily: dejavusans
-#fontfamily: newtxtext
-#fontfamily: liberation
-#fontfamily: dejavu
-#mathfont: "TeX Gyre Heros"
 
 # Newtxmath
 newtxmath: "yes"
@@ -34,7 +28,6 @@ newtxmathoptions:
 # Xe or LuaLatex if newtxmath is used
 fontspecoptions:
     - "no-math"
-
 
 # Heading styling...
 # not for beamer

@@ -1,6 +1,8 @@
 ---
 documentclass: beamer
-aspectratio: 169
+
+#aspectratio: 169
+#other values 1610, 149, 54, 43 and 32
 
 cref: "yes"
 

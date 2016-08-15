@@ -1,0 +1,13 @@
+"Col1","Col2"
+
+"\vskip \baselineskip
+__Item 1__ 1 Some text...","
+ \vskip 0pt
+ ![](images/Tux.pdf){width=50%}"
+
+"\vskip \baselineskip
+__Item 2__ Some __inline__ _markdown_ possible","
+ \vskip 0pt
+ ![](images/Tux.pdf){width=50%}"
+
+

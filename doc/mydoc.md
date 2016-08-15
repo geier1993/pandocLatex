@@ -10,14 +10,32 @@ date: {command: "today"}
 author-meta: Philipp Geier
 title-meta: example document
 
+bibliography: "bib/mybib.bib"
+
 lol: "yes" # "" to disable
 toc: "yes"
 lof: "yes"
+lot: "yes"
 codeBlockCaptions: "" # "yes" oder "withsomecontent" to enable
 ---
 
 
-# Heading1
+# PandocLatex
+
+This is just a workflow I am using for document creation. Feel free to use and adjust to your needs.
+Markdown and YAML is usd for abstractions.
+
+   * <http://www.pandoc.org/>
+   * <https://github.com/jgm/pandocfilters/>
+   * <https://github.com/jgm/pandoc/wiki/Pandoc-Filters>
+   * <https://github.com/baig/pandoc-csv2table>
+   * <https://github.com/lierdakil/pandoc-crossref>
+   * <https://github.com/diagrams/diagrams-pandoc>
+
+## Todo
+
+   * add letter template
+   * filter for boxes?
 
 ## Heading2 
 
@@ -79,6 +97,13 @@ A reference to a figure [@fig:fig1] using _pandoc-crossref_ filter.
 A figure with subfigures using _pandoc-crossref_ filter
 </div>
 
+<!-- ![Image created with tikz in a separate document](tikz/tikzexample.pdf)
+-->
+
+<!-- a comment, not going to be processed -->
+
+Here is a inline ![](images/icon216x16.png)\ figure.
+
 
 Here is a footnote reference,[^1] and another.[^longnote]
 
@@ -114,6 +139,10 @@ main :: IO ()
 main = putStrLn "Hello World!"
 ```
 
+Reference to a author @johndoe.
+\clearpage
+
+## pandoc-csv2table
 
 Table using _pandoc-csv2table_ to generate a table from csv.
 A table should contain a header for proper coloring.
@@ -131,6 +160,8 @@ $\alpha$,$\beta$,$\gamma$
 ```` 
 
 For csv tables, latex command \label{} must be put in caption, as @tbl:test shows.
+
+![\label{tbl:extern} Table in a external csv myll](doc/table.csv)
 
 # Math options
 

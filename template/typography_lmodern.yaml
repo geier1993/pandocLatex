@@ -10,9 +10,8 @@ fontfamily: lmodern
 
 #Xe or LuaLatex
 mainfont: "Latin Modern Roman"
-#mainfont: "Linux Libertine O"
 
-# For Sansserif font with pdflatex
+# Sans-serif as default font
 #familydefault: "\\sfdefault"
 
 # For beamer

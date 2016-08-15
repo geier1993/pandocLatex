@@ -1,3 +1,4 @@
+$if(lualatex)$\RequirePackage{luatex85}%workaround for standalone documentclass$endif$
 \documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$paper,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 
 \usepackage[x11names,table]{xcolor}
@@ -513,13 +514,25 @@ $endif$
 \tableofcontents
 }
 $endif$
+
 $if(lot)$
+$if(colorlinks)$
+\hypersetup{linkcolor=$if(lotcolor)$$lotcolor$$else$black$endif$}
+$endif$
 \listoftables
 $endif$
+
 $if(lof)$
+$if(colorlinks)$
+\hypersetup{linkcolor=$if(lofcolor)$$lofcolor$$else$black$endif$}
+$endif$
 \listoffigures
 $endif$
+
 $if(lol)$
+$if(colorlinks)$
+\hypersetup{linkcolor=$if(lolcolor)$$lolcolor$$else$black$endif$}
+$endif$
 \listoflistings
 $endif$
 

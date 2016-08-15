@@ -203,7 +203,7 @@ $if(verbatim-in-note)$
 $endif$
 
 $if(caption)$
-\usepackage[$for(captionoptions)$$captionoptions$$sep$,$endfor$]{caption}
+\usepackage[$for(captionoptions)$$captionoptions.option$={$for(captionoptions.values)$$captionoptions.values$$sep$,$endfor$}$sep$,$endfor$]{caption}
 $endif$
 
 $if(tables)$
@@ -353,11 +353,6 @@ $if(author)$
 \author{$for(author)$$author$$sep$ \and $endfor$}
 $endif$
 \date{$if(datestyle)$$datestyle$$endif$ $if(date.command)$\$date.command$$else$$if(date)$$date$$endif$$endif$}
-
-% header.tex mit eigenen Kommandos und Layout-Anpassungen
-\newcommand{\colA}[1]{\begin{columns}[t]\begin{column}{#1}} 
-\newcommand{\colB}[1]{\end{column}\begin{column}{#1}} 
-\newcommand{\colEnd}{\end{column}\end{columns}}
 
 \newcommand{\row}[1]{\begin{columns}[#1]} 
 \newcommand{\col}[1]{\column{#1}} 

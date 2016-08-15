@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 
 """
+https://github.com/jgm/pandocfilters
+
 Pandoc filter to process raw latex tikz environments into images.
 Assumes that pdflatex is in the path, and that the standalone
 package is available.  Also assumes that ImageMagick's convert
 is in the path. Images are put in the tikz-images directory.
+
+More filters
+https://github.com/jgm/pandoc/wiki/Pandoc-Filters
 """
 
 import hashlib
