@@ -227,7 +227,7 @@ docGroups["tikz"] = it.chain(*(docs[k] for k in tikzFiles))
 
 def printUsage():
     print(bold("Usage:"))
-    print("\trun.py [DocKey] [-g GroupKey]\n")
+    print("\t./run [DocKey] [-g GroupKey]\n")
     print(bold("Documets:"))
     for k in docs.keys():
             print("\t{k}".format(k=k))
