@@ -516,24 +516,30 @@ $endif$
 $endif$
 
 $if(lot)$
+{
 $if(colorlinks)$
 \hypersetup{linkcolor=$if(lotcolor)$$lotcolor$$else$black$endif$}
 $endif$
 \listoftables
+}
 $endif$
 
 $if(lof)$
+{
 $if(colorlinks)$
 \hypersetup{linkcolor=$if(lofcolor)$$lofcolor$$else$black$endif$}
 $endif$
 \listoffigures
+}
 $endif$
 
 $if(lol)$
+{
 $if(colorlinks)$
 \hypersetup{linkcolor=$if(lolcolor)$$lolcolor$$else$black$endif$}
 $endif$
 \listoflistings
+}
 $endif$
 
 
