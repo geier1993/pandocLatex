@@ -87,7 +87,7 @@ def adjustLongtableFilter(inputgen):
     #for (ln,lc,l) in inputgen:
     for lobj in inputgen:
         if(lobj.line!=None):
-            lobj.line=re.sub(r'(\\begin){longtable}(\[c\]){@{}([lrc]*)@{}}',
+            lobj.line=re.sub(r'(\\begin){longtable}(\[\w*\]){@{}([lrc]*)@{}}',
                     r'\1{longtable}\2{\3}',lobj.line)
         #yield (ln,lc,l)
         yield lobj
