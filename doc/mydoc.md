@@ -139,6 +139,20 @@ main :: IO ()
 main = putStrLn "Hello World!"
 ```
 
+Table with stuff
+
+-------------------------------------------------------------------------------
+ColLeft                   ColCenter                                    ColRight
+----------------------  ------------------------------  -----------------------
+Line1                   Line1                           Line1
+
+Line2                   Line2                           Line2
+
+![](images/Tux.pdf)     ![](images/Tux.png)             ![](images/Tux.png)
+-------------------------------------------------------------------------------
+
+: Caption of table {#tbl:tableid}
+
 Reference to a author @johndoe.
 \clearpage
 
