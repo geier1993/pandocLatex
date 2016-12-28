@@ -16,7 +16,7 @@ lol: "yes" # "" to disable
 toc: "yes"
 lof: "yes"
 lot: "yes"
-codeBlockCaptions: "" # "yes" oder "withsomecontent" to enable
+
 ---
 
 
