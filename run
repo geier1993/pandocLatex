@@ -90,6 +90,25 @@ tikzOptions= [
     ]
 
 
+# PSGraf files
+# Files generated with PSGraf - separated in .pdf and .tex file - can be placed in PSGrafIN to generate a standalone image
+psgrafFormat = [
+    "template/format_psgraf.yaml",    # Just this is different....
+    "template/color_unihd.yaml",
+    "template/objects.yaml",
+    "template/typography_sans.yaml"
+    ]
+
+psgrafOptions= [
+        "-t latex",
+        "-s ",
+#       "--columns 1",
+        "--template={template}".format(template=template),
+        "--highlight-style={hls}".format(hls=highlightstyle),
+        "--latex-engine={le}".format(le=latexEngine),
+    ]
+
+
 ################
 ### Commands ###
 ################
@@ -145,13 +164,42 @@ def genBiberCmd(src, options):
     )
 
 
+def genPSGrafWrapCmd(out, src, format, options):
+        return cmdObj(
+#"echo \"\\begin{{minipage}}[b]{{2.0\\textwidth}}\\PDFfigure{{}}{{{fn}}}{{}}{{}}{{b}}{{T}}{{f}}\\end{{minipage}}\" > {out}".format(fn=src,out=out),
+#"echo \"\\PDFfigure{{}}{{{fn}}}{{}}{{}}{{b}}{{T}}{{f}}\" > {out}".format(fn=src,out=out),
+"mkdir -p {dir}\n".format(dir=os.path.dirname(out)) +
+"echo \"\\PDFfigureStandaloneSTL{{{fn}}}{{T}}\" > {out}".format(fn=src,out=out),
+            True,
+            before=[(print,("-----\t","Create PSGraf Wrappe File \t{out}\t".format(out=out),"-----"),{})],
+            after =[]
+    )
+
+
+
+
+def recursiveListDir(path):
+    p2 = os.path.dirname(path)
+    for f in os.listdir(p2):
+        fp = p2+'/'+f;
+        if(os.path.isdir(fp)):
+            for f2 in recursiveListDir(fp+'/'):
+                yield fp+'/'+f2
+        else:
+            yield f
+
+
 #################
 ### Documents ###
 #################
 
 # Take each filename in tikz/ ending with .md and add string to tikzFiles
 tikzFiles = [".".join(f[:-1]) for f in map(lambda fn: fn.split("."),
-                                     os.listdir("tikz/")) if f[-1] == 'md']
+                                     recursiveListDir("tikz/")) if f[-1] == 'md']
+
+psgrafFiles = [".".join(f[:-1]) for f in map(lambda fn: fn.split("."),
+                                     recursiveListDir("PSGrafIN/")) if f[-1] == 'pdf']
+
 
 # Global document object storing all keys with a list of cmdObjs
 docs = { **{
@@ -174,6 +222,30 @@ docs = { **{
          genLatexCmd(
             **{
                         "src" : "out/mydoc.tex",
+                        "options": ["-synctex=1",
+                                    "--output-directory=./out/"],
+                            #"options": ["--interaction=batchmode","-synctex=1"],
+                        }),
+        ],
+     "exc1": [
+         genPandocCmd(
+            **{
+                        "out" : "out/exc1.tex",
+                        "src" :  [
+                                    "doc/exc1.md"
+                                    ],
+                        "format": docFormat,
+                        "options": docOptions
+                        }),
+         # Just uncomment to not rerun it each time
+         genBiberCmd(
+            **{
+                        "src" : "out/exc1",
+                        "options": [],
+                        }),
+         genLatexCmd(
+            **{
+                        "src" : "out/exc1.tex",
                         "options": ["-synctex=1",
                                     "--output-directory=./out/"],
                             #"options": ["--interaction=batchmode","-synctex=1"],
@@ -217,6 +289,35 @@ docs = { **{
                         }),
                  ]
              for key in tikzFiles
+            },
+     # psGrafFiles
+     **{
+     key: [
+         genPSGrafWrapCmd(
+            **{
+                        "out": "PSGrafOUT/{key}.md".format(key='/'.join(key.split('/')[1:])),
+                        "src": 
+                                "{key}".format(key=key)
+                                    ,
+                        "format": [],
+                        "options": [],
+                        }),
+         genPandocCmd(
+            **{
+                        "out": "PSGrafOUT/{key}.tex".format(key='/'.join(key.split('/')[1:])),
+                        "src": [
+                                "PSGrafOUT/{key}.md".format(key='/'.join(key.split('/')[1:]))
+                                    ],
+                        "format": psgrafFormat,
+                        "options": psgrafOptions,
+                        }),
+             genLatexCmd(
+            **{
+                        "src": "PSGrafOUT/{key}.tex".format(key='/'.join(key.split('/')[1:])),
+                        "options": ["--output-directory={dir}".format(dir=os.path.dirname('./PSGrafOUT/'+'/'.join(key.split('/')[1:])))],
+                        }),
+                 ]
+             for key in psgrafFiles
             }
     }
 
@@ -225,6 +326,7 @@ docs = { **{
 docGroups={}
 docGroups["all"] = it.chain(*(docs[k] for k in docs.keys()))
 docGroups["tikz"] = it.chain(*(docs[k] for k in tikzFiles))
+docGroups["psgraf"] = it.chain(*(docs[k] for k in psgrafFiles))
 
 def printUsage():
     print(bold("Usage:"))
