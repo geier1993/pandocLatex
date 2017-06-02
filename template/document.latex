@@ -542,6 +542,8 @@ $endif$
 }
 $endif$
 
+%reset leftmark and rightmark
+\markboth{}{}
 
 $if(frontmatter.fancypagestyle)$
 \thispagestyle{$frontmatter.fancypagestyle$}
