@@ -29,6 +29,7 @@ docOptions = [
         "-t latex",
         "-s ",
 #       "--columns 1",
+        "--filter pandoc-include",
         "--filter pandoc-csv2table",
         "--filter pandoc-crossref",
 #   "--filter diagrams-pandoc",
@@ -188,136 +189,168 @@ def recursiveListDir(path):
         else:
             yield f
 
+def recursiveListDirNoFiles(path):
+    p2 = os.path.dirname(path)
+    for f in os.listdir(p2):
+        fp = p2+'/'+f;
+        if(os.path.isdir(fp)):
+            yield(fp)
+            for f2 in recursiveListDirNoFiles(fp+'/'):
+                yield f2
+
 
 #################
 ### Documents ###
 #################
 
 # Take each filename in tikz/ ending with .md and add string to tikzFiles
-tikzFiles = [".".join(f[:-1]) for f in map(lambda fn: fn.split("."),
-                                     recursiveListDir("tikz/")) if f[-1] == 'md']
+filterFilesInDir = lambda d, filterf: (".".join(f[:-1]) for f in map(lambda fn: fn.split("."),
+                                     recursiveListDir(d)) if filterf(f))
+mdFilesInDir = lambda d: filterFilesInDir(d,lambda f: f[-1] == 'md') 
+pdfFilesInDir = lambda d: filterFilesInDir(d,lambda f: f[-1] == 'pdf')
 
-psgrafFiles = [".".join(f[:-1]) for f in map(lambda fn: fn.split("."),
-                                     recursiveListDir("PSGrafIN/")) if f[-1] == 'pdf']
+# Has to end with "/"
+docInDir = "doc/"
+docOutDir = "out/"
+presInDir = "pres/"
+presOutDir = "out/"
+tikzInDir = "tikz/"
+tikzOutDir = "out/"
+psgrafInDir = "PSGrafIN/"
+psgrafOutDir = "PSGrafOUT/"
 
+tikzFiles = mdFilesInDir(tikzInDir) 
+psgrafFiles = pdfFilesInDir(psgrafInDir)
+docFiles = mdFilesInDir(docInDir)
+presFiles = mdFilesInDir(presInDir)
 
 # Global document object storing all keys with a list of cmdObjs
-docs = { **{
-     "mydoc": [
+docs = {
+#    **{
+#    "mydoc": [
+#        genPandocCmd(
+#           **{
+#                       "out" : "out/mydoc.tex",
+#                       "src" :  [
+#                                   "doc/mydoc.md"
+#                                   ],
+#                       "format": docFormat,
+#                       "options": docOptions
+#                       }),
+#        # Just uncomment to not rerun it each time
+#        genBiberCmd(
+#           **{
+#                       "src" : "out/mydoc",
+#                       "options": [],
+#                       }),
+#        genLatexCmd(
+#           **{
+#                       "src" : "out/mydoc.tex",
+#                       "options": ["-synctex=1",
+#                                   "--output-directory=./out/"],
+#                           #"options": ["--interaction=batchmode","-synctex=1"],
+#                       }),
+#       ]},
+     # docFiles
+     **{
+     key: (
          genPandocCmd(
             **{
-                        "out" : "out/mydoc.tex",
-                        "src" :  [
-                                    "doc/mydoc.md"
-                                    ],
+                        "out": docOutDir+key+".tex",
+                        "src": [
+                                docInDir+key+".md",
+                                ],
                         "format": docFormat,
-                        "options": docOptions
+                        "options": docOptions,
                         }),
-         # Just uncomment to not rerun it each time
-         genBiberCmd(
+             # Just uncomment to not rerun it each time
+             genBiberCmd(
+                **{
+                            "src" : docOutDir+key,
+                            "options": [],
+                            }),
+             genLatexCmd(
             **{
-                        "src" : "out/mydoc",
-                        "options": [],
-                        }),
-         genLatexCmd(
-            **{
-                        "src" : "out/mydoc.tex",
-                        "options": ["-synctex=1",
-                                    "--output-directory=./out/"],
+                        "src": docOutDir+key+".tex",
+                        "options": ["--output-directory="+docOutDir],
                             #"options": ["--interaction=batchmode","-synctex=1"],
                         }),
-        ],
-     "exc1": [
+                 )
+             for key in docFiles
+            },
+     # presFiles
+     **{
+     key: (
          genPandocCmd(
             **{
-                        "out" : "out/exc1.tex",
-                        "src" :  [
-                                    "doc/exc1.md"
-                                    ],
-                        "format": docFormat,
-                        "options": docOptions
-                        }),
-         # Just uncomment to not rerun it each time
-         genBiberCmd(
-            **{
-                        "src" : "out/exc1",
-                        "options": [],
-                        }),
-         genLatexCmd(
-            **{
-                        "src" : "out/exc1.tex",
-                        "options": ["-synctex=1",
-                                    "--output-directory=./out/"],
-                            #"options": ["--interaction=batchmode","-synctex=1"],
-                        }),
-        ],
-     # Presentation
-     "mypres": [
-         genPandocCmd(
-            **{
-                        "out" : "out/mypres.tex",
-                        "src" :  [
-                                "pres/mypres.md"
+                        "out": presOutDir+key+".tex",
+                        "src": [
+                                presInDir+key+".md",
                                     ],
                         "format": beamerFormat,
-                        "options": beamerOptions
+                        "options": beamerOptions,
                         }),
-         genLatexCmd(
+             # Just uncomment to not rerun it each time
+             genBiberCmd(
+                **{
+                            "src" : presOutDir+key,
+                            "options": [],
+                            }),
+             genLatexCmd(
             **{
-                        "src" : "out/mypres.tex",
-                        "options": ["-synctex=1",
-                                    "--output-directory=./out/"],
+                        "src": presOutDir+key+".tex",
+                        "options": ["--output-directory="+presOutDir],
                             #"options": ["--interaction=batchmode","-synctex=1"],
                         }),
-        ]},
+                 )
+             for key in presFiles
+            },
      # tikzFiles
      **{
-     key: [
+     key: (
          genPandocCmd(
             **{
-                        "out": "out/{key}.tex".format(key=key),
+                        "out": tikzOutDir+key+".tex",
                         "src": [
-                                "tikz/{key}.md".format(key=key)
+                                tikzInDir+key+".md",
                                     ],
                         "format": tikzFormat,
                         "options": tikzOptions,
                         }),
              genLatexCmd(
             **{
-                        "src": "out/{key}.tex".format(key=key),
-                        "options": ["--output-directory=./out/"],
+                        "src": tikzOutDir+key+".tex",
+                        "options": ["--output-directory="+tikzOutDir],
                         }),
-                 ]
+                 )
              for key in tikzFiles
             },
      # psGrafFiles
      **{
-     key: [
+     key: (
          genPSGrafWrapCmd(
             **{
-                        "out": "PSGrafOUT/{key}.md".format(key='/'.join(key.split('/')[1:])),
-                        "src": 
-                                "{key}".format(key=key)
-                                    ,
+                        "out": psgrafOutDir+fname+".md",
+                        "src": key,
                         "format": [],
                         "options": [],
                         }),
          genPandocCmd(
             **{
-                        "out": "PSGrafOUT/{key}.tex".format(key='/'.join(key.split('/')[1:])),
+                        "out": psgrafOutDir+fname+".tex",
                         "src": [
-                                "PSGrafOUT/{key}.md".format(key='/'.join(key.split('/')[1:]))
+                                psgrafOutDir+fname+".md",
                                     ],
                         "format": psgrafFormat,
                         "options": psgrafOptions,
                         }),
              genLatexCmd(
             **{
-                        "src": "PSGrafOUT/{key}.tex".format(key='/'.join(key.split('/')[1:])),
-                        "options": ["--output-directory={dir}".format(dir=os.path.dirname('./PSGrafOUT/'+'/'.join(key.split('/')[1:])))],
+                        "src": psgrafOutDir+fname+".tex",
+                        "options": ["--output-directory="+os.path.dirname(psgrafOutDir+'/'.join(key.split('/')[1:]))],
                         }),
-                 ]
-             for key in psgrafFiles
+                 )
+             for key in psgrafFiles for fname in ['/'.join(key.split('/')[1:])]
             }
     }
 
@@ -325,8 +358,23 @@ docs = { **{
 # Form some groups of keys if desired
 docGroups={}
 docGroups["all"] = it.chain(*(docs[k] for k in docs.keys()))
+
+docGroups["docs"] = it.chain(*(docs[k] for k in docFiles))
+for d in recursiveListDirNoFiles(docInDir):
+  docGroups[d] = it.chain(*(docs[k] for k in mdFilesInDir(d)))
+
+docGroups["pres"] = it.chain(*(docs[k] for k in presFiles))
+for d in recursiveListDirNoFiles(presInDir):
+  docGroups[d] = it.chain(*(docs[k] for k in mdFilesInDir(d)))
+
 docGroups["tikz"] = it.chain(*(docs[k] for k in tikzFiles))
+for d in recursiveListDirNoFiles(tikzInDir):
+  docGroups[d] = it.chain(*(docs[k] for k in mdFilesInDir(d)))
+
 docGroups["psgraf"] = it.chain(*(docs[k] for k in psgrafFiles))
+for d in recursiveListDirNoFiles(psgrafInDir):
+  docGroups[d] = it.chain(*(docs[k] for k in pdfFilesInDir(d)))
+
 
 def printUsage():
     print(bold("Usage:"))
@@ -339,6 +387,10 @@ def printUsage():
     print(bold("Groups:"))
     for k in docGroups.keys():
         print("\t{k}".format(k=k))
+    print(docs)
+    for d in recursiveListDirNoFiles(psgrafInDir):
+      for k in pdfFilesInDir(d):
+        print(k)
 
 def printKeysNotFound(keys):
     print(bold(red("Keys not found:")))

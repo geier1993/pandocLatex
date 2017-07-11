@@ -1,0 +1,13 @@
+---
+#documentclass: article
+lualatex: "yes" # workaround for standalone class
+psgraf: "yes"
+
+cref: "yes"
+
+psgrafoptions:
+    - ""
+
+documentclass: standalone
+	
+...
