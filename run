@@ -387,10 +387,6 @@ def printUsage():
     print(bold("Groups:"))
     for k in docGroups.keys():
         print("\t{k}".format(k=k))
-    print(docs)
-    for d in recursiveListDirNoFiles(psgrafInDir):
-      for k in pdfFilesInDir(d):
-        print(k)
 
 def printKeysNotFound(keys):
     print(bold(red("Keys not found:")))
