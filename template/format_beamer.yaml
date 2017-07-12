@@ -164,6 +164,14 @@ beamercolor: [
         	]
 
 
+
+# newcommand: [
+# 	{name: "\\rowt", argCount: 1, value: "\\oeu"},
+# 	{name: "\\row", argCount: 1, value: "\\begin{columns}[#1]"},
+# 	{name: "\\col", argCount: 1, value: "\\column{#1}"},
+# 	{name: "\\rowend", value: "\\end{columns}"}
+#       	]
+
 ...
 
 

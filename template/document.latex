@@ -437,6 +437,33 @@ $endfor$
 $endif$
 
 
+
+
+%$if(newenvironment)$
+%$for(newenvironment)$	
+%\newenvironment{$newenvironment.name$}$if(newenvironment.argCount)$[$newenvironment.argCount$]$endif$$if(newenvironment.optional)$[$newenvironment.optional$]$endif${$newenvironment.begin$}{$newenvironment.end$}
+%$endfor$
+%$endif$
+%
+%$if(renewenvironment)$
+%$for(renewenvironment)$	
+%\renewenvironment{$renewenvironment.name$}$if(renewenvironment.argCount)$[$renewenvironment.argCount$]$endif$$if(renewenvironment.optional)$[$renewenvironment.optional$]$endif${$renewenvironment.begin$}{$renewenvironment.end$}
+%$endfor$
+%$endif$
+%
+%$if(newcommand)$
+%$for(newcommand)$	
+%\newcommand{$newcommand.name$}$if(newcommand.argCount)$[$newcommand.argCount$]$endif$$if(newcommand.optional)$[$newcommand.optional$]$endif${$newcommand.value$}
+%$endfor$
+%$endif$
+%
+%$if(renewcommand)$
+%$for(renewcommand)$	
+%\renewcommand{$renewcommand.name$}$if(renewcommand.argCount)$[$renewcommand.argCount$]$endif$$if(renewcommand.optional)$[$renewcommand.optional$]$endif${$renewcommand.value$}
+%$endfor$
+%$endif$
+
+
 $for(header-includes)$
 $header-includes$
 $endfor$

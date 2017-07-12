@@ -13,6 +13,7 @@ tikzlibrary:
     - decorations.pathmorphing
     - decorations.markings
     - intersections
+    - matrix
 
 contour: "yes"
 contouroptions:
