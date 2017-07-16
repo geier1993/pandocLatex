@@ -128,7 +128,13 @@ psgrafOptions= [
 #             (func,(arg1,arg2,arg3),{kw1: karg1, kw2: kwarg2}),
 #             ...
 #                ]
-                
+
+
+def createDirMaybe(name=""):
+  dir=os.path.dirname(name)
+  if not os.path.exists(dir):
+      os.makedirs(dir)
+
 # Convert Markdown to Latex, using a latex template and YAML configuration
 def genPandocCmd(out, src, format, options):
         return cmdObj(
@@ -138,7 +144,9 @@ def genPandocCmd(out, src, format, options):
                 ["-o {out}".format(out=out)] +
                     options),
             True,
-            before=[(print,("-----\t","Pandoc\t{out}\t".format(out=out),"-----"),{})],
+            before=[
+              (createDirMaybe,(),{"name": out}),
+              (print,("-----\t","Pandoc\t{out}\t".format(out=out),"-----"),{})],
             # Adjust appearance of tables and figures
             # applyOnFile is defined in src/pandocLatex.py
             # Each line in file is passed through a list of filters...
@@ -151,7 +159,8 @@ def genLatexCmd(src, options):
         return cmdObj(
             " ".join([latexEngine] + options +[src]),
             True,
-            before=[(print,("-----\t","Latex\t{out}\t".format(out=src),"-----"),{})],
+            before=[
+              (print,("-----\t","Latex\t{out}\t".format(out=src),"-----"),{})],
             after =[]
     )
 
@@ -172,7 +181,9 @@ def genPSGrafWrapCmd(out, src, format, options):
 "mkdir -p {dir}\n".format(dir=os.path.dirname(out)) +
 "echo \"\\PDFfigureStandaloneSTL{{{fn}}}{{T}}\" > {out}".format(fn=src,out=out),
             True,
-            before=[(print,("-----\t","Create PSGraf Wrappe File \t{out}\t".format(out=out),"-----"),{})],
+            before=[
+              (createDirMaybe,(),{"name": out}),
+              (print,("-----\t","Create PSGraf Wrappe File \t{out}\t".format(out=out),"-----"),{})],
             after =[]
     )
 
@@ -185,9 +196,9 @@ def recursiveListDir(path):
         fp = p2+'/'+f;
         if(os.path.isdir(fp)):
             for f2 in recursiveListDir(fp+'/'):
-                yield fp+'/'+f2
+                yield f2
         else:
-            yield f
+            yield fp
 
 def recursiveListDirNoFiles(path):
     p2 = os.path.dirname(path)
@@ -204,7 +215,7 @@ def recursiveListDirNoFiles(path):
 #################
 
 # Take each filename in tikz/ ending with .md and add string to tikzFiles
-filterFilesInDir = lambda d, filterf: (".".join(f[:-1]) for f in map(lambda fn: fn.split("."),
+filterFilesInDir = lambda d, filterf: ("/".join(  (".".join(f[:-1])).split("/")[1:]  ) for f in map(lambda fn: fn.split("."),
                                      recursiveListDir(d)) if filterf(f))
 mdFilesInDir = lambda d: filterFilesInDir(d,lambda f: f[-1] == 'md') 
 pdfFilesInDir = lambda d: filterFilesInDir(d,lambda f: f[-1] == 'pdf')
@@ -219,10 +230,10 @@ tikzOutDir = "out/"
 psgrafInDir = "PSGrafIN/"
 psgrafOutDir = "PSGrafOUT/"
 
-tikzFiles = mdFilesInDir(tikzInDir) 
-psgrafFiles = pdfFilesInDir(psgrafInDir)
-docFiles = mdFilesInDir(docInDir)
-presFiles = mdFilesInDir(presInDir)
+tikzFiles = {"prefix": tikzInDir, "keys": mdFilesInDir(tikzInDir), "suffix": ".md"}
+psgrafFiles = {"prefix": psgrafInDir, "keys": pdfFilesInDir(psgrafInDir), "suffix": ".pdf"}
+docFiles = {"prefix": docInDir, "keys": mdFilesInDir(docInDir), "suffix": ".md"}
+presFiles = {"prefix": presInDir, "keys": mdFilesInDir(presInDir), "suffix": ".md"}
 
 # Global document object storing all keys with a list of cmdObjs
 docs = {
@@ -253,7 +264,7 @@ docs = {
 #       ]},
      # docFiles
      **{
-     key: (
+     keyprefix+key+keysuffix : (
          genPandocCmd(
             **{
                         "out": docOutDir+key+".tex",
@@ -276,11 +287,11 @@ docs = {
                             #"options": ["--interaction=batchmode","-synctex=1"],
                         }),
                  )
-             for key in docFiles
+             for (keyprefix,keys,keysuffix) in [(docFiles["prefix"],docFiles["keys"],docFiles["suffix"])] for key in keys
             },
      # presFiles
      **{
-     key: (
+     keyprefix+key+keysuffix: (
          genPandocCmd(
             **{
                         "out": presOutDir+key+".tex",
@@ -303,11 +314,11 @@ docs = {
                             #"options": ["--interaction=batchmode","-synctex=1"],
                         }),
                  )
-             for key in presFiles
+             for (keyprefix,keys,keysuffix) in [(presFiles["prefix"],presFiles["keys"],presFiles["suffix"])] for key in keys
             },
      # tikzFiles
      **{
-     key: (
+     keyprefix+key+keysuffix: (
          genPandocCmd(
             **{
                         "out": tikzOutDir+key+".tex",
@@ -323,34 +334,34 @@ docs = {
                         "options": ["--output-directory="+tikzOutDir],
                         }),
                  )
-             for key in tikzFiles
+             for (keyprefix,keys,keysuffix) in [(tikzFiles["prefix"],tikzFiles["keys"],tikzFiles["suffix"])] for key in keys
             },
      # psGrafFiles
      **{
-     key: (
+     keyprefix+key+keysuffix: (
          genPSGrafWrapCmd(
             **{
-                        "out": psgrafOutDir+fname+".md",
-                        "src": key,
+                        "out": psgrafOutDir+key+".md",
+                        "src": keyprefix+key,
                         "format": [],
                         "options": [],
                         }),
          genPandocCmd(
             **{
-                        "out": psgrafOutDir+fname+".tex",
+                        "out": psgrafOutDir+key+".tex",
                         "src": [
-                                psgrafOutDir+fname+".md",
+                                psgrafOutDir+key+".md",
                                     ],
                         "format": psgrafFormat,
                         "options": psgrafOptions,
                         }),
              genLatexCmd(
             **{
-                        "src": psgrafOutDir+fname+".tex",
+                        "src": psgrafOutDir+key+".tex",
                         "options": ["--output-directory="+os.path.dirname(psgrafOutDir+'/'.join(key.split('/')[1:]))],
                         }),
                  )
-             for key in psgrafFiles for fname in ['/'.join(key.split('/')[1:])]
+             for (keyprefix,keys,keysuffix) in [(psgrafFiles["prefix"],psgrafFiles["keys"],psgrafFiles["suffix"])] for key in keys
             }
     }
 
@@ -359,21 +370,21 @@ docs = {
 docGroups={}
 docGroups["all"] = it.chain(*(docs[k] for k in docs.keys()))
 
-docGroups["docs"] = it.chain(*(docs[k] for k in docFiles))
+docGroups["docs"] = it.chain(*(docs[docFiles["prefix"]+k+docFiles["suffix"]] for k in docFiles["keys"]))
 for d in recursiveListDirNoFiles(docInDir):
-  docGroups[d] = it.chain(*(docs[k] for k in mdFilesInDir(d)))
+  docGroups[d] = it.chain(*(docs[docFiles["prefix"]+k+docFiles["suffix"]] for k in mdFilesInDir(d)))
 
-docGroups["pres"] = it.chain(*(docs[k] for k in presFiles))
+docGroups["pres"] = it.chain(*(docs[presFiles["prefix"]+k+presFiles["suffix"]] for k in presFiles["keys"]))
 for d in recursiveListDirNoFiles(presInDir):
-  docGroups[d] = it.chain(*(docs[k] for k in mdFilesInDir(d)))
+  docGroups[d] = it.chain(*(docs[presFiles["prefix"]+k+presFiles["suffix"]] for k in mdFilesInDir(d)))
 
-docGroups["tikz"] = it.chain(*(docs[k] for k in tikzFiles))
+docGroups["tikz"] = it.chain(*(docs[tikzFiles["prefix"]+k+tikzFiles["suffix"]] for k in tikzFiles["keys"]))
 for d in recursiveListDirNoFiles(tikzInDir):
-  docGroups[d] = it.chain(*(docs[k] for k in mdFilesInDir(d)))
+  docGroups[d] = it.chain(*(docs[tikzFiles["prefix"]+k+tikzFiles["suffix"]] for k in mdFilesInDir(d)))
 
-docGroups["psgraf"] = it.chain(*(docs[k] for k in psgrafFiles))
+docGroups["psgraf"] = it.chain(*(docs[psGrafFiles["prefix"]+k+psgrafFiles["suffix"]] for k in psgrafFiles["keys"]))
 for d in recursiveListDirNoFiles(psgrafInDir):
-  docGroups[d] = it.chain(*(docs[k] for k in pdfFilesInDir(d)))
+  docGroups[d] = it.chain(*(docs[psgrafFiles["prefix"]+k+psgrafFiles["suffix"]] for k in pdfFilesInDir(d)))
 
 
 def printUsage():
