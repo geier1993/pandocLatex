@@ -222,13 +222,13 @@ pdfFilesInDir = lambda d: filterFilesInDir(d,lambda f: f[-1] == 'pdf')
 
 # Has to end with "/"
 docInDir = "doc/"
-docOutDir = "out/"
+docOutDir = "out/doc/"
 presInDir = "pres/"
-presOutDir = "out/"
+presOutDir = "out/pres/"
 tikzInDir = "tikz/"
-tikzOutDir = "out/"
-psgrafInDir = "PSGrafIN/"
-psgrafOutDir = "PSGrafOUT/"
+tikzOutDir = "out/tikz/"
+psgrafInDir = "PSGraf/"
+psgrafOutDir = "out/PSGraf"
 
 tikzFiles = {"prefix": tikzInDir, "keys": mdFilesInDir(tikzInDir), "suffix": ".md"}
 psgrafFiles = {"prefix": psgrafInDir, "keys": pdfFilesInDir(psgrafInDir), "suffix": ".pdf"}
