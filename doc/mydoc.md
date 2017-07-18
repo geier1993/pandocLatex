@@ -11,6 +11,9 @@ author-meta: Philipp Geier
 title-meta: example document
 
 bibliography: "bib/mybib.bib"
+                                                                      
+biblatexoptions:
+  - "backend=biber"
 
 lol: "yes" # "" to disable
 toc: "yes"

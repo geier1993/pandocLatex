@@ -211,8 +211,9 @@ $if(natbib)$
 $endif$
 
 $if(biblatex)$
-\usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
-$if(biblatexoptions)$\ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}$endif$
+%\usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
+\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$if(biblatexoptions)$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$$endif$]{biblatex}
+%$if(biblatexoptions)$\ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}$endif$
 $for(bibliography)$
 \addbibresource{$bibliography$}
 $endfor$

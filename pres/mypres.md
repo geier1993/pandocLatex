@@ -5,6 +5,11 @@ author:
     - some more authors
 date: {command: "today"}
 
+bibliography: "bib/mybib.bib"
+
+biblatexoptions:
+  - "backend=biber"
+
 toc: "yes"
 fontsize: "8pt"
 aspectratio: "43"

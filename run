@@ -68,6 +68,7 @@ beamerOptions = [
         "--highlight-style={hls}".format(hls=highlightstyle),
         "--latex-engine={le}".format(le=latexEngine),
         "--number-sections",
+        "--biblatex",
         "-M synctex:yes"
     ]
 
