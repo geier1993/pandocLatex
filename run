@@ -59,6 +59,7 @@ beamerOptions = [
         "-s ",
 #        "-o {out}".format(out=texFile),
 #       "--columns 1",
+        "--filter pandoc-include",
         "--filter pandoc-csv2table",
         "--filter pandoc-crossref",
 #       "--filter diagrams-pandoc",
