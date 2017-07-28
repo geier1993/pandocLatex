@@ -188,3 +188,14 @@ $\mathrm{A little text}$,$\mathit{A little text}$,$\bm{A little text}$,$\mathbbm
 $\mathrm{\nabla \cdot \nabla}$,$\mathit{\nabla \cdot \nabla}$,$\bm{\nabla \cdot \nabla}$,$\mathbbm{\nabla \cdot \nabla}$
 $\mathrm{\alpha \times 3}$,$\mathit{\alpha \times 3}$,$\bm{\alpha \times 3}$,$\mathbbm{\alpha \times 1}$
 ```` 
+
+Use $\widetilde{widetilde}$ for simple stuff like $\widetilde{f}$.
+Use $\widehat{widehat}$ for simple stuff like $\widehat{f}$.
+Use mathcal for stuff like $\mathcal{L}$.
+
+$$
+  \llbracket     1 \rrbracket       \quad
+  \llparenthesis 2 \rrparenthesis   \quad
+  \llceil        3 \rrceil          \quad
+  \llfloor       4 \rrfloor         \quad
+$$

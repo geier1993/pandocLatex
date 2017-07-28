@@ -103,6 +103,7 @@ $endif$
 \usepackage{amsthm}% must be loaded before newtxmath
 \usepackage{mathtools}
 \usepackage{bm,bbm} % boldmath and mathbbm (e.g. for \mathbbm{1}
+\usepackage{stmaryrd} % \llbracket \rrbracket, \llparenthesis, \llceil, \llfloor
 
 $if(newtxmath)$
  \usepackage[$for(newtxmathoptions)$$newtxmathoptions$$sep$,$endfor$]{newtxmath}
