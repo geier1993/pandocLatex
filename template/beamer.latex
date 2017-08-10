@@ -5,8 +5,16 @@
 \setbeamercolor{progress bar progress}{use=progress bar,bg=progress bar.fg}
 \defbeamertemplate{footline}{progress bar}{
   \dimen0=\paperwidth
+
+  % fixing arithmetic overflow
+  \divide\dimen0 by 1000
+
   \multiply\dimen0 by \insertframenumber
   \divide\dimen0 by \inserttotalframenumber
+
+  % fixing arithmetic overflow
+  \multiply\dimen0 by 1000
+
   \edef\progressbarwidth{\the\dimen0}
 
   \leavevmode%
