@@ -19,7 +19,8 @@ darkercolor: [
 
 colorlet: [
  	#{name: "shadecolor", value: "lightsecondarycolor"}
- 	{name: "captioncolor", value: "pentagray"}
+ 	{name: "captioncolor", value: "pentagray"},
+ 	{name: "backgroundcolor", value: "white"}
 	]
 
 linkcolor: "primarycolor"

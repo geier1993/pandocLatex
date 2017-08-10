@@ -154,13 +154,14 @@ beamertemplate: [
         	]
 
 beamercolor: [
-		{object: "progress bar",   value: "fg=primarycolor,bg=white"},
+		{object: "progress bar",   value: "fg=primarycolor,bg=backgroundcolor"},
 		{object: "title",   value: "fg=primarycolor"},
 		{object: "frametitle",   value: "fg=primarycolor"},
 		{object: "structure",   value: "fg=primarycolor"},
 		{object: "itemize item",   value: "fg=secondarycolor"},
 		{object: "itemize subitem",   value: "fg=secondarycolor"},
 		{object: "itemize subsubitem",   value: "fg=secondarycolor"},
+		{object: "background canvas",   value: "bg=backgroundcolor"},
         	]
 
 

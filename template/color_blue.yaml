@@ -18,7 +18,8 @@ darkercolor: [
 
 colorlet: [
 # 	{name: "shadecolor", value: "lightsecondarycolor"}
- 	{name: "captioncolor", value: "black"}
+ 	{name: "captioncolor", value: "black"},
+ 	{name: "backgroundcolor", value: "white"}
 	]
 
 
