@@ -136,5 +136,7 @@ fancypagestyles: [
         }
 	]
 
+chaptermark: "\\markboth{\\arabic{chapter}.\ #1}{}"
+sectionmark: "\\markright{\\arabic{chapter}.\\arabic{section}\ #1}"
 ...
 

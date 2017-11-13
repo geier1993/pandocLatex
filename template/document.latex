@@ -311,6 +311,16 @@ $if(chapterpagestyle)$
 \patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{$chapterpagestyle$}}{}{}
 $endif$
 
+$if(chaptermark)$
+\renewcommand{\chaptermark}[1]{$chaptermark$}
+$endif$
+$if(sectionmark)$
+\renewcommand{\sectionmark}[1]{$sectionmark$}
+$endif$
+%\renewcommand{\chaptermark}[1]{\markboth{\arabic{chapter}.\ #1}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\arabic{chapter}.\arabic{section}\ #1}}
+
+
 $if(tables)$
 %\usepackage{ltablex,booktabs}
 \usepackage{longtable,booktabs}
