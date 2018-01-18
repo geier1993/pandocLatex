@@ -83,7 +83,7 @@ Definition list
         $$
 
 
-![A figure](images/Tux.pdf){#fig:fig1 width=50%}
+![\[Short Caption\] A figure](images/Tux.pdf "Some more text"){#fig:fig1 width=50%}
 
 A reference to a figure [@fig:fig1] using _pandoc-crossref_ filter.
 

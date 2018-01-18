@@ -37,12 +37,12 @@ docOptions = [
         "--filter pandoc-citeproc",
         "--template={template}".format(template=template),
         "--highlight-style={hls}".format(hls=highlightstyle),
-        "--latex-engine={le}".format(le=latexEngine),
+        "--pdf-engine={le}".format(le=latexEngine),
         "--number-sections",
         "--biblatex",
 #        "--chapter",
 #        "-M synctex:yes"
-        "-M codeBlockCaptions:yes"
+        "-M codeBlockCaptions:yes",
     ]
 
 
@@ -67,7 +67,7 @@ beamerOptions = [
         "--filter pandoc-citeproc",
         "--template={template}".format(template=beamer),
         "--highlight-style={hls}".format(hls=highlightstyle),
-        "--latex-engine={le}".format(le=latexEngine),
+        "--pdf-engine={le}".format(le=latexEngine),
         "--number-sections",
         "--biblatex",
         "-M synctex:yes"
@@ -89,7 +89,7 @@ tikzOptions= [
 #       "--columns 1",
         "--template={template}".format(template=template),
         "--highlight-style={hls}".format(hls=highlightstyle),
-        "--latex-engine={le}".format(le=latexEngine),
+        "--pdf-engine={le}".format(le=latexEngine),
     ]
 
 
@@ -108,7 +108,7 @@ psgrafOptions= [
 #       "--columns 1",
         "--template={template}".format(template=template),
         "--highlight-style={hls}".format(hls=highlightstyle),
-        "--latex-engine={le}".format(le=latexEngine),
+        "--pdf-engine={le}".format(le=latexEngine),
     ]
 
 
@@ -153,7 +153,7 @@ def genPandocCmd(out, src, format, options):
             # applyOnFile is defined in src/pandocLatex.py
             # Each line in file is passed through a list of filters...
             #after =[(applyOnFile, ([adjustLongtableFilter,centerFigureFilter],texFile) ,{})]
-            after =[(applyOnFile, ([adjustLongtableFilter,adjustBeamerFootnote],out) ,{})]
+            after =[(applyOnFile, ([adjustLongtableFilter,adjustBeamerFootnote,adjustFigureCaption],out) ,{})]
     )
 
 # Run latex

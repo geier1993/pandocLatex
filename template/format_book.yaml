@@ -1,7 +1,7 @@
 ---
 documentclass: book
 
-cref: "yes"
+#cref: "yes"
 
 #lang: "de"
 

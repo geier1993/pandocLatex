@@ -3,7 +3,7 @@
 lualatex: "yes" # workaround for standalone class
 psgraf: "yes"
 
-cref: "yes"
+#cref: "yes"
 
 psgrafoptions:
     - ""

@@ -92,6 +92,16 @@ def adjustLongtableFilter(inputgen):
         #yield (ln,lc,l)
         yield lobj
 
+# editor: https://regex101.com
+def adjustFigureCaption(inputgen):
+    #for (ln,lc,l) in inputgen:
+    for lobj in inputgen:
+        if(lobj.line!=None):
+            lobj.line=re.sub(r'(\\caption){{\[}(.+?(?={\]})){\]}',
+                    r'\1[\2]{',lobj.line)
+        #yield (ln,lc,l)
+        yield lobj
+
 
 
 # Command Object 

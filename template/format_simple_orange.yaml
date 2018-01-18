@@ -1,7 +1,7 @@
 ---
 documentclass: article
 
-cref: "yes"
+#cref: "yes"
 
 #lang: "de"
 
