@@ -1,0 +1,69 @@
+%% Creator: Inkscape inkscape 0.92.2, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'InstrumentProcesses.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{451.60400391bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.44797783)%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{InstrumentProcesses.pdf}}%
+    \put(0.09209038,0.34188006){\color[rgb]{1,0.49803922,0.16470588}\makebox(0,0)[lt]{\begin{minipage}{0.3055515\unitlength}\raggedright Action\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{InstrumentProcesses.pdf}}%
+    \put(0.47224574,0.48265433){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.28025105\unitlength}\raggedright \end{minipage}}}%
+    \put(0.42683469,0.47227466){\color[rgb]{0.83137255,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.45670542\unitlength}\raggedright Information\end{minipage}}}%
+    \put(0.29773756,0.51184714){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.31787735\unitlength}\raggedright \end{minipage}}}%
+    \put(0.05835647,0.21018802){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.29452309\unitlength}\raggedright Distribution\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{InstrumentProcesses.pdf}}%
+    \put(0.33017403,0.07200868){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.73111791\unitlength}\centering Reduction \& Composition\\ (products and sums of information)\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{InstrumentProcesses.pdf}}%
+    \put(0.11536355,0.15927062){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.45735415\unitlength}\raggedright Reaction\\ \end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{InstrumentProcesses.pdf}}%
+    \put(0.60520497,0.39356782){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.27376376\unitlength}\centering ...\\ more\\ branches\\ ...\end{minipage}}}%
+    \put(0.70900166,0.23398041){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.32890575\unitlength}\raggedright information feedback\\ (default: equilibrated\\  with environment)\end{minipage}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{InstrumentProcesses.pdf}}%
+    \put(0,0.11200221){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.47097747\unitlength}\raggedright accustomed on frequent similar information feedback\\  - similar: precision (limits) \&\\    (in)distinguishability\end{minipage}}}%
+  \end{picture}%
+\endgroup%

@@ -112,6 +112,23 @@ psgrafOptions= [
     ]
 
 
+inkscapeFormat = [
+    "template/format_inkscape.yaml",    # Just this is different....
+    "template/color_unihd.yaml",
+    "template/objects.yaml",
+    "template/typography_sans.yaml"
+    ]
+
+inkscapeOptions= [
+        "-t latex",
+        "-s ",
+#       "--columns 1",
+        "--template={template}".format(template=template),
+        "--highlight-style={hls}".format(hls=highlightstyle),
+        "--pdf-engine={le}".format(le=latexEngine),
+    ]
+
+
 ################
 ### Commands ###
 ################
@@ -157,13 +174,14 @@ def genPandocCmd(out, src, format, options):
     )
 
 # Run latex
-def genLatexCmd(src, options):
+def genLatexCmd(src, options, pushDir=""):
         return cmdObj(
             " ".join([latexEngine] + options +[src]),
             True,
             before=[
               (print,("-----\t","Latex\t{out}\t".format(out=src),"-----"),{})],
-            after =[]
+            after =[],
+            pushDir =pushDir
     )
 
 # Run biber
@@ -185,7 +203,20 @@ def genPSGrafWrapCmd(out, src, format, options):
             True,
             before=[
               (createDirMaybe,(),{"name": out}),
-              (print,("-----\t","Create PSGraf Wrappe File \t{out}\t".format(out=out),"-----"),{})],
+              (print,("-----\t","Create PSGraf Wrapper File \t{out}\t".format(out=out),"-----"),{})],
+            after =[]
+    )
+
+
+
+def genInkscapeWrapCmd(out, src, format, options):
+        return cmdObj(
+"mkdir -p {dir}\n".format(dir=os.path.dirname(out)) +
+"echo \"\\input{{{fn}}}\" > {out}".format(fn=src,out=out),
+            True,
+            before=[
+              (createDirMaybe,(),{"name": out}),
+              (print,("-----\t","Create Inkscape Wrapper File \t{out}\t".format(out=out),"-----"),{})],
             after =[]
     )
 
@@ -221,6 +252,9 @@ filterFilesInDir = lambda d, filterf: ("/".join(  (".".join(f[:-1])).split("/")[
                                      recursiveListDir(d)) if filterf(f))
 mdFilesInDir = lambda d: filterFilesInDir(d,lambda f: f[-1] == 'md') 
 pdfFilesInDir = lambda d: filterFilesInDir(d,lambda f: f[-1] == 'pdf')
+pdfTexFilesInDir = lambda d: filterFilesInDir(d,lambda f: f[-1] == 'pdf_tex')
+
+splitPathFile = lambda d: (lambda sl: ( '/'.join(sl[:-1]), sl[-1]))(d.split('/'))
 
 # Has to end with "/"
 docInDir = "doc/"
@@ -231,9 +265,12 @@ tikzInDir = "tikz/"
 tikzOutDir = "out/tikz/"
 psgrafInDir = "PSGraf/"
 psgrafOutDir = "out/PSGraf"
+inkscapeInDir = "Inkscape/"
+inkscapeOutDir = "out/Inkscape"
 
 tikzFiles = {"prefix": tikzInDir, "keys": mdFilesInDir(tikzInDir), "suffix": ".md"}
 psgrafFiles = {"prefix": psgrafInDir, "keys": pdfFilesInDir(psgrafInDir), "suffix": ".pdf"}
+inkscapeFiles = {"prefix": inkscapeInDir, "keys": pdfTexFilesInDir(inkscapeInDir), "suffix": ".pdf_tex"}
 docFiles = {"prefix": docInDir, "keys": mdFilesInDir(docInDir), "suffix": ".md"}
 presFiles = {"prefix": presInDir, "keys": mdFilesInDir(presInDir), "suffix": ".md"}
 
@@ -343,27 +380,56 @@ docs = {
      keyprefix+key+keysuffix: (
          genPSGrafWrapCmd(
             **{
-                        "out": psgrafOutDir+key+".md",
+                        "out": psgrafOutDir+'/'+key+".md",
                         "src": keyprefix+key,
                         "format": [],
                         "options": [],
                         }),
          genPandocCmd(
             **{
-                        "out": psgrafOutDir+key+".tex",
+                        "out": psgrafOutDir+'/'+key+".tex",
                         "src": [
-                                psgrafOutDir+key+".md",
+                                psgrafOutDir+'/'+key+".md",
                                     ],
                         "format": psgrafFormat,
                         "options": psgrafOptions,
                         }),
              genLatexCmd(
             **{
-                        "src": psgrafOutDir+key+".tex",
-                        "options": ["--output-directory="+os.path.dirname(psgrafOutDir+'/'.join(key.split('/')[1:]))],
+                        "src": psgrafOutDir+'/'+key+".tex",
+                        #"options": ["--output-directory="+os.path.dirname(psgrafOutDir+'/'.join(key.split('/')[1:]))],
+                        "options": ["--output-directory="+os.path.dirname(psgrafOutDir+'/'+key)],
                         }),
                  )
              for (keyprefix,keys,keysuffix) in [(psgrafFiles["prefix"],psgrafFiles["keys"],psgrafFiles["suffix"])] for key in keys
+            },
+     # inkscapeFiles
+     **{
+     keyprefix+fullkey+keysuffix: (
+         genInkscapeWrapCmd(
+            **{
+                        "out": inkscapeOutDir+'/'+fullkey+".md",
+                        "src": key+keysuffix,
+                        "format": [],
+                        "options": [],
+                        }),
+         genPandocCmd(
+            **{
+                        "out": inkscapeOutDir+'/'+fullkey+".tex",
+                        "src": [
+                                inkscapeOutDir+'/'+fullkey+".md",
+                                    ],
+                        "format": inkscapeFormat,
+                        "options": inkscapeOptions,
+                        }),
+             genLatexCmd(
+            **{
+                        "src": os.path.abspath(inkscapeOutDir+'/'+fullkey+".tex"),
+                        "options": ["--output-directory="+os.path.abspath(os.path.dirname(inkscapeOutDir+'/'+fullkey))],
+                        "pushDir": os.path.abspath(keyprefix+keydir) 
+                        }),
+                 )
+             for (keyprefix,keys,keysuffix) in [(inkscapeFiles["prefix"],inkscapeFiles["keys"],inkscapeFiles["suffix"])] for fullkey in keys for (keydir,key) in [splitPathFile(fullkey)]
             }
     }
 

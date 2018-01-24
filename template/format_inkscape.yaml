@@ -1,0 +1,14 @@
+---
+#documentclass: article
+lualatex: "yes" # workaround for standalone class
+inkscape: "yes"
+
+#cref: "yes"
+
+inkscapepackages: [
+#    {package: "package" , options: [...]}
+    ]
+
+documentclass: standalone
+	
+...

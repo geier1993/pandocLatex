@@ -106,12 +106,13 @@ def adjustFigureCaption(inputgen):
 
 # Command Object 
 class cmdObj(object):
-      __slots__ = ('cmd', 'shellOutput','before','after')
-      def __init__(self, cmd, shellOutput=True,before=[],after=[]):
+      __slots__ = ('cmd', 'shellOutput','before','after','pushDir')
+      def __init__(self, cmd, shellOutput=True,before=[],after=[],pushDir=""):
                self.cmd = cmd
                self.shellOutput = shellOutput
                self.before = before
                self.after  = after
+               self.pushDir = pushDir
 
       def __repr__(self):
           return ("Cmd:\t%s, ShellOutput:\t%s" % (self.cmd,self.shellOutput))
@@ -124,9 +125,12 @@ def processCommands(cmdObjs):
             func(*args,**kwargs)
 
     for cmdObj in cmdObjs:
+        rcmd = cmdObj.cmd
+        if(cmdObj.pushDir!=""):
+          rcmd = "pushd " + cmdObj.pushDir + " && pwd && " + cmdObj.cmd + " && popd"
         __processFunccalls__(cmdObj.before)
         if(cmdObj.shellOutput):
-            print(cmdObj.cmd)
-        sp.call(cmdObj.cmd,shell=cmdObj.shellOutput)
+            print(rcmd)
+        sp.call(rcmd,shell=cmdObj.shellOutput)
         __processFunccalls__(cmdObj.after)
 

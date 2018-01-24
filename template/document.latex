@@ -500,6 +500,10 @@ $if(psgraf)$
 \usepackage{PSgraf_standalone}
 $endif$
 
+$if(inkscape)$
+$for(inkscapepackages)$\usepackage[$for(inkscapepackages.options)$$inkscapepackages.options$$sep$,$endfor$]{$inkscapepackages.package$}$endfor$
+$endif$
+
 $if(contour)$
 \usepackage[$for(contouroptions)$$contouroptions$$sep$,$endfor$]{contour}
 $endif$
