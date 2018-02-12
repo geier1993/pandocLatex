@@ -11,6 +11,12 @@ fontfamily: lmodern
 #Xe or LuaLatex
 mainfont: "Latin Modern Roman"
 
+mainfontoptions:
+  - \dummy{Ligatures=TeX}
+  - \dummy{SmallCapsFont={Latin Modern Roman Caps}}
+  - \dummy{SlantedFont={* Slanted}}
+  - \dummy{ItalicFeatures  = {SmallCapsFont = { LMRomanCaps10-Oblique}}}
+
 # Sans-serif as default font
 #familydefault: "\\sfdefault"
 
