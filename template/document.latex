@@ -3,6 +3,19 @@ $if(lualatex)$\RequirePackage{luatex85}%workaround for standalone documentclass$
 
 \usepackage[x11names,table]{xcolor}
 
+\makeatletter
+\newcommand*{\cleartoleftpage}{%
+  \clearpage
+    \if@twoside
+    \ifodd\c@page
+      \hbox{}\newpage
+      \if@twocolumn
+        \hbox{}\newpage
+      \fi
+    \fi
+  \fi
+}
+\makeatother
 
 $if(synctex)$
 \synctex=1
@@ -501,8 +514,8 @@ $endif$
 
 
 \newenvironment{abstractpage}
-  {\cleardoublepage$if(abstractpagestyle)$\thispagestyle{$abstractpagestyle$}$endif$}
-  {\vfill\cleardoublepage}
+  {\clearpage\cleartoleftpage$if(abstractpagestyle)$\thispagestyle{$abstractpagestyle$}$endif$}
+  {\vfill\clearpage}
 \newenvironment{abstracts}[1]
   {\bigskip\begin{otherlanguage}{#1}%
    \small\begin{center}\bfseries\abstractname\vspace{-.5em}\vspace{0pt}\end{center}\quotation}
@@ -621,40 +634,6 @@ $if(frontmatter.pagenumbering)$\pagenumbering{$frontmatter.pagenumbering$}$endif
 $if(frontmatter.counter)$\setcounter{page}{$frontmatter.counter$}$endif$
 
 
-$if(prologuepagestyle)$
-\pagestyle{$prologuepagestyle$}
-$endif$
-
-$if(spruch)$
-\vspace*{4cm}
-\begin{flushright}
-\begin{minipage}[]{90mm}
-$spruch$
-\end{minipage}
-\end{flushright}
-\cleardoublepage
-$endif$
-
-$if(acknowledgements)$
-\chapter*{$acknowledgements.heading$}
-$if(prologuepagestyle)$\thispagestyle{$prologuepagestyle$}$endif$
-$acknowledgements.text$
-$if(acknowledgements.author)$
-\hspace{5cm}
-\begin{flushright}$acknowledgements.author$\end{flushright}
-$endif$
-{\slshape
-$if(acknowledgements.place)$
-$acknowledgements.place$
-$endif$
-\\
-$if(acknowledgements.date)$
-$acknowledgements.date$
-$endif$
-}
-\cleardoublepage
-$endif$
-
 $if(abstractpage)$
 \begin{abstractpage}
 $endif$
@@ -718,6 +697,49 @@ $if(abstractpage)$
 \end{abstractpage}
 $endif$
 
+$if(prologuepagestyle)$
+\pagestyle{$prologuepagestyle$}
+$endif$
+
+
+
+$if(spruch)$
+\cleardoublepage
+\vspace*{4cm}
+\begin{flushright}
+\begin{minipage}[]{90mm}
+$spruch$
+\end{minipage}
+\end{flushright}
+%\cleardoublepage
+$endif$
+
+$if(acknowledgements)$
+$if(acknowledgements.lang)$
+\begin{otherlanguage}{$acknowledgements.lang$}
+$endif$
+\chapter*{$acknowledgements.heading$}
+$if(prologuepagestyle)$\thispagestyle{$prologuepagestyle$}$endif$
+$acknowledgements.text$
+$if(acknowledgements.author)$
+\hspace{5cm}
+\begin{flushright}$acknowledgements.author$\end{flushright}
+$endif$
+{\slshape
+$if(acknowledgements.place)$
+$acknowledgements.place$
+$endif$
+\\
+$if(acknowledgements.date)$
+$acknowledgements.date$
+$endif$
+}
+$if(acknowledgements.lang)$
+\end{otherlanguage}
+$endif$
+%\cleardoublepage
+$endif$
+
 $for(include-before)$
 $include-before$
 $endfor$
@@ -729,7 +751,7 @@ $if(colorlinks)$
 $endif$
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
-\cleardoublepage
+%\cleardoublepage
 }
 $endif$
 
@@ -739,7 +761,7 @@ $if(colorlinks)$
 \hypersetup{linkcolor=$if(lotcolor)$$lotcolor$$else$black$endif$}
 $endif$
 \listoftables
-\cleardoublepage
+%\cleardoublepage
 }
 $endif$
 
@@ -749,7 +771,7 @@ $if(colorlinks)$
 \hypersetup{linkcolor=$if(lofcolor)$$lofcolor$$else$black$endif$}
 $endif$
 \listoffigures
-\cleardoublepage
+%\cleardoublepage
 }
 $endif$
 
@@ -759,7 +781,8 @@ $if(colorlinks)$
 \hypersetup{linkcolor=$if(lolcolor)$$lolcolor$$else$black$endif$}
 $endif$
 \listoflistings
-\cleardoublepage
+%\cleardoublepage
+%\cleardoublepage
 }
 $endif$
 
@@ -767,17 +790,24 @@ $endif$
 $if(glossary)$
 {
 \printglossaries
-\cleardoublepage
+%\cleardoublepage
+%\clearpage
 }
 $endif$
 
 $if(dedication)$
 {
-\vspace*{\fill}
-\begin{center}
-{\Large\slshape $dedication$}
-\end{center}
-\vspace*{\fill}
+\clearpage
+\cleartoleftpage
+$if(dedication.environment)$
+\begin{$dedication.environment$}
+$endif$
+\null\vspace{\stretch{1}}
+{\Large\slshape $dedication.text$}
+\vspace{\stretch{2}}\null
+$if(dedication.environment)$
+\end{$dedication.environment$}
+$endif$
 \cleardoublepage
 }
 $endif$

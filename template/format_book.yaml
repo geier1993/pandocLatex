@@ -33,7 +33,7 @@ frontmatter: {
 	clearaftertitle: "y",
 	startfrontmatter: "y",
 	pagenumbering: "roman",
-	counter: "1",
+	counter: "2",
 	clearafterfrontmatter: "y",
 	fancypagestyle: "frontmatterstyle",
 	}

@@ -30,10 +30,13 @@ workgroup:  Simulating Reciprocal Destruction
 workdegree: Candidature for Master In Beeing A Child
 year: 2018
       
-dedication: Dedicated to ...
+dedication: 
+  environment: "flushright"
+  text: Dedicated to ...
 
 acknowledgements:
   heading: "\\slshape Acknowledgements"
+  lang: "english"
   place: "Somewhere, Earth"
   author: "Mullah Nassr Eddin"
   date: "\\today"

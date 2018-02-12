@@ -30,10 +30,10 @@ classoption:
 
    
 frontmatter: {
-	clearaftertitle: "",
+	clearaftertitle: "y",
 #	startfrontmatter: "",
 	pagenumbering: "roman",
-	counter: "1",
+	counter: "2",
 	clearafterfrontmatter: "yes",
 	fancypagestyle: "frontmatterstyle",
 	}
