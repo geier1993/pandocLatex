@@ -1,5 +1,5 @@
 ---
-documentclass: report
+documentclass: book
 
 #cref: "yes"
 
@@ -32,9 +32,9 @@ classoption:
 #frontmatter: {
 #	clearaftertitle: "",
 #	startfrontmatter: "",
-#	pagenumbering: "",
-#	counter: "",
-#	clearafterfrontmatter: "",
+#	pagenumbering: "roman",
+#	counter: "1",
+#	clearafterfrontmatter: "yes",
 #	fancypagestyle: "frontmatterstyle",
 #	}
 
@@ -51,11 +51,13 @@ fancyhdroptions:
 #fancytitlepagestyle: "titlepagestyle"
 fancypagestyle: "contentstyle"
 chapterpagestyle: "chapterstyle"
+prologuepagestyle: "prologuestyle"
+abstractpagestyle: "prologuestyle"
 
 fancypagestyles: [
 	{
 	name: "contentstyle",
-	headrule: { color: "darksecondarycolor",
+	headrule: { color: "darkprimarycolor",
 		skip: "-0.15in",
 		width: "0.01pt"
 		},
@@ -65,8 +67,36 @@ fancypagestyles: [
 	   ],
 	headcontent: [
 	    #{options: "L", value: "\\colorbox{lightsecondarycolor}{\\textcolor{darkprimarycolor}{\\makebox{\\small\\slshape\\nouppercase\\leftmark}}}"},
-	    {options: "L", value: "\\color{darkprimarycolor}\\small\\slshape\\nouppercase\\leftmark"},
-	    {options: "R", value: "\\color{darkprimarycolor}\\small\\slshape\\nouppercase\\rightmark"},
+	    {options: "L", value: "\\color{black}\\small\\slshape\\nouppercase\\leftmark"},
+	    {options: "R", value: "\\color{black}\\small\\slshape\\nouppercase\\rightmark"},
+	    #{options: "c", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage\\,/\\,\\pageref*{LastPage}"}
+		],
+	footrule: { color: "darkprimarycolor",
+		skip: "-0.16in",
+		width: "0pt"
+		},
+	footoffset: [
+	    #{options: "LE,RO", value: "1cm"},
+	    {options: "L,R", value: "15pt"},
+	   ],
+        footcontent: [
+	    {options: "C", value: "\\color{black}\\small\\thepage"},
+		]
+    	},
+  {
+	name: "prologuestyle",
+	headrule: { color: "darksecondarycolor",
+		skip: "-0.15in",
+		width: "0.00pt"
+		},
+	headoffset: [
+	    #{options: "LE,RO", value: "15pt"},
+	    {options: "L,R", value: "15pt"},
+	   ],
+	headcontent: [
+	    #{options: "L", value: "\\colorbox{lightsecondarycolor}{\\textcolor{darkprimarycolor}{\\makebox{\\small\\slshape\\nouppercase\\leftmark}}}"},
+	    #{options: "L", value: "\\color{darkprimarycolor}\\small\\slshape\\nouppercase\\leftmark"},
+	    #{options: "R", value: "\\color{darkprimarycolor}\\small\\slshape\\nouppercase\\rightmark"},
 	    #{options: "c", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage\\,/\\,\\pageref*{LastPage}"}
 		],
 	footrule: { color: "darksecondarycolor",
@@ -78,7 +108,7 @@ fancypagestyles: [
 	    {options: "L,R", value: "15pt"},
 	   ],
         footcontent: [
-	    {options: "C", value: "\\color{darkprimarycolor}\\small\\thepage"},
+	    {options: "C", value: "\\color{black}\\small\\thepage"},
 		]
     	},
         {
@@ -106,7 +136,7 @@ fancypagestyles: [
 	    {options: "L,R", value: "15pt"},
 	   ],
         footcontent: [
-	    {options: "C", value: "\\color{darkprimarycolor}\\small\\thepage"},
+	    {options: "C", value: "\\color{black}\\small\\thepage"},
 		]
     	},
 	{
@@ -131,12 +161,13 @@ fancypagestyles: [
 		width: "0pt"
 		},
         footcontent: [
-	    {options: "C", value: "\\color{darkprimarycolor}\\small\\bfseries\\thepage"}
+	    {options: "C", value: "\\color{black}\\small\\bfseries\\thepage"}
 		]
         }
 	]
 
-chaptermark: "\\markboth{\\arabic{chapter}.\ #1}{}"
-sectionmark: "\\markright{\\arabic{chapter}.\\arabic{section}\ #1}"
+chaptermark: "\\markboth{\\arabic{chapter}\ #1}{}"
+sectionmark: "\\markright{\\arabic{section}\ #1}"
+
 ...
 

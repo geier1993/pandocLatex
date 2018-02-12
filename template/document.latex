@@ -17,6 +17,16 @@ $if(familydefault)$
 \renewcommand{\familydefault}{$familydefault$}
 $endif$
 
+$if(glossary)$
+\usepackage[$for(glossaryoptions)$$glossaryoptions$$sep$,$endfor$]{glossaries}
+\makeglossaries
+$if(glossaryentries)$
+$for(glossaryentries)$
+\newglossaryentry{$glossaryentries.label$}{name=$glossaryentries.name$, description={$glossaryentries.description$}}
+$endfor$
+$endif$
+$endif$
+
 
 $if(mdframed)$
 \usepackage[$for(mdframedoptions)$$mdframedoptions$$sep$,$endfor$]{mdframed}
@@ -449,6 +459,20 @@ $endfor$
 $endif$
 
 
+$if(quotation)$
+\let\oldquote\quote
+\let\endoldquote\endquote
+\renewenvironment{quote}{\makeatother $quotation.beforebegin$ \oldquote $quotation.afterbegin$}{ $quotation.beforeend$ \endoldquote $quotation.afterend$ \makeatletter}
+$endif$
+
+$if(customquotation)$
+\newenvironment{customquote}{\makeatother $customquotation.beforebegin$\bigskip\quotation $customquotation.afterbegin$}{$customquotation.beforeend$\endquotation\bigskip\par $customquotation.afterend$ \makeatletter}
+$endif$
+
+$if(quotationmarks)$
+\newcommand{$quotationmarks.opencmd$}{$quotationmarks.openmark$}
+\newcommand{$quotationmarks.closecmd$}{$quotationmarks.closemark$}
+$endif$
 
 
 %$if(newenvironment)$
@@ -476,6 +500,14 @@ $endif$
 %$endif$
 
 
+\newenvironment{abstractpage}
+  {\cleardoublepage$if(abstractpagestyle)$\thispagestyle{$abstractpagestyle$}$endif$}
+  {\vfill\cleardoublepage}
+\newenvironment{abstracts}[1]
+  {\bigskip\begin{otherlanguage}{#1}%
+   \small\begin{center}\bfseries\abstractname\vspace{-.5em}\vspace{0pt}\end{center}\quotation}
+  {\endquotation\end{otherlanguage}\par\bigskip}
+
 $for(header-includes)$
 $header-includes$
 $endfor$
@@ -487,6 +519,7 @@ $if(author)$
 \author{$for(author)$$if(authorstyle)$$authorstyle$$endif${$author$}$sep$\and $endfor$}
 $endif$
 \date{$if(datestyle)$$datestyle$$endif$ $if(date.command)$\$date.command$$else$$if(date)$$date$$endif$$endif$}
+
 
 $if(tikz)$
 \usepackage[$for(tikzoptions)$$tikzoptions$$sep$,$endfor$]{tikz}
@@ -511,6 +544,48 @@ $endif$
 \begin{document}
 
 
+$if(multipletitlepages)$
+\thispagestyle{empty}
+\begin{center}
+  \renewcommand{\baselinestretch}{2.00}
+\Large\sffamily
+$if(affiliation1)$$affiliation1$$endif$
+\\
+\large
+$if(affiliation2)$$affiliation2$$endif$
+  \par\vfill\normalfont
+$if(multipletitlepages.firsttext)$$multipletitlepages.firsttext$$endif$
+$if(year)$$year$$endif$
+\end{center}
+\newpage
+
+%% Titlepage
+\thispagestyle{empty}
+\begin{center}
+  \renewcommand{\baselinestretch}{2.00}
+$if(title)$
+\Large\bfseries\sffamily
+$title$
+$if(subtitle)$
+\\\vspace{0.5em}\large $subtitle$
+$endif$
+$endif$
+  \par
+  \vfill
+  \large\normalfont
+$if(multipletitlepages.secondtext)$$multipletitlepages.secondtext$$endif$
+  %% additionally insert second supervisor here if carrying out an
+  %% external diploma thesis. Reduce vspace accordingly.
+\end{center}\par
+\vspace{5\baselineskip}
+
+% reset baselinestretch
+\renewcommand{\baselinestretch}{1.00}\normalsize
+\newpage
+
+
+$else$
+
 $if(title)$
 %\begin{titlepage}
 %\begin{mdframed}[linewidth=0pt,backgroundcolor=lightsecondarycolor]
@@ -530,10 +605,12 @@ $endif$
 $else$
 \maketitle
 $endif$
+%\end{titlepage}
+$endif$
+$endif$
+
 $if(fancytitlepagestyle)$
 \thispagestyle{$fancytitlepagestyle$}
-$endif$
-%\end{titlepage}
 $endif$
 
 
@@ -544,10 +621,101 @@ $if(frontmatter.pagenumbering)$\pagenumbering{$frontmatter.pagenumbering$}$endif
 $if(frontmatter.counter)$\setcounter{page}{$frontmatter.counter$}$endif$
 
 
+$if(prologuepagestyle)$
+\pagestyle{$prologuepagestyle$}
+$endif$
+
+$if(spruch)$
+\vspace*{4cm}
+\begin{flushright}
+\begin{minipage}[]{90mm}
+$spruch$
+\end{minipage}
+\end{flushright}
+\cleardoublepage
+$endif$
+
+$if(acknowledgements)$
+\chapter*{$acknowledgements.heading$}
+$if(prologuepagestyle)$\thispagestyle{$prologuepagestyle$}$endif$
+$acknowledgements.text$
+$if(acknowledgements.author)$
+\hspace{5cm}
+\begin{flushright}$acknowledgements.author$\end{flushright}
+$endif$
+{\slshape
+$if(acknowledgements.place)$
+$acknowledgements.place$
+$endif$
+\\
+$if(acknowledgements.date)$
+$acknowledgements.date$
+$endif$
+}
+\cleardoublepage
+$endif$
+
+$if(abstractpage)$
+\begin{abstractpage}
+$endif$
+
+$if(abstractheading)$
+
+%\raggedleft % Right align the title page
+%\rule{1pt}{\textheight} % Vertical line
+%	\hspace{0.05\textwidth} % Whitespace between the vertical line and title page text
+%	\parbox[b]{0.75\textwidth}{ % Paragraph box for holding the title page text, adjust the width to move the title page left or right on the page
+%		
+%		{\Huge\bfseries A Collection of \\[0.5\baselineskip] \LaTeX ~Templates}\\[2\baselineskip] % Title
+%		{\large\textit{A predictable subtitle}}\\[4\baselineskip] % Subtitle or further description
+%		{\Large\textsc{gordon freeman}} % Author name, lower case for consistent small caps
+%		
+%		\vspace{0.5\textheight} % Whitespace between the title block and the publisher
+%		
+%		{\noindent The Publisher~~\plogo}\\[\baselineskip] % Publisher and logo
+%	}
+
+
+
+%\begin{center}
+\hspace{0.075\textwidth}
+\vline
+\hspace{2mm}
+\parbox[b]{0.75\textwidth}{
+$if(workdegree)${\slshape {$workdegree$}} \\ $endif$
+$if(title)${\bfseries\color{darkprimarycolor}\Large\bfseries $title$} \\ $endif$
+$if(subtitle)${\bfseries\color{darkprimarycolor}\large\bfseries $subtitle$}\\ $endif$
+$if(author)$\vspace{5mm}{\slshape by $author$}\vspace{1mm} $endif$
+
+{\bfseries\sffamily\scriptsize
+$if(workgroup)$    $workgroup$,   \\ $endif$
+$if(institution)$  $institution$, \\ $endif$
+$if(affiliation1)$ $affiliation1$,\\ $endif$
+$if(affiliation2)$ $affiliation2$,  $endif$
+$if(year)$ $year$ $endif$
+}
+}
+%\end{center}
+%\vspace{\fill}
+
+$endif$
+
 $if(abstract)$
 \begin{abstract}
 $abstract$
 \end{abstract}
+$endif$
+
+$if(abstracts)$
+$for(abstracts)$
+\begin{abstracts}{$abstracts.lang$}
+$abstracts.text$
+\end{abstracts}
+$endfor$
+$endif$
+
+$if(abstractpage)$
+\end{abstractpage}
 $endif$
 
 $for(include-before)$
@@ -561,6 +729,7 @@ $if(colorlinks)$
 $endif$
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
+\cleardoublepage
 }
 $endif$
 
@@ -570,6 +739,7 @@ $if(colorlinks)$
 \hypersetup{linkcolor=$if(lotcolor)$$lotcolor$$else$black$endif$}
 $endif$
 \listoftables
+\cleardoublepage
 }
 $endif$
 
@@ -579,6 +749,7 @@ $if(colorlinks)$
 \hypersetup{linkcolor=$if(lofcolor)$$lofcolor$$else$black$endif$}
 $endif$
 \listoffigures
+\cleardoublepage
 }
 $endif$
 
@@ -588,6 +759,26 @@ $if(colorlinks)$
 \hypersetup{linkcolor=$if(lolcolor)$$lolcolor$$else$black$endif$}
 $endif$
 \listoflistings
+\cleardoublepage
+}
+$endif$
+
+
+$if(glossary)$
+{
+\printglossaries
+\cleardoublepage
+}
+$endif$
+
+$if(dedication)$
+{
+\vspace*{\fill}
+\begin{center}
+{\Large\slshape $dedication$}
+\end{center}
+\vspace*{\fill}
+\cleardoublepage
 }
 $endif$
 
@@ -597,11 +788,14 @@ $endif$
 $if(frontmatter.fancypagestyle)$
 \thispagestyle{$frontmatter.fancypagestyle$}
 $endif$
-$if(frontmatter.clearaftertitle)$\cleardoublepage$endif$
+$if(frontmatter.clearafterfrontmatter)$\cleardoublepage$endif$
 $if(mainmatter.startmainmatter)$\mainmatter$endif$
 $if(mainmatter.pagenumbering)$\pagenumbering{$mainmatter.pagenumbering$}$endif$
 $if(mainmatter.counter)$\setcounter{page}{$mainmatter.counter$}$endif$
 
+$if(fancypagestyle)$
+\pagestyle{$fancypagestyle$}
+$endif$
 
 
 $body$
@@ -621,8 +815,24 @@ $endif$
 $endif$
 $if(biblatex)$
 \printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
-
 $endif$
+
+$if(declarationofauthorship)$
+\cleardoublepage
+\pagestyle{empty}
+{\parindent 0cm
+$for(declarationofauthorship)$
+\begin{otherlanguage}{$declarationofauthorship.lang$}
+\subsection*{$declarationofauthorship.heading$}
+$declarationofauthorship.text$
+\vspace{3\baselineskip}
+  
+$declarationofauthorship.place$, $declarationofauthorship.date$ \hspace{0.25\linewidth}\parbox{0.3\linewidth}{\dotfill}
+\end{otherlanguage}
+$endfor$
+}
+$endif$
+
 $for(include-after)$
 $include-after$
 

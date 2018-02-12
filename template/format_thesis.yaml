@@ -1,5 +1,5 @@
 ---
-documentclass: book
+documentclass: report
 
 #cref: "yes"
 
@@ -18,10 +18,10 @@ geometryoptions:
   - "footskip=0.2in"
   - "top=1.0in"
   - "bottom=1.0in"
-#  - "left=1.0in"
-#  - "right=1.0in"
-  - "inner=1.0in"
-  - "outer=2.0in"
+  - "left=1.0in"
+  - "right=1.0in"
+#  - "inner=1.0in"
+#  - "outer=2.0in"
 
 
 
@@ -30,16 +30,16 @@ classoption:
 
    
 frontmatter: {
-	clearaftertitle: "y",
-	startfrontmatter: "y",
+	clearaftertitle: "",
+#	startfrontmatter: "",
 	pagenumbering: "roman",
 	counter: "1",
-	clearafterfrontmatter: "y",
+	clearafterfrontmatter: "yes",
 	fancypagestyle: "frontmatterstyle",
 	}
 
 mainmatter: {
-	startmainmatter: "y",
+#	startmainmatter: "y",
 	pagenumbering: "arabic",
 	counter: "1",
 	}
@@ -49,26 +49,27 @@ fancyhdroptions:
 
 #fancyfirstpage: "y" # for article/report
 #fancytitlepagestyle: "titlepagestyle"
+fancypagestyle: "contentstyle"
 chapterpagestyle: "chapterstyle"
 prologuepagestyle: "prologuestyle"
 abstractpagestyle: "prologuestyle"
-prologuepagestyle: "prologuestyle"
 
 fancypagestyles: [
 	{
 	name: "contentstyle",
 	headrule: { color: "darkprimarycolor",
-		skip: "-0.15in",
-		width: "0.01pt"
+		skip: "-0.10in",
+		width: "1.00pt"
 		},
 	headoffset: [
-	    {options: "LE,RO", value: "1in+15pt"},
-	    {options: "LO,RE", value: "15pt"},
-	    #{options: "L,R", value: "15pt"},
+	    #{options: "LE,RO", value: "15pt"},
+	    {options: "L,R", value: "15pt"},
 	   ],
 	headcontent: [
 	    #{options: "L", value: "\\colorbox{lightsecondarycolor}{\\textcolor{darkprimarycolor}{\\makebox{\\small\\slshape\\nouppercase\\leftmark}}}"},
 	    {options: "LE", value: "\\color{black}\\small\\slshape\\nouppercase\\leftmark"},
+	    #{options: "RE", value: "\\color{black}\\small\\slshape\\nouppercase\\rightmark"},
+	    #{options: "LO", value: "\\color{black}\\small\\slshape\\nouppercase\\leftmark"},
 	    {options: "RO", value: "\\color{black}\\small\\slshape\\nouppercase\\rightmark"},
 	    #{options: "c", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage\\,/\\,\\pageref*{LastPage}"}
 		],
@@ -77,51 +78,50 @@ fancypagestyles: [
 		width: "0pt"
 		},
 	footoffset: [
-	    {options: "LE,RO", value: "1in+15pt"},
-	    {options: "LO,RE", value: "15pt"},
+	    #{options: "LE,RO", value: "1cm"},
+	    {options: "L,R", value: "15pt"},
 	   ],
         footcontent: [
-	    {options: "LE,RO", value: "\\color{black}\\small\\thepage"},
+	    {options: "C", value: "\\color{black}\\small\\thepage"},
 		]
     	},
   {
 	name: "prologuestyle",
 	headrule: { color: "darkprimarycolor",
-		skip: "-0.15in",
+		skip: "-0.10in",
 		width: "0.00pt"
 		},
 	headoffset: [
-	    {options: "LE,RO", value: "1in+15pt"},
-	    {options: "LO,RE", value: "15pt"},
-	    #{options: "L,R", value: "15pt"},
+	    #{options: "LE,RO", value: "15pt"},
+	    {options: "L,R", value: "15pt"},
 	   ],
 	headcontent: [
 	    #{options: "L", value: "\\colorbox{lightsecondarycolor}{\\textcolor{darkprimarycolor}{\\makebox{\\small\\slshape\\nouppercase\\leftmark}}}"},
-	    {options: "LE", value: "\\color{black}\\small\\slshape\\nouppercase\\leftmark"},
-	    {options: "RO", value: "\\color{black}\\small\\slshape\\nouppercase\\rightmark"},
+	    #{options: "L", value: "\\color{primarycolor}\\small\\slshape\\nouppercase\\leftmark"},
+	    #{options: "R", value: "\\color{primarycolor}\\small\\slshape\\nouppercase\\rightmark"},
 	    #{options: "c", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage\\,/\\,\\pageref*{LastPage}"}
 		],
-	footrule: { color: "darksecondarycolor",
-		skip: "-0.16in",
+	footrule: { color: "darkprimarycolor",
+		skip: "-0.10in",
 		width: "0pt"
 		},
 	footoffset: [
-	    {options: "LE,RO", value: "1in+15pt"},
-	    {options: "LO,RE", value: "15pt"},
+	    #{options: "LE,RO", value: "1cm"},
+	    {options: "L,R", value: "15pt"},
 	   ],
         footcontent: [
-	    {options: "LE,RO", value: "\\color{black}\\small\\thepage"},
+	    {options: "C", value: "\\color{black}\\small\\thepage"},
 		]
     	},
         {
 	name: "chapterstyle",
 	headrule: { color: "primarycolor",
-		skip: "0.2in",
-		width: "0.2in"
+		skip: "-0.10in",
+		width: "5.00pt"
 		},
 	headoffset: [
-	    {options: "LE,RO", value: "1in+15pt"},
-	    {options: "LO,RE", value: "15pt"},
+	    #{options: "LE,RO", value: "15pt"},
+	    {options: "L,R", value: "15pt"},
 	   ],
 	headcontent: [
 	    #{options: "L", value: "\\colorbox{lightsecondarycolor}{\\textcolor{darkprimarycolor}{\\makebox{\\small\\slshape\\nouppercase\\leftmark}}}"},
@@ -129,16 +129,16 @@ fancypagestyles: [
 	    #{options: "R", value: "\\color{darkprimarycolor}\\small\\slshape\\nouppercase\\rightmark"},
 	    #{options: "c", value: "\\color{darkprimarycolor}\\small\\slshape\\thepage\\,/\\,\\pageref*{LastPage}"}
 		],
-	footrule: { color: "darksecondarycolor",
-		skip: "-0.16in",
+	footrule: { color: "darkprimarycolor",
+		skip: "-0.10in",
 		width: "0pt"
 		},
 	footoffset: [
-	    {options: "LE,RO", value: "1in+15pt"},
-	    {options: "LO,RE", value: "15pt"},
+	    #{options: "LE,RO", value: "1cm"},
+	    {options: "L,R", value: "15pt"},
 	   ],
         footcontent: [
-	    {options: "LE,RO", value: "\\color{black}\\small\\thepage"},
+	    {options: "C", value: "\\color{black}\\small\\thepage"},
 		]
     	},
 	{
@@ -169,6 +169,7 @@ fancypagestyles: [
 	]
 
 chaptermark: "\\markboth{\\arabic{chapter}\ #1}{}"
+#sectionmark: "\\markright{\\arabic{chapter}.\\arabic{section}\ #1}"
 sectionmark: "\\markright{\\arabic{section}\ #1}"
 ...
 

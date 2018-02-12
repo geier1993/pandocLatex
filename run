@@ -193,6 +193,16 @@ def genBiberCmd(src, options):
             after =[]
     )
 
+# Make Glossary
+def genGlossaryCmd(src, options, pushDir=""):
+        return cmdObj(
+            " ".join(["makeglossaries"] + options + [src]),
+            True,
+            before=[(print,("-----\t","Glossary\t{out}\t".format(out=src),"-----"),{})],
+            after =[],
+            pushDir =pushDir
+    )
+
 
 def genPSGrafWrapCmd(out, src, format, options):
         return cmdObj(
@@ -319,6 +329,12 @@ docs = {
                             "src" : docOutDir+key,
                             "options": [],
                             }),
+             genGlossaryCmd(
+              **{
+                          "src": key+".glo",
+                          "options": [],
+                          "pushDir": os.path.abspath(docOutDir) 
+                          }),
              genLatexCmd(
             **{
                         "src": docOutDir+key+".tex",

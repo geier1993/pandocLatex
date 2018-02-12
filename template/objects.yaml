@@ -48,5 +48,22 @@ list: {
         	]
 	}
 
+quotation:
+  beforebegin: ""
+  afterbegin: "\\itshape"
+  beforeend: ""
+  afterend: ""
+
+customquotation:
+  beforebegin: ""
+  afterbegin: "\\itshape``"
+  beforeend: "\""
+  afterend: ""
+
+quotationmarks:
+  opencmd: "\\openq"
+  openmark: "``"
+  closecmd: "\\closeq"
+  closemark: "''"
 ...
 
