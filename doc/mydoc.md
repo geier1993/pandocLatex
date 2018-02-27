@@ -97,6 +97,7 @@ A reference to a figure [@fig:fig1] using _pandoc-crossref_ filter.
 ![subfigure3 caption](images/Tux_small.png "fig:"){#fig:figure1RefC}
 ![subfigure4 caption](images/Tux_small.png "fig:"){#fig:figure1RefD}
 
+\[\[Short Caption Group\]\]
 A figure with subfigures using _pandoc-crossref_ filter
 </div>
 

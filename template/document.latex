@@ -4,6 +4,7 @@ $if(lualatex)$\RequirePackage{luatex85}%workaround for standalone documentclass$
 \usepackage[x11names,table]{xcolor}
 
 \newcommand{\dummy}[1]{#1}
+\newenvironment*{dummyenv}{}{
 
 \makeatletter
 \newcommand*{\cleartoleftpage}{%

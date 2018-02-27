@@ -1,6 +1,8 @@
 \documentclass[$if(aspectratio)$aspectratio=$aspectratio$$endif$, professionalfont,xcolor=table,$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(handout)$handout,$endif$$if(beamer)$ignorenonframetext,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
 % professionalfont fixes some math-beamer problems
 
+\newcommand{\dummy}[1]{#1}
+
 % progress bar
 \setbeamercolor{progress bar progress}{use=progress bar,bg=progress bar.fg}
 \defbeamertemplate{footline}{progress bar}{
