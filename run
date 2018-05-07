@@ -373,23 +373,24 @@ docs = {
             },
      # tikzFiles
      **{
-     keyprefix+key+keysuffix: (
+     keyprefix+fullkey+keysuffix: (
          genPandocCmd(
             **{
-                        "out": tikzOutDir+key+".tex",
+                        "out": tikzOutDir+fullkey+".tex",
                         "src": [
-                                tikzInDir+key+".md",
+                                tikzInDir+fullkey+".md",
                                     ],
                         "format": tikzFormat,
                         "options": tikzOptions,
                         }),
              genLatexCmd(
             **{
-                        "src": tikzOutDir+key+".tex",
-                        "options": ["--output-directory="+tikzOutDir],
+                        "src": tikzOutDir+fullkey+".tex",
+                        "options": ["--output-directory="+os.path.abspath(os.path.dirname(tikzOutDir+fullkey))]
+                        #"pushDir": os.path.abspath(keyprefix+keydir) 
                         }),
                  )
-             for (keyprefix,keys,keysuffix) in [(tikzFiles["prefix"],tikzFiles["keys"],tikzFiles["suffix"])] for key in keys
+             for (keyprefix,keys,keysuffix) in [(tikzFiles["prefix"],tikzFiles["keys"],tikzFiles["suffix"])] for fullkey in keys for (keydir,key) in [splitPathFile(fullkey)]
             },
      # psGrafFiles
      **{
@@ -456,19 +457,23 @@ docGroups["all"] = it.chain(*(docs[k] for k in docs.keys()))
 
 docGroups["docs"] = it.chain(*(docs[docFiles["prefix"]+k+docFiles["suffix"]] for k in docFiles["keys"]))
 for d in recursiveListDirNoFiles(docInDir):
-  docGroups[d] = it.chain(*(docs[docFiles["prefix"]+k+docFiles["suffix"]] for k in mdFilesInDir(d)))
+  docGroups[d] = it.chain(*(docs[docFiles["prefix"]+k+docFiles["suffix"]] for k in mdFilesInDir(d+'/')))
 
 docGroups["pres"] = it.chain(*(docs[presFiles["prefix"]+k+presFiles["suffix"]] for k in presFiles["keys"]))
 for d in recursiveListDirNoFiles(presInDir):
-  docGroups[d] = it.chain(*(docs[presFiles["prefix"]+k+presFiles["suffix"]] for k in mdFilesInDir(d)))
+  docGroups[d] = it.chain(*(docs[presFiles["prefix"]+k+presFiles["suffix"]] for k in mdFilesInDir(d+'/')))
 
 docGroups["tikz"] = it.chain(*(docs[tikzFiles["prefix"]+k+tikzFiles["suffix"]] for k in tikzFiles["keys"]))
 for d in recursiveListDirNoFiles(tikzInDir):
-  docGroups[d] = it.chain(*(docs[tikzFiles["prefix"]+k+tikzFiles["suffix"]] for k in mdFilesInDir(d)))
+  docGroups[d] = it.chain(*(docs[tikzFiles["prefix"]+k+tikzFiles["suffix"]] for k in mdFilesInDir(d+'/')))
 
 docGroups["psgraf"] = it.chain(*(docs[psGrafFiles["prefix"]+k+psgrafFiles["suffix"]] for k in psgrafFiles["keys"]))
 for d in recursiveListDirNoFiles(psgrafInDir):
-  docGroups[d] = it.chain(*(docs[psgrafFiles["prefix"]+k+psgrafFiles["suffix"]] for k in pdfFilesInDir(d)))
+  docGroups[d] = it.chain(*(docs[psgrafFiles["prefix"]+k+psgrafFiles["suffix"]] for k in pdfFilesInDir(d+'/')))
+
+docGroups["inkscape"] = it.chain(*(docs[inkscapeFiles["prefix"]+k+inkscapeFiles["suffix"]] for k in inkscapeFiles["keys"]))
+for d in recursiveListDirNoFiles(inkscapeInDir):
+  docGroups[d] = it.chain(*(docs[inkscapeFiles["prefix"]+k+inkscapeFiles["suffix"]] for k in pdfTexFilesInDir(d+'/')))
 
 
 def printUsage():
