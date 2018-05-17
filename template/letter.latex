@@ -1,0 +1,603 @@
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(papersize)$$papersize$paper,$endif$$if(pagenumber)$pagenumber=$pagenumber$,$else$pagenumber=false,$endif$$if(parskip)$parskip=$parskip$,$else$parskip=half,$endif$$if(fromalign)$fromalign=$fromalign$,$else$fromalign=right,$endif$$if(foldmarks)$foldmarks=$foldmarks$,$else$foldmarks=true,$endif$$if(addrfield)$addrfield=$addrfield$,$else$addrfield=on,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{$documentclass$}
+
+\usepackage{varwidth} % used for backaddress
+
+%do to ugly
+\makeatletter
+\@setplength{firstheadvpos}{16mm}
+\@setplength{toaddrheight}{26mm}
+\@setplength{refvpos}{89mm}
+\@setplength{refaftervskip}{0pt}
+\@setplength{firstfootvpos}{2cm}
+\@addtoplength{firstfootvpos}{\topmargin}
+\@addtoplength{firstfootvpos}{\headheight}
+\@addtoplength{firstfootvpos}{\headsep}
+\@addtoplength{firstfootvpos}{\textheight}
+\@addtoplength{firstfootvpos}{\footskip}
+\makeatother
+\usepackage[x11names,table]{xcolor}
+\newcommand{\dummy}[1]{#1}
+\newenvironment*{dummyenv}{}{}
+
+\makeatletter
+\newcommand*{\cleartoleftpage}{%
+  \clearpage
+    \if@twoside
+    \ifodd\c@page
+      \hbox{}\newpage
+      \if@twocolumn
+        \hbox{}\newpage
+      \fi
+    \fi
+  \fi
+}
+\makeatother
+
+$if(synctex)$
+\synctex=1
+$endif$
+
+$if(fontfamily)$
+\usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
+$else$
+\usepackage{lmodern}
+$endif$
+$if(familydefault)$
+\renewcommand{\familydefault}{$familydefault$}
+$endif$
+
+$if(mdframed)$
+\usepackage[$for(mdframedoptions)$$mdframedoptions$$sep$,$endfor$]{mdframed}
+$endif$
+$if(framed)$
+\usepackage[$for(framedoptions)$$framedoptions$$sep$,$endfor$]{framed}
+$endif$
+
+$if(fontsize)$
+\usepackage{scrextend}
+	$if(lineheight)$
+	\changefontsizes[$lineheight$]{$fontsize$}
+	$endif$
+$endif$
+
+\newcommand{\lightercolor}[3]{% Reference Color, Percentage, New Color Name
+    \colorlet{#3}{#1!#2!white}
+}
+
+\newcommand{\darkercolor}[3]{% Reference Color, Percentage, New Color Name
+    \colorlet{#3}{#1!#2!black}
+}
+
+
+$if(definecolor)$
+$for(definecolor)$
+\definecolor{$definecolor.name$}{$definecolor.space$}{$definecolor.value$}
+$endfor$
+$endif$
+
+$if(lightercolor)$
+$for(lightercolor)$
+\lightercolor{$lightercolor.name$}{$lightercolor.percent$}{$lightercolor.newname$}
+$endfor$
+$endif$
+
+$if(darkercolor)$
+$for(darkercolor)$
+\darkercolor{$darkercolor.name$}{$darkercolor.percent$}{$darkercolor.newname$}
+$endfor$
+$endif$
+
+$if(colorlet)$
+$for(colorlet)$
+\colorlet{$colorlet.name$}{$colorlet.value$}
+$endfor$
+$endif$
+
+
+\usepackage{refcount}
+\usepackage{lastpage}
+
+$if(linestretch)$
+\usepackage{setspace}
+\setstretch{$linestretch$}
+$endif$
+
+\usepackage{amssymb,amsmath,multirow,bigdelim}
+\usepackage{amsthm}% must be loaded before newtxmath
+\usepackage{mathtools}
+\usepackage{bm,bbm} % boldmath and mathbbm (e.g. for \mathbbm{1}
+\usepackage{stmaryrd} % \llbracket \rrbracket, \llparenthesis, \llceil, \llfloor
+
+$if(newtxmath)$
+ \usepackage[$for(newtxmathoptions)$$newtxmathoptions$$sep$,$endfor$]{newtxmath}
+$endif$
+
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
+  \usepackage[utf8]{inputenc}
+$if(euro)$
+  \usepackage{eurosym}
+$endif$
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage[$for(fontspecoptions)$$fontspecoptions$$sep$,$endfor$]{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+$if(mainfont)$
+    \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
+$endif$
+$if(sansfont)$
+    \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
+$endif$
+$if(monofont)$
+    \setmonofont[Mapping=tex-ansi$if(monofontoptions)$,$for(monofontoptions)$$monofontoptions$$sep$,$endfor$$endif$]{$monofont$}
+$endif$
+$if(mathfont)$
+    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+$endif$
+$if(CJKmainfont)$
+    \usepackage{xeCJK}
+    \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
+$endif$
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+
+
+
+$if(geometry)$
+\usepackage[$for(geometryoptions)$$geometryoptions$$sep$,$endfor$]{geometry}
+$endif$
+$if(caption)$
+\usepackage[$for(captionoptions)$$captionoptions.option$={$for(captionoptions.values)$$captionoptions.values$$sep$,$endfor$}$sep$,$endfor$]{caption}
+$endif$
+$if(marginnote)$
+\usepackage[$for(marginnoteoptions)$$marginnoteoptions$$sep$,$endfor$]{marginnote}
+$endif$
+
+\usepackage{hyperref}
+$if(colorlinks)$
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+$endif$
+\hypersetup{unicode=true,
+$if(title-meta)$
+            pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+            pdfauthor={$author-meta$},
+$endif$
+$if(keywords)$
+            pdfkeywords={$for(keywords)$$keywords$$sep$; $endfor$},
+$endif$
+$if(colorlinks)$
+            colorlinks=true,
+            linkcolor=$if(linkcolor)$$linkcolor$$else$Maroon$endif$,
+            citecolor=$if(citecolor)$$citecolor$$else$Blue$endif$,
+            urlcolor=$if(urlcolor)$$urlcolor$$else$Blue$endif$,
+$else$
+            pdfborder={0 0 0},
+$endif$
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+
+
+
+$if(lang)$
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[shorthands=off,$for(babel-otherlangs)$$babel-otherlangs$,$endfor$main=$babel-lang$]{babel}
+$if(babel-newcommands)$
+  $babel-newcommands$
+$endif$
+\else
+  \usepackage{polyglossia}
+  \setmainlanguage[$polyglossia-lang.options$]{$polyglossia-lang.name$}
+$for(polyglossia-otherlangs)$
+  \setotherlanguage[$polyglossia-otherlangs.options$]{$polyglossia-otherlangs.name$}
+$endfor$
+\fi
+$endif$
+
+
+$if(natbib)$
+\usepackage{natbib}
+\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
+$endif$
+
+$if(biblatex)$
+%\usepackage$if(biblio-style)$[style=$biblio-style$]$endif${biblatex}
+\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$if(biblatexoptions)$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$$endif$]{biblatex}
+%$if(biblatexoptions)$\ExecuteBibliographyOptions{$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$}$endif$
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+$endif$
+
+$if(listings)$
+\usepackage{listings}
+$endif$
+
+$if(lhs)$
+\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
+$endif$
+
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+
+$if(verbatim-in-note)$
+\usepackage{fancyvrb}
+\VerbatimFootnotes
+$endif$
+
+
+\makeatletter
+$for(komavar)$
+\setkomavar{$komavar.var$}[$for(komavar.options)$$komavar.options$,$endfor$]{$komavar.value$}
+$endfor$
+$for(addtokomafont)$
+\addtokomafont{$addtokomafont.var$}{$addtokomafont.value$}
+$endfor$
+
+% use varwidth for the backaddress
+\setkomavar{backaddress}{%
+    \begin{varwidth}{\useplength{toaddrwidth}}
+        {\def\\{\usekomavar{backaddressseparator}\@ogobble}%
+        \usekomavar{fromname}\usekomavar{backaddressseparator}\usekomavar{fromaddress}}
+    \end{varwidth}%
+}
+\makeatother
+
+\usepackage[$for(fancyhdroptions)$$fancyhdroptions$$sep$,$endfor$]{fancyhdr}% http://ctan.org/pkg/fancyhdr
+
+$for(fancypagestyles)$
+\fancypagestyle{$fancypagestyles.name$}{%
+  \fancyhf{}% Clear all headers/footers
+
+  $if(fancypagestyles.headoffset)$
+  $for(fancypagestyles.headoffset)$
+   \fancyheadoffset[$if(fancypagestyles.headoffset.options)$$fancypagestyles.headoffset.options$$endif$]{$fancypagestyles.headoffset.value$} 
+  $endfor$
+  $endif$
+
+  $if(fancypagestyles.footoffset)$
+  $for(fancypagestyles.footoffset)$
+   \fancyfootoffset[$if(fancypagestyles.footoffset.options)$$fancypagestyles.footoffset.options$$endif$]{$fancypagestyles.footoffset.value$} 
+  $endfor$
+  $endif$
+
+  $if(fancypagestyles.headcontent)$
+  $for(fancypagestyles.headcontent)$
+   \fancyhead[$if(fancypagestyles.headcontent.options)$$fancypagestyles.headcontent.options$$endif$]{$fancypagestyles.headcontent.value$} 
+  $endfor$
+  $endif$
+
+  $if(fancypagestyles.footcontent)$
+  $for(fancypagestyles.footcontent)$
+   \fancyfoot[$if(fancypagestyles.footcontent.options)$$fancypagestyles.footcontent.options$$endif$]{$fancypagestyles.footcontent.value$} 
+  $endfor$
+  $endif$
+
+  %\newlength{\pageoffset}
+  %\setlength{\pageoffset}{1.0cm}
+  %\fancyheadoffset{\pageoffset} %\fancyheadoffset[LE,RO]{\pageoffset}
+  %\fancyfootoffset{\pageoffset} %\fancyheadoffset[LE,RO]{\pageoffset}
+  %\fancyhead[C]{My header}% Header Centred
+  %\fancyhead[L]{\small Thesis Title} 
+  %\fancyfoot[R]{\small guess}% Footer Centred
+  %\fancyfoot[C]{\thepage}% Footer Centred
+
+  $if(fancypagestyles.headrule.width)$
+  \renewcommand{\headrulewidth}{$fancypagestyles.headrule.width$}% 2pt header rule
+  $endif$
+  $if(fancypagestyles.footrule.width)$
+  \renewcommand{\footrulewidth}{$fancypagestyles.footrule.width$}% No footer rule
+  $endif$
+
+  \renewcommand{\headrule}{$if(fancypagestyles.headrule.skip)$\vskip$fancypagestyles.headrule.skip$$endif$\hbox to\headwidth{%
+    $if(fancypagestyles.headrule.color)$\color{$fancypagestyles.headrule.color$}$endif$\leaders\hrule height \headrulewidth\hfill}}
+  \renewcommand{\footrule}{\hbox to\headwidth{%
+    $if(fancypagestyles.footrule.color)$\color{$fancypagestyles.footrule.color$}$endif$\leaders\hrule height \footrulewidth\hfill}$if(fancypagestyles.footrule.skip)$\vskip$fancypagestyles.footrule.skip$$endif$}
+}
+$endfor$
+
+
+
+
+$if(fancyfirstpage)$
+%let header start on first page
+\makeatletter
+\let\ps@plain\ps@fancy 
+\makeatother
+$endif$
+
+
+$if(fancypagestyle)$
+\pagestyle{$fancypagestyle$}
+$endif$
+
+$if(chapterpagestyle)$
+\usepackage{etoolbox}
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{$chapterpagestyle$}}{}{}
+$endif$
+
+$if(chaptermark)$
+\renewcommand{\chaptermark}[1]{$chaptermark$}
+$endif$
+$if(sectionmark)$
+\renewcommand{\sectionmark}[1]{$sectionmark$}
+$endif$
+%\renewcommand{\chaptermark}[1]{\markboth{\arabic{chapter}.\ #1}{}}
+%\renewcommand{\sectionmark}[1]{\markright{\arabic{chapter}.\arabic{section}\ #1}}
+
+
+$if(tables)$
+%\usepackage{ltablex,booktabs}
+\usepackage{longtable,booktabs}
+
+% alternate rowcolors for all tables
+$if(table.alternate)$
+\let\oldtabular\tabular
+\let\endoldtabular\endtabular
+\renewenvironment{tabular}{\makeatother\rowcolors{0}{$table.alternate.evencolor$}{$table.alternate.oddcolor$}\oldtabular}{\endoldtabular\makeatletter}
+$endif$
+
+$if(table.alternate)$
+\let\oldlongtable\longtable
+\let\endoldlongtable\endlongtable
+\renewenvironment{longtable}{
+    \rowcolors{0}{$table.alternate.evencolor$}{$table.alternate.oddcolor$}%
+    \setlength{\tabcolsep}{0.5em}   %horizontal spacing
+    \renewcommand{\arraystretch}{1.2}   %vertical spacing
+    \footnotesize
+    \oldlongtable
+} {
+\endoldlongtable} 
+$endif$
+
+$if(table.toprule)$
+\let\mytoprule\toprule
+\renewcommand{\toprule}{\specialrule{$if(table.toprule.width)$$table.toprule.width$$else$\heavyrulewidth$endif$}
+	{$if(table.toprule.top)$$table.toprule.top$$else$0.0pt$endif$}
+	{$if(table.toprule.bottom)$$table.toprule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+$if(table.midrule)$
+\let\mymidrule\midrule
+\renewcommand{\midrule}{\specialrule{$if(table.midrule.width)$$table.midrule.width$$else$\cmidrulewidth$endif$}
+	{$if(table.midrule.top)$$table.midrule.top$$else$0.0pt$endif$}
+	{$if(table.midrule.bottom)$$table.midrule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+$if(table.bottomrule)$
+\let\mybottomrule\bottomrule
+\renewcommand{\bottomrule}{\specialrule{$if(table.bottomrule.width)$$table.bottomrule.width$$else$\lightrulewidth$endif$}
+	{$if(table.bottomrule.top)$$table.bottomrule.top$$else$0.0pt$endif$}
+	{$if(table.bottomrule.bottom)$$table.bottomrule.bottom$$else$0.0pt$endif$}$if(table.headercolor)$\rowcolor{$table.headercolor$}$endif$}
+$endif$
+$endif$
+
+$if(floatrow)$
+\usepackage[$for(floatrow)$$floatrow$$sep$,$endfor$]{floatrow}
+$endif$
+
+
+$if(graphics)$
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+$endif$
+$if(links-as-notes)$
+% Make links footnotes instead of hotlinks:
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+$endif$
+
+$if(strikeout)$
+\usepackage[normalem]{ulem}
+% avoid problems with \sout in headers with hyperref:
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+$endif$
+$if(indent)$
+$else$
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+$endif$
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+$if(numbersections)$
+\setcounter{secnumdepth}{5}
+$else$
+\setcounter{secnumdepth}{0}
+$endif$
+$if(subparagraph)$
+$else$
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+$endif$
+$if(dir)$
+\ifxetex
+  % load bidi as late as possible as it modifies e.g. graphicx
+  $if(latex-dir-rtl)$
+  \usepackage[RTLdocument]{bidi}
+  $else$
+  \usepackage{bidi}
+  $endif$
+\fi
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \TeXXeTstate=1
+  \newcommand{\RL}[1]{\beginR #1\endR}
+  \newcommand{\LR}[1]{\beginL #1\endL}
+  \newenvironment{RTL}{\beginR}{\endR}
+  \newenvironment{LTR}{\beginL}{\endL}
+\fi
+$endif$
+
+\usepackage{enumitem}
+%\setlist[description]{style=nextline}
+%\setdescription{labelsep=\textwidth}
+
+$if(list.renewcommands)$
+$for(list.renewcommands)$	
+\renewcommand{\$list.renewcommands.command$}{$list.renewcommands.value$$$$list.renewcommands.bullet$$$}
+$endfor$
+$endif$
+
+
+$if(quotation)$
+\let\oldquote\quote
+\let\endoldquote\endquote
+\renewenvironment{quote}{\makeatother $quotation.beforebegin$ \oldquote $quotation.afterbegin$}{ $quotation.beforeend$ \endoldquote $quotation.afterend$ \makeatletter}
+$endif$
+
+$if(customquotation)$
+\newenvironment{customquote}{\makeatother $customquotation.beforebegin$\bigskip\quotation $customquotation.afterbegin$}{$customquotation.beforeend$\endquotation\bigskip\par $customquotation.afterend$ \makeatletter}
+$endif$
+
+$if(quotationmarks)$
+\newcommand{$quotationmarks.opencmd$}{$quotationmarks.openmark$}
+\newcommand{$quotationmarks.closecmd$}{$quotationmarks.closemark$}
+$endif$
+
+% no header-includes
+
+
+$if(title)$
+\title{{$if(titlestyle)$$titlestyle$$endif$ $title$}$if(subtitle)$\\\vspace{0.5em}{{$if(subtitlestyle)$$subtitlestyle$$endif$ $subtitle$}}$endif$}
+$endif$
+$if(author)$
+\author{$for(author)$$if(authorstyle)$$authorstyle$$endif${$author$}$sep$\and $endfor$}
+$endif$
+\date{$if(datestyle)$$datestyle$$endif$ $if(date.command)$\$date.command$$else$$if(date)$$date$$endif$$endif$}
+
+
+$if(tikz)$
+\usepackage[$for(tikzoptions)$$tikzoptions$$sep$,$endfor$]{tikz}
+$endif$
+$if(tikzlibrary)$
+\usetikzlibrary{$for(tikzlibrary)$$tikzlibrary$$sep$,$endfor$}
+$endif$
+
+$if(psgraf)$
+\usepackage[$for(psgrafoptions)$$psgrafoptions$$sep$,$endfor$]{PSgraf}
+\usepackage{PSgraf_standalone}
+$endif$
+
+$if(inkscape)$
+$for(inkscapepackages)$\usepackage[$for(inkscapepackages.options)$$inkscapepackages.options$$sep$,$endfor$]{$inkscapepackages.package$}$endfor$
+$endif$
+
+$if(contour)$
+\usepackage[$for(contouroptions)$$contouroptions$$sep$,$endfor$]{contour}
+$endif$
+
+\begin{document}
+\begin{letter}{
+$if(letter_to)$$letter_to$$endif$
+}
+
+
+
+$if(fancytitlepagestyle)$
+\thispagestyle{$fancytitlepagestyle$}
+$endif$
+
+
+
+$if(frontmatter.clearaftertitle)$\cleardoublepage$endif$
+$if(frontmatter.startfrontmatter)$\frontmatter$endif$
+$if(frontmatter.pagenumbering)$\pagenumbering{$frontmatter.pagenumbering$}$endif$
+$if(frontmatter.counter)$\setcounter{page}{$frontmatter.counter$}$endif$
+
+
+
+$if(prologuepagestyle)$
+\pagestyle{$prologuepagestyle$}
+$endif$
+
+
+
+$for(include-before)$
+$include-before$
+$endfor$
+
+
+% %reset leftmark and rightmark
+% \markboth{}{}
+
+% $if(frontmatter.fancypagestyle)$
+% \thispagestyle{$frontmatter.fancypagestyle$}
+% $endif$
+% $if(frontmatter.clearafterfrontmatter)$\cleardoublepage$endif$
+% $if(mainmatter.startmainmatter)$\mainmatter$endif$
+% $if(mainmatter.pagenumbering)$\pagenumbering{$mainmatter.pagenumbering$}$endif$
+% $if(mainmatter.counter)$\setcounter{page}{$mainmatter.counter$}$endif$
+
+% $if(fancypagestyle)$
+% \pagestyle{$fancypagestyle$}
+% $endif$
+
+%\opening{$if(letteropening)$$letteropening$$endif$}
+
+$body$
+
+
+%\closing{$if(letterclosing)$$letterclosing$$endif$}
+
+$if(attachement)$
+\setkomavar*{enclseparator}{$attachement.title$}
+$for(attachement.enclosed)$
+\encl{$attachement.enclosed$}
+$endfor$
+$endif$
+
+
+$if(natbib)$
+$if(bibliography)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+$endif$
+
+
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{letter}
+\end{document}

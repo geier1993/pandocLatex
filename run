@@ -14,6 +14,7 @@ latexEngine="lualatex"
 highlightstyle='"tango"' #pygments, kate, monochrome, espresso, zenburn, haddock, tango
 template="template/document.latex"
 beamer="template/beamer.latex"
+letter="template/letter.latex"
 
 # Format documents with yaml files
 docFormat = [
@@ -128,6 +129,35 @@ inkscapeOptions= [
         "--pdf-engine={le}".format(le=latexEngine),
     ]
 
+letterFormat = [
+    "template/format_letter.yaml",
+    "template/color_unihd.yaml",
+    "template/objects.yaml",
+    "template/titlepage.yaml",
+    "template/typography_sans.yaml"
+    ]
+
+# Pandoc parameters
+letterOptions = [
+        "-t latex",
+        "-s ",
+#       "--columns 1",
+        "--filter pandoc-include",
+        "--filter pandoc-csv2table",
+        "--filter pandoc-crossref",
+#   "--filter diagrams-pandoc",
+#       "--filter pandoc-placetable", # compiled with inlinemarkdown
+        "--filter pandoc-citeproc",
+        "--template={template}".format(template=letter),
+        "--highlight-style={hls}".format(hls=highlightstyle),
+        "--pdf-engine={le}".format(le=latexEngine),
+        "--number-sections",
+        "--biblatex",
+#        "--chapter",
+#        "-M synctex:yes"
+        "-M codeBlockCaptions:yes",
+        "-M documentclass:scrlttr2"
+    ]
 
 ################
 ### Commands ###
@@ -277,12 +307,15 @@ psgrafInDir = "PSGraf/"
 psgrafOutDir = "out/PSGraf"
 inkscapeInDir = "Inkscape/"
 inkscapeOutDir = "out/Inkscape"
+letterInDir = "letter/"
+letterOutDir = "out/letter/"
 
 tikzFiles = {"prefix": tikzInDir, "keys": mdFilesInDir(tikzInDir), "suffix": ".md"}
 psgrafFiles = {"prefix": psgrafInDir, "keys": pdfFilesInDir(psgrafInDir), "suffix": ".pdf"}
 inkscapeFiles = {"prefix": inkscapeInDir, "keys": pdfTexFilesInDir(inkscapeInDir), "suffix": ".pdf_tex"}
 docFiles = {"prefix": docInDir, "keys": mdFilesInDir(docInDir), "suffix": ".md"}
 presFiles = {"prefix": presInDir, "keys": mdFilesInDir(presInDir), "suffix": ".md"}
+letterFiles = {"prefix": letterInDir, "keys": mdFilesInDir(letterInDir), "suffix": ".md"}
 
 # Global document object storing all keys with a list of cmdObjs
 docs = {
@@ -447,7 +480,40 @@ docs = {
                         }),
                  )
              for (keyprefix,keys,keysuffix) in [(inkscapeFiles["prefix"],inkscapeFiles["keys"],inkscapeFiles["suffix"])] for fullkey in keys for (keydir,key) in [splitPathFile(fullkey)]
-            }
+            },
+     # letterFiles
+     **{
+     keyprefix+key+keysuffix : (
+         genPandocCmd(
+            **{
+                        "out": letterOutDir+key+".tex",
+                        "src": [
+                                letterInDir+key+".md",
+                                ],
+                        "format": letterFormat,
+                        "options": letterOptions,
+                        }),
+             # Just uncomment to not rerun it each time
+             genBiberCmd(
+                **{
+                            "src" : letterOutDir+key,
+                            "options": [],
+                            }),
+             genGlossaryCmd(
+              **{
+                          "src": key+".glo",
+                          "options": [],
+                          "pushDir": os.path.abspath(letterOutDir) 
+                          }),
+             genLatexCmd(
+            **{
+                        "src": letterOutDir+key+".tex",
+                        "options": ["--output-directory="+letterOutDir],
+                            #"options": ["--interaction=batchmode","-synctex=1"],
+                        }),
+                 )
+             for (keyprefix,keys,keysuffix) in [(letterFiles["prefix"],letterFiles["keys"],letterFiles["suffix"])] for key in keys
+            },
     }
 
 
@@ -475,6 +541,9 @@ docGroups["inkscape"] = it.chain(*(docs[inkscapeFiles["prefix"]+k+inkscapeFiles[
 for d in recursiveListDirNoFiles(inkscapeInDir):
   docGroups[d] = it.chain(*(docs[inkscapeFiles["prefix"]+k+inkscapeFiles["suffix"]] for k in pdfTexFilesInDir(d+'/')))
 
+docGroups["letter"] = it.chain(*(docs[letterFiles["prefix"]+k+letterFiles["suffix"]] for k in letterFiles["keys"]))
+for d in recursiveListDirNoFiles(letterInDir):
+  docGroups[d] = it.chain(*(docs[letterFiles["prefix"]+k+letterFiles["suffix"]] for k in mdFilesInDir(d+'/')))
 
 def printUsage():
     print(bold("Usage:"))

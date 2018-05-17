@@ -1,0 +1,111 @@
+---
+documentclass: article
+
+#cref: "yes"
+
+#lang: "de"
+
+#marginnote: "yes"
+#marginnoteoptions:
+#    - ""
+
+geometry: "yes"
+# https://de.sharelatex.com/learn/Page_size_and_margins
+geometryoptions:
+#  - "textheight=9.0in"
+  - "headheight=25pt"
+  - "headsep=0.2in"
+  - "footskip=0.2in"
+  - "top=0.6in"
+  - "bottom=0.6in"
+  - "left=1.0in"
+  - "right=1.0in"
+#  - "inner=1.0in"
+#  - "outer=2.0in"
+
+
+
+#classoption:
+#    - "twoside"
+
+   
+#frontmatter: {
+#	clearaftertitle: "",
+#	startfrontmatter: "",
+#	pagenumbering: "",
+#	counter: "",
+#	clearafterfrontmatter: "",
+#	fancypagestyle: "frontmatterstyle",
+#	}
+
+#mainmatter: {
+#	startmainmatter: "y",
+#	pagenumbering: "arabic",
+#	counter: "1",
+#	}
+
+fancyhdroptions:
+    - ""
+
+#fancyfirstpage: "y" # for article/report
+fancytitlepagestyle: "titlepagestyle"
+fancypagestyle: "contentstyle"
+
+fancypagestyles: [
+	{
+	name: "contentstyle",
+	headrule: {
+	  color: "black",
+		skip: "-0.14in",
+		width: "0.5pt"
+		},
+	headoffset: [
+	    #{options: "LE,RO", value: "15pt"},
+	    {options: "L,R", value: "25pt"},
+	   ],
+	headcontent: [
+	    {options: "L", value: "\\footnotesize\\nouppercase\\leftmark"},
+	    #{options: "L", value: "\\footnotesize\\nouppercase{\\dummy{\\usekomavar{backaddress}}}"},
+	    {options: "R", value: "\\footnotesize\\nouppercase\\rightmark"},
+		],
+	footrule: { color: "darksecondarycolor",
+		skip: "-0.10in",
+		width: "0pt"
+		},
+	footoffset: [
+	    #{options: "LE,RO", value: "1cm"},
+	    {options: "L,R", value: "25pt"},
+	   ],
+        footcontent: [
+	    {options: "C", value: "\\footnotesize\\thepage/\\pageref*{LastPage}"}
+		]
+    	},
+	{
+	name: "titlepagestyle",
+	headrule: { color: "darksecondarycolor",
+		skip: "0.0in",
+		width: "0pt"
+		},
+	footrule: { color: "darksecondarycolor",
+		skip: "0.0in",
+		width: "0pt"
+		},
+    	},
+	{
+	name: "frontmatterstyle",
+	headrule: { color: "darksecondarycolor",
+		skip: "0.0in",
+		width: "0pt"
+		},
+	footrule: { color: "darksecondarycolor",
+		skip: "0.0in",
+		width: "0pt"
+		},
+        footcontent: [
+	    {options: "C", value: "\\footnotesize\\thepage/\\pageref*{LastPage}"}
+		]
+        }
+	]
+...
+
+
