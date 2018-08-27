@@ -95,11 +95,21 @@ def adjustLongtableFilter(inputgen):
 # editor: https://regex101.com
 def adjustFigureCaption(inputgen):
     #for (ln,lc,l) in inputgen:
+    ltmp = ""
     for lobj in inputgen:
-        if(lobj.line!=None):
+        if((lobj.line!=None)):
+          if(lobj.line.startswith("\\caption")):
+            #ltmp += lobj.line.rstrip('\n')
+            ltmp += lobj.line
+            lobj.line = ""
+          elif(ltmp!=""):
+            lobj.line = ltmp + lobj.line
+            ltmp = ""
+            # re.DOTALL makes . also match new line \n
             lobj.line=re.sub(r'(\\caption){{\[}{\[}(.+?(?={\]}{\]})){\]}{\]}',
-                    r'\1[\2]{',lobj.line)
-        #yield (ln,lc,l)
+                    r'\1[\2]{',lobj.line,flags=re.DOTALL)
+            lobj.line=re.sub(r'(\\caption){(\\label{.+?}){\[}{\[}(.+?(?={\]}{\]})){\]}{\]}',
+                    r'\1[\3]{\2',lobj.line,flags=re.DOTALL)
         yield lobj
 
 

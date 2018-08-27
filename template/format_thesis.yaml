@@ -10,6 +10,7 @@ documentclass: report
 #    - ""
 
 geometry: "yes"
+indent: "yes"
 # https://de.sharelatex.com/learn/Page_size_and_margins
 geometryoptions:
 #  - "textheight=9.0in"

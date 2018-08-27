@@ -398,6 +398,7 @@ $endif$
 
 $if(graphics)$
 \usepackage{graphicx,grffile}
+\usepackage{wrapfig}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
 \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
@@ -418,6 +419,7 @@ $if(strikeout)$
 \pdfstringdefDisableCommands{\renewcommand{\sout}{}}
 $endif$
 $if(indent)$
+\usepackage{indentfirst}
 $else$
 \IfFileExists{parskip.sty}{%
 \usepackage{parskip}
@@ -543,6 +545,10 @@ $endif$
 $if(tikzlibrary)$
 \usetikzlibrary{$for(tikzlibrary)$$tikzlibrary$$sep$,$endfor$}
 $endif$
+$if(afterktikz)$
+$for(afterktikz)$$afterktikz$$endfor$
+$endif$
+
 
 $if(psgraf)$
 \usepackage[$for(psgrafoptions)$$psgrafoptions$$sep$,$endfor$]{PSgraf}
