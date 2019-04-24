@@ -1,8 +1,6 @@
-#!/usr/bin/python
-
 import os, sys, getopt
 import itertools as it
-sys.path.append(os.path.dirname(__file__) + "/src")
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/src")
 from pandocLatex import *
 
 ##################
