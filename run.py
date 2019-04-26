@@ -59,8 +59,8 @@ beamerOptions = [
         "-s ",
 #        "-o {out}".format(out=texFile),
 #       "--columns 1",
-        "--filter pandoc-include",
-        "--filter pandoc-csv2table",
+#        "--filter pandoc-include",
+#        "--filter pandoc-csv2table",
         "--filter pandoc-crossref",
 #       "--filter diagrams-pandoc",
 #       "--filter pandoc-placetable", # compiled with inlinemarkdown
@@ -141,8 +141,8 @@ letterOptions = [
         "-t latex",
         "-s ",
 #       "--columns 1",
-        "--filter pandoc-include",
-        "--filter pandoc-csv2table",
+#        "--filter pandoc-include",
+#        "--filter pandoc-csv2table",
         "--filter pandoc-crossref",
 #   "--filter diagrams-pandoc",
 #       "--filter pandoc-placetable", # compiled with inlinemarkdown
