@@ -31,7 +31,7 @@ docOptions = [
 #        "--filter pandoc-include-code",
 #        "--filter pandoc-include",
 #        "--filter pandoc-csv2table",
-        "--filter pandoc-crossref",
+#        "--filter pandoc-crossref",
 #   "--filter diagrams-pandoc",
 #       "--filter pandoc-placetable", # compiled with inlinemarkdown
         "--filter pandoc-citeproc",
@@ -61,7 +61,7 @@ beamerOptions = [
 #       "--columns 1",
 #        "--filter pandoc-include",
 #        "--filter pandoc-csv2table",
-        "--filter pandoc-crossref",
+#        "--filter pandoc-crossref",
 #       "--filter diagrams-pandoc",
 #       "--filter pandoc-placetable", # compiled with inlinemarkdown
         "--filter pandoc-citeproc",
@@ -143,7 +143,7 @@ letterOptions = [
 #       "--columns 1",
 #        "--filter pandoc-include",
 #        "--filter pandoc-csv2table",
-        "--filter pandoc-crossref",
+#        "--filter pandoc-crossref",
 #   "--filter diagrams-pandoc",
 #       "--filter pandoc-placetable", # compiled with inlinemarkdown
         "--filter pandoc-citeproc",
